@@ -1,0 +1,50 @@
+# ════════════════════════════════════════
+# LEDO.ai - Backend Dependencies
+# 표준 통합: ISO/W3C/ETSI/OGC/NIST
+# ════════════════════════════════════════
+
+# === 웹 프레임워크 ===
+fastapi
+uvicorn[standard]
+websockets
+sse-starlette
+
+# === LangGraph + LLM ===
+langgraph
+langchain
+langchain-community
+langchain-ollama
+langchain-core
+langgraph-checkpoint-postgres
+
+# === 데이터베이스 ===
+psycopg2-binary
+sqlalchemy
+asyncpg
+redis
+
+# === 검증 (Pydantic v2) ===
+pydantic
+pydantic-settings
+
+# === 도구 ===
+tavily-python
+python-dotenv
+
+# === 데이터 처리 ===
+pyyaml
+pandas
+numpy
+
+# === 시맨틱 웹 / 온톨로지 표준 (W3C/ISO) ===
+rdflib
+owlrl
+pyshacl
+SPARQLWrapper
+
+# === 신호처리 (Phase 2 노이즈 필터) ===
+scipy
+filterpy
+
+# === 지리/공간 (GeoSPARQL 호환) ===
+shapely

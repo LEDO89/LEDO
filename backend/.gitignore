@@ -1,0 +1,54 @@
+# ════════════════════════════════════════
+# LEDO.ai - Git Ignore
+# 깃허브에 올라가지 말아야 할 파일들
+# ════════════════════════════════════════
+
+# === Python ===
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# === 환경 변수 (절대 공유 X) ===
+.env
+.env.local
+.env.*.local
+
+# === 데이터 (대용량) ===
+*.csv
+*.json
+*.db
+*.sqlite
+data/
+
+# === 로그 ===
+*.log
+logs/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === macOS ===
+.DS_Store
+
+# === 빌드 결과물 ===
+build/
+dist/
+node_modules/
+
+# === 보안 키 ===
+*.key
+*.pem
+*.crt
+
+# === 임시 파일 ===
+*.tmp
+*.bak
