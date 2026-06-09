@@ -51,4 +51,5 @@ node_modules/
 
 # === 임시 파일 ===
 *.tmp
-*.bak
+*.bak.DS_Store
+*.DS_Store

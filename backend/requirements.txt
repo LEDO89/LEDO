@@ -1,15 +1,16 @@
-# ════════════════════════════════════════
-# LEDO.ai - Backend Dependencies
-# 표준 통합: ISO/W3C/ETSI/OGC/NIST
-# ════════════════════════════════════════
+# ════════════════════════════════════════════════════════════
+# LEDO.ai - Backend Dependencies (Production Industrial Grade)
+# 표준: ISO/W3C/ETSI/OGC/NIST/GDPR 31개 표준 통합
+# Python: 3.14+ (PEP 649 lazy annotations 활용)
+# ════════════════════════════════════════════════════════════
 
-# === 웹 프레임워크 ===
+# ─── 웹 프레임워크 ───
 fastapi
 uvicorn[standard]
 websockets
 sse-starlette
 
-# === LangGraph + LLM ===
+# ─── LangGraph + LangChain ───
 langgraph
 langchain
 langchain-community
@@ -17,34 +18,47 @@ langchain-ollama
 langchain-core
 langgraph-checkpoint-postgres
 
-# === 데이터베이스 ===
+# ─── 데이터베이스 ───
 psycopg2-binary
 sqlalchemy
 asyncpg
 redis
 
-# === 검증 (Pydantic v2) ===
+# ─── 검증 (Pydantic v2) ───
 pydantic
 pydantic-settings
 
-# === 도구 ===
+# ─── 외부 도구 ───
 tavily-python
 python-dotenv
 
-# === 데이터 처리 ===
+# ─── 데이터 처리 ───
 pyyaml
 pandas
 numpy
 
-# === 시맨틱 웹 / 온톨로지 표준 (W3C/ISO) ===
-rdflib
-owlrl
-pyshacl
-SPARQLWrapper
+# ─── 시맨틱 웹 / 온톨로지 표준 (W3C/ISO/ETSI) ───
+rdflib                  # W3C RDF/RDFS/OWL 처리
+owlrl                   # W3C OWL 추론
+pyshacl                 # W3C SHACL 검증
+SPARQLWrapper           # W3C SPARQL 쿼리
+owlready2               # ⭐ NEW: 60x 빠른 SPARQL + HermiT 추론기
 
-# === 신호처리 (Phase 2 노이즈 필터) ===
-scipy
-filterpy
+# ─── 신호처리 (Phase 2 노이즈 필터) ───
+scipy                   # Kalman filter, signal processing
+filterpy                # 칼만 필터 전용
 
-# === 지리/공간 (GeoSPARQL 호환) ===
-shapely
+# ─── 지리/공간 (OGC GeoSPARQL) ───
+shapely                 # 기하학
+
+# ─── LLM 인프라 (Phase 2/7 에서 사용) ⭐ NEW ───
+tiktoken                # 토큰 카운팅 (OpenAI tokenizer)
+tenacity                # 산업 표준 재시도 라이브러리
+# vllm                  # Phase 7 에서 추가 (GPU 환경 필요)
+
+# ─── 개발 도구 (코드 품질) ───
+black                   # 코드 포맷터
+ruff                    # 린터 (Rust 기반, 빠름)
+mypy                    # 타입 체커
+pytest                  # 테스트 프레임워크
+pytest-asyncio          # 비동기 테스트

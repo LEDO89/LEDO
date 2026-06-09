@@ -1,0 +1,57 @@
+# ════════════════════════════════════════════════════════════
+# LEDO.ai - 프로젝트 루트 .gitignore
+# ════════════════════════════════════════════════════════════
+# 모든 하위 폴더에 적용되는 공통 규칙
+# 각 폴더 (backend/, frontend/) 의 .gitignore 는 보완용
+# ════════════════════════════════════════════════════════════
+
+# === macOS (모든 폴더) ===
+.DS_Store
+**/.DS_Store
+
+# === 환경 변수 (이중 안전망 - 절대 GitHub 노출 X) ===
+.env
+**/.env
+.env.local
+**/.env.local
+.env.*.local
+**/.env.*.local
+
+# === Python (이중 안전망) ===
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+venv/
+**/venv/
+.pytest_cache/
+.mypy_cache/
+
+# === Node.js / Frontend ===
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === 보안 키 ===
+*.key
+*.pem
+*.crt
+*.p12
+
+# === 임시 파일 ===
+*.tmp
+*.bak
+*.log
+logs/
+
+# === 데이터 (대용량) ===
+data/
+*.sqlite
+*.db
