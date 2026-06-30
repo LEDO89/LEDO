@@ -1,0 +1,12 @@
+[project]
+name = "ledo-ontology-core"
+version = "0.1.0"
+description = "Ontology-centric cyber-physical platform core"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2",
+    "pytest>=8"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
