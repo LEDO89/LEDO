@@ -1420,13 +1420,19 @@ AI output must not approve action.
 
 ---
 
-# **24\. SafetyGatePrecheck**
+# **24\. Safety Gate Requirement Reference**
 
-SafetyGatePrecheck is the final defense line after Approval and before ExecutionRequest creation.
+The Decision / Approval Matrix does not perform final execution-time validation.
+
+It identifies risk, priority, approval requirements, and references the Runtime Validation and Safety Gate requirements that must be satisfied later.
+
+TOCTOU, network health, idempotency, freshness, approval validity, policy revalidation, and evidence validity result generation belongs to `08_runtime_validation/`.
+
+The Safety Gate consumes RuntimeValidationResult and issues SafetyGatePass or SafetyGateBlock.
 
 ## **24.1 Required Validations**
 
-Performed for every ApprovedAction.
+Referenced for every ApprovedAction; performed by Runtime Validation before Safety Gate.
 
 approval\_valid\_until\_check  
 idempotency\_key\_check  
@@ -1438,7 +1444,7 @@ conflict\_status\_check
 
 ## **24.2 High-Risk Conditional Validations**
 
-Performed when risk\_level is HIGH\_RISK or higher.
+Referenced when risk\_level is HIGH\_RISK or higher; performed by Runtime Validation before Safety Gate.
 
 evidence\_freshness\_check  
 state\_freshness\_check  
@@ -1451,7 +1457,7 @@ source\_trust\_check
 
 ## **24.3 External System Conditional Validations**
 
-Performed when external systems, robots, PLCs, SCADA, or access control systems are involved.
+Referenced when external systems, robots, PLCs, SCADA, or access control systems are involved; performed by Runtime Validation or external integration health checks before Safety Gate.
 
 network\_latency\_check  
 heartbeat\_check  
@@ -1462,7 +1468,7 @@ command\_ack\_timeout\_check
 
 ## **24.4 AI-Derived Conditional Validations**
 
-Performed when AI-derived or attested AI-derived evidence influenced the action candidate.
+Referenced when AI-derived or attested AI-derived evidence influenced the action candidate; evidence validity result generation belongs to Runtime Validation and Evidence validation.
 
 ai\_trace\_check  
 trust\_upgrade\_status\_check  
@@ -1473,7 +1479,7 @@ evidence\_grounding\_check
 
 ## **24.5 High-Frequency Event Handling Principle**
 
-If every SafetyGatePrecheck is performed for high-frequency sensor telemetry, it can create a bottleneck.
+If every Runtime Validation requirement is applied directly to high-frequency sensor telemetry, it can create a bottleneck.
 
 Therefore, high-frequency telemetry must first pass through the stream layer and evidence promotion rules.
 
@@ -2291,7 +2297,7 @@ If conflict is unresolved, the route must be escalated.
 Emergency fast-path requires predefined policy and minimum verified operational evidence.  
 ATTESTED\_AI\_DERIVED evidence may support emergency context, but cannot become the sole emergency trigger.  
 Emergency bypass must always require post-hoc audit.  
-Even if Approval exists, ExecutionRequest cannot be created unless the Safety Gate is passed.  
+Even if Approval exists, ExecutionRequest cannot be created unless Runtime Validation passes and the Safety Gate issues a valid SafetyGatePass.  
 Even if Approval is valid, TOCTOU revalidation is required if the world state changes immediately before execution.  
 Even if the external adapter is alive, execution must not proceed if heartbeat or network latency exceeds the threshold.  
 Physical execution requests must prevent duplicate execution using idempotency\_key.  

@@ -34,9 +34,9 @@ Meaning must be governed.
 
 ## **First Constitution Alignment**
 
-Codex must follow the LEDO First Constitution when it exists under:
+Codex must follow the LEDO First Constitution when it exists under the current repository path:
 
-00\_master\_architecture/00\_ledo\_first\_constitution.md
+00\_master\_architecture/00\_first\_construction.md
 
 The following principles are mandatory:
 
@@ -230,8 +230,8 @@ Codex review criteria
 The source of truth is ordered as follows:
 
 1\. Root-level AGENTS.md  
-2\. 00\_master\_architecture/00\_ledo\_first\_constitution.md  
-3\. 00\_master\_architecture/01\_ledo\_master\_architecture.md  
+2\. 00\_master\_architecture/00\_first\_construction.md  
+3\. 00\_master\_architecture/01\_master\_architecture.md  
 4\. 00\_master\_architecture/02\_document\_control\_map.md  
 5\. 00\_master\_architecture/03\_source\_of\_truth\_matrix.md  
 6\. Module-level implementation\_guide.md  
@@ -761,4 +761,3 @@ Meaning must be governed.
 Safety must be validated.  
 Execution must be bounded.  
 Audit must preserve accountability.
-

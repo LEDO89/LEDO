@@ -4,21 +4,21 @@
 
 ─ Core Position  
 └── Unified Cyber-Physical Core is the execution lifecycle core of the ontology-centric system  
-└── It converts ApprovedAction into common events, states, execution requests, execution commands, feedback loops, recovery flows, and audit records  
+└── It converts ApprovedAction with a valid SafetyGatePass into common events, states, execution requests, internal execution lifecycle records, feedback loops, recovery flows, and audit records  
 └── It provides one unified lifecycle language between semantic decision, cyber system state, external control systems, and physical execution feedback  
 └── It does not generate action candidates  
 └── It does not approve actions  
 └── It does not directly control robots, PLCs, SCADA, equipment, or fleet managers  
 └── It does not perform low-level protocol translation  
-└── It owns command lifecycle, execution state, idempotency, event sourcing, feedback handling, recovery orchestration, and audit linkage
+└── It owns internal dispatch lifecycle, execution state, idempotency, event sourcing, feedback handling, recovery orchestration, and audit linkage
 
 ---
 
 ## **Core Role**
 
-└── Receive ApprovedAction from Safety Gate  
-└── Convert ApprovedAction into ExecutionRequest  
-└── Initialize command lifecycle state  
+└── Receive ApprovedAction with a valid SafetyGatePass from Safety Gate  
+└── Convert ApprovedAction and SafetyGatePass into ExecutionRequest  
+└── Initialize internal dispatch lifecycle state  
 └── Attach idempotency key, UUID, UTC timestamp, trace context, and correlation context  
 └── Resolve execution target at the abstract system level  
 └── Coordinate dispatch through Execution Request & External Control Integration Layer  
@@ -36,12 +36,12 @@
 └── DecisionCase Schema  
 └── ApprovedAction Schema  
 └── ExecutionRequest Schema  
-└── ExecutionCommand Schema  
+└── ExecutionCommand Schema as internal lifecycle/control-plane record  
 └── ExecutionResult Schema  
 └── FeedbackEvent Schema  
 └── AuditRecord Schema  
 └── RecoveryRequest Schema  
-└── Command Lifecycle Manager  
+└── Dispatch Lifecycle Manager  
 └── Event Sourcing  
 └── Transactional Outbox  
 └── Saga / Compensating Action Orchestration  
@@ -88,7 +88,7 @@
 └── DecisionCase  
 └── ApprovedAction  
 └── ExecutionRequest  
-└── ExecutionCommand  
+└── ExecutionCommand as internal lifecycle/control-plane record  
 └── ExecutionResult  
 └── FeedbackEvent  
 └── AuditRecord  
@@ -186,7 +186,7 @@ ExecutionRequest Rule:
 
 ---
 
-## **ExecutionCommand Schema Stack**
+## **ExecutionCommand Schema as internal lifecycle/control-plane record Stack**
 
 └── execution\_command\_id  
 └── execution\_request\_id  
@@ -205,7 +205,8 @@ ExecutionRequest Rule:
 └── correlation\_id
 
 ExecutionCommand Boundary:  
-└── ExecutionCommand represents a dispatchable command object inside the cyber-physical lifecycle  
+└── ExecutionCommand is an internal lifecycle/control-plane record. It is not a low-level physical command, robot motion command, PLC command, or SCADA write operation.
+└── ExecutionCommand represents a dispatch lifecycle record inside the cyber-physical control plane  
 └── Protocol translation and system-specific command formatting belong to Layer 11  
 └── Low-level motion planning, PLC logic, fleet scheduling, and behavior tree execution remain in external systems
 
@@ -287,7 +288,7 @@ AuditRecord Rule:
 
 ---
 
-## **Command Lifecycle Manager Stack**
+## **Dispatch Lifecycle Manager Stack**
 
 └── ApprovedAction Intake  
 └── ExecutionRequest Creation  
@@ -619,7 +620,7 @@ Trace Rule:
 └── ApprovedAction received  
 └── ApprovedAction validity checked  
 └── ExecutionRequest generated  
-└── Command state initialized  
+└── Internal dispatch lifecycle state initialized  
 └── External control target resolved  
 └── Execution request prepared  
 └── Execution request dispatched through Layer 11  

@@ -53,10 +53,14 @@ ActionCandidate
         ↓  
 Decision Router / Escalation Layer  
         ↓  
-Policy / Approval / Safety Gate  
+Policy / Approval  
         ↓  
 ApprovedAction  
         ↓  
+Runtime Validation  
+        -> 
+Safety Gate  
+        -> 
 ExecutionRequest Builder  
         ↓  
 action\_registry validation  
@@ -122,9 +126,11 @@ It must reference a registered Action Type.
 
 ### **5.3 ApprovedAction**
 
-`ApprovedAction` is an action that has passed policy, approval, and safety validation.
+`ApprovedAction` is an action that has passed the required policy and approval path.
 
 It is still not a physical command.
+
+It is not a SafetyGatePass.
 
 It means:
 
@@ -134,7 +140,7 @@ This action is approved for execution preparation.
 
 ### **5.4 ExecutionRequest**
 
-`ExecutionRequest` is a structured operational request generated from an `ApprovedAction`.
+`ExecutionRequest` is a structured operational request generated from an `ApprovedAction` only after Runtime Validation and a valid SafetyGatePass.
 
 It prepares execution intent for adapter routing.
 
@@ -642,15 +648,15 @@ No approval, no ApprovedAction.
 An `ExecutionRequest` is valid only if:
 
 1. It references an `ApprovedAction`.  
-2. Safety Gate has passed.  
-3. Runtime validation has passed or is explicitly scheduled.  
+2. Runtime validation has passed.
+3. Safety Gate has issued a valid SafetyGatePass.  
 4. Adapter compatibility is available.  
 5. External system boundary is declared.  
 6. Physical execution remains delegated to external systems.
 
 Final rule:
 
-No Safety Gate pass, no ExecutionRequest.
+No SafetyGatePass, no ExecutionRequest.
 
 ---
 

@@ -188,21 +188,27 @@ If it cannot be audited, it should not be trusted.
 The Standard Path is the normal path for semantic interpretation, decisioning, approval, and execution.
 
 RawInput  
-→ CanonicalEventEnvelope  
-→ Canonicalization  
-→ OntologyBoundEvent  
-→ Evidence  
-→ WorldStateUpdate  
-→ ActionCandidate  
-→ DecisionCase  
-→ ApprovalRequest  
-→ Safety Gate  
-→ ApprovedAction  
-→ ExecutionRequest  
-→ ExternalControlRequest  
-→ FeedbackEvent  
-→ WorldState Reconciliation  
-→ AuditRecord
+
+-> CanonicalEventEnvelope
+-> Canonicalization
+-> OntologyBoundEvent
+-> Evidence
+-> WorldStateUpdate
+-> ActionCandidate
+-> DecisionCase
+-> PolicyEvaluation
+-> ApprovalRequest
+-> ApprovalDecision
+-> ApprovedAction
+-> RuntimeValidationInput
+-> RuntimeValidationResult
+-> Safety Gate
+-> SafetyGatePass or SafetyGateBlock
+-> ExecutionRequest
+-> ExternalControlRequest
+-> FeedbackEvent
+-> WorldState Reconciliation
+-> AuditRecord
 
 Example use cases:
 
@@ -220,18 +226,23 @@ Robot rerouting candidate generation
 The Emergency Fast-Path is an ultra-low-latency safety path for Critical Emergency situations.
 
 RawInput  
-→ CanonicalEventEnvelope  
-→ Emergency Classification Check  
-→ Minimal Target Binding  
-→ Deterministic Safety Rule  
-→ Local Emergency Policy Check  
-→ EmergencyApprovedAction  
-→ EmergencyExecutionRequest  
-→ ExternalControlRequest  
-→ FeedbackEvent  
-→ Post-hoc Ontology Binding  
-→ WorldState Reconciliation  
-→ AuditRecord
+
+-> CanonicalEventEnvelope
+-> Emergency Classification Check
+-> Minimal Target Binding
+-> Deterministic Safety Rule
+-> Local Emergency Policy Check
+-> EmergencyApprovedAction
+-> RuntimeValidationInput
+-> RuntimeValidationResult
+-> Emergency Safety Gate Decision
+-> EmergencySafetyGatePass or EmergencySafetyGateBlock
+-> EmergencyExecutionRequest
+-> ExternalControlRequest
+-> FeedbackEvent
+-> Post-hoc Ontology Binding
+-> WorldState Reconciliation
+-> AuditRecord
 
 Example use cases:
 
@@ -246,7 +257,7 @@ PLC critical safety alarm
 Important principle:
 
 Emergency Fast-Path is not a Safety Gate bypass.  
-Emergency Fast-Path is a pre-approved deterministic safety lane.
+Emergency Fast-Path is a pre-approved deterministic safety lane that still requires minimum deterministic Runtime Validation, an emergency Safety Gate pass/block decision, and post-hoc audit.
 
 It is not a path where AI can invent and execute emergency actions on the fly.
 
@@ -549,9 +560,13 @@ Even approved requests must pass through the Safety Gate.
 
 ## **4.10 ApprovedAction**
 
-ApprovedAction is an action that has passed all required validations and is eligible to enter the execution lifecycle.
+ApprovedAction is an action created after the required policy and approval path grants authority for execution preparation.
 
-Required validations:
+ApprovedAction is not a SafetyGatePass.
+
+ApprovedAction is not eligible to create an ExecutionRequest until Runtime Validation has produced a valid RuntimeValidationResult and the Safety Gate has issued a valid SafetyGatePass.
+
+Required authority and preparation checks:
 
 ontology valid  
 action type valid  
@@ -573,6 +588,8 @@ recovery policy defined
 ## **4.11 EmergencyApprovedAction**
 
 EmergencyApprovedAction may be created in the Emergency Fast-Path.
+
+EmergencyApprovedAction is not a SafetyGatePass and must not create an EmergencyExecutionRequest unless deterministic emergency Runtime Validation and an emergency Safety Gate decision produce a valid pass.
 
 Allowed emergency action examples:
 
@@ -597,6 +614,8 @@ post\_hoc\_audit\_required
 ## **4.12 ExecutionRequest**
 
 ExecutionRequest is created by the Unified Cyber-Physical Core from an ApprovedAction or EmergencyApprovedAction.
+
+ExecutionRequest creation requires a valid SafetyGatePass or emergency SafetyGatePass bound to the same action, target, trace context, and idempotency key.
 
 ExecutionRequest represents high-level approved intent.
 
@@ -693,7 +712,7 @@ Was human approval required?
 Who approved it?  
 What policy was applied?  
 Did the Safety Gate pass or reject it?  
-What ApprovedAction was created?  
+What ApprovedAction, RuntimeValidationResult, and SafetyGatePass or SafetyGateBlock were created?  
 What ExecutionRequest was created?  
 Which external system received the request?  
 Did a timeout occur?  
@@ -1162,7 +1181,9 @@ RawInput
 → Deterministic Safety Rule  
 → Local Emergency Policy Check  
 → EmergencyApprovedAction  
-→ EmergencyExecutionRequest  
+-> Minimum deterministic Runtime Validation
+-> EmergencySafetyGatePass or EmergencySafetyGateBlock
+-> EmergencyExecutionRequest only after emergency SafetyGatePass
 → Emergency alert dispatch  
 → Feedback received  
 → Post-hoc Ontology Binding  

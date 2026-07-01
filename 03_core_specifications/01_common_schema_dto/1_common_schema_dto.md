@@ -1237,6 +1237,12 @@ trace\_context
 
 ## **17.1 ApprovedActionDTO**
 
+ApprovedActionDTO is created after the required policy, decision, and approval path grants authority.
+
+It is not created by the Safety Gate.
+
+It is not a SafetyGatePass and cannot create an ExecutionRequest without Runtime Validation and a valid SafetyGatePass.
+
 Fields:
 
 approved\_action\_id  
@@ -1257,6 +1263,10 @@ created\_at\_utc
 ---
 
 ## **17.2 EmergencyApprovedActionDTO**
+
+EmergencyApprovedActionDTO is a deterministic emergency authority object.
+
+It is not a Safety Gate bypass and cannot create an ExecutionRequest without minimum emergency Runtime Validation and an emergency SafetyGatePass.
 
 Fields:
 
@@ -1288,6 +1298,10 @@ ESCALATED
 
 ## **17.3 ExecutionRequestDTO**
 
+ExecutionRequestDTO may be created only after a valid SafetyGatePass or emergency SafetyGatePass is issued.
+
+No SafetyGatePass, no ExecutionRequestDTO.
+
 Fields:
 
 execution\_request\_id  
@@ -1305,6 +1319,126 @@ idempotency\_key
 execution\_lease  
 trace\_context  
 created\_at\_utc
+
+
+---
+
+## **17.3A Runtime Validation and Safety Gate DTO Contracts**
+
+These DTOs define architecture-level contracts only. They do not define domain thresholds, legal rules, robot behavior rules, PLC semantics, or SCADA write semantics.
+
+### **RuntimeValidationInputDTO**
+
+Minimum fields:
+
+id  
+approved_action_id  
+action_type  
+input_refs  
+trace_id  
+correlation_id  
+created_at_utc
+
+### **RuntimeValidationResultDTO**
+
+Minimum fields:
+
+id  
+approved_action_id  
+action_type  
+result  
+checked_at  
+input_refs  
+validator_result_refs  
+failure_reasons  
+trace_id  
+correlation_id  
+audit_ref
+
+### **ValidatorResultDTO**
+
+Minimum fields:
+
+id  
+validator_id  
+approved_action_id  
+result  
+checked_at  
+failure_reasons  
+trace_id  
+audit_ref
+
+### **Specialized Runtime Result DTOs**
+
+The following DTOs follow the ValidatorResultDTO pattern and may add only architecture-level references required by their validator category:
+
+TOCTOUResultDTO  
+SHACLValidationResultDTO  
+NetworkHealthResultDTO  
+IdempotencyResultDTO  
+ApprovalValidityResultDTO  
+PolicyRevalidationResultDTO  
+EvidenceValidityResultDTO
+
+### **SafetySnapshotDTO**
+
+Minimum fields:
+
+id  
+snapshot_version  
+ontology_version  
+policy_version  
+registry_version  
+status  
+created_at  
+expires_at  
+checksum  
+trace_id  
+audit_ref
+
+### **SafetyGateInputDTO**
+
+Minimum fields:
+
+id  
+approved_action_id  
+runtime_validation_result_id  
+safety_snapshot_id  
+action_type  
+input_refs  
+trace_id  
+correlation_id
+
+### **SafetyGatePassDTO**
+
+Minimum fields:
+
+id  
+approved_action_id  
+runtime_validation_result_id  
+action_type  
+status  
+issued_at  
+expires_at  
+idempotency_key  
+trace_id  
+correlation_id  
+audit_ref
+
+### **SafetyGateBlockDTO**
+
+Minimum fields:
+
+id  
+approved_action_id  
+runtime_validation_result_id  
+action_type  
+status  
+checked_at  
+failure_reasons  
+trace_id  
+correlation_id  
+audit_ref
 
 ---
 

@@ -1126,7 +1126,7 @@ required
 Principles:
 
 The platform does not directly control the robot motor.  
-The platform makes the fail-safe judgment and generates an emergency request.  
+The platform makes the fail-safe judgment, requires minimum deterministic Runtime Validation, requires an emergency SafetyGatePass, and only then generates an emergency request.  
 Actual physical control is performed by the external control system.
 
 ---

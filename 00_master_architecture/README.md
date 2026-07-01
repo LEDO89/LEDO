@@ -181,8 +181,8 @@ Each document has the following role.
 | Document | Role |
 | ----- | ----- |
 | `README.md` | Explains the purpose and architectural role of this folder |
-| `00_ledo_first_constitution.md` | Defines the highest-level principles that must never be violated |
-| `01_ledo_master_architecture.md` | Defines the full system architecture and layer relationships |
+| `00_first_construction.md` | Defines the highest-level principles that must never be violated |
+| `01_master_architecture.md` | Defines the full system architecture and layer relationships |
 | `02_document_control_map.md` | Defines which document owns which concept |
 | `03_source_of_truth_matrix.md` | Defines authority over meaning, evidence, state, policy, validation, execution, and audit |
 | `04_code_generation_strategy.md` | Defines how architecture documents are transformed into implementation artifacts |
@@ -198,8 +198,8 @@ The Master Architecture defines the original source location of major concepts.
 
 | Concept | Source of Truth |
 | ----- | ----- |
-| Non-negotiable principles and boundaries | `00_ledo_first_constitution.md` |
-| Full architecture and layer relationships | `01_ledo_master_architecture.md` |
+| Non-negotiable principles and boundaries | `00_first_construction.md` |
+| Full architecture and layer relationships | `01_master_architecture.md` |
 | Concept ownership by document | `02_document_control_map.md` |
 | Authority over meaning, evidence, state, policy, and execution | `03_source_of_truth_matrix.md` |
 | Code generation order | `04_code_generation_strategy.md` |

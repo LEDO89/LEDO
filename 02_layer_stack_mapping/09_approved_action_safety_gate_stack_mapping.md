@@ -3,25 +3,25 @@
 ## **Layer 9\. Approved Action / Safety Gate Layer**
 
 ─ Core Position  
-└── Approved Action / Safety Gate is the final validation layer before an action candidate becomes an approved executable action  
-└── It determines whether an ActionCandidate can become an ApprovedAction  
-└── It validates ontology-defined action type, constraints, policy, capability, human approval, authorization, emergency rules, and current operational state  
-└── It is the last safety boundary before the Unified Cyber-Physical Core creates an execution lifecycle  
+└── Approved Action / Safety Gate is the final pre-execution readiness layer after approval has produced an ApprovedAction  
+└── It determines whether an ApprovedAction with RuntimeValidationResult can receive a SafetyGatePass or SafetyGateBlock  
+└── It consumes ontology-defined action type, constraints, policy, capability, human approval, authorization, emergency rules, current operational state, and Runtime Validation results  
+└── It is the last safety boundary before the Unified Cyber-Physical Core creates an ExecutionRequest  
 └── It does not generate action candidates  
 └── It does not classify routing tiers  
 └── It does not directly execute physical commands  
 └── It does not control robots, PLCs, SCADA, equipment, or fleet managers  
-└── It approves, blocks, rejects, escalates, or requires more evidence before execution lifecycle begins
+└── It passes or blocks execution readiness; it does not grant approval or create physical commands
 
 ---
 
 ## **Core Role**
 
-└── Validate whether an ActionCandidate is eligible to become an ApprovedAction  
+└── Validate whether an ApprovedAction is eligible to receive a SafetyGatePass  
 └── Ensure only ontology-defined Action Types enter the execution lifecycle  
 └── Validate action target, capability, constraints, policy, current state, approval, authorization, and emergency rules  
-└── Block unsafe, unauthorized, stale, ungrounded, or insufficiently evidenced action candidates  
-└── Convert validated candidates into ApprovedAction objects  
+└── Block unsafe, unauthorized, stale, ungrounded, or insufficiently evidenced ApprovedActions  
+└── Issue SafetyGatePass or SafetyGateBlock based on RuntimeValidationResult  
 └── Attach validation result, evidence, approval record, policy decision, state snapshot, and trace context  
 └── Provide a fail-secure boundary before execution requests are created  
 └── Preserve audit records for every approved, rejected, blocked, or escalated candidate
@@ -87,9 +87,9 @@
 └── Trace Context
 
 Input Rule:  
-└── Safety Gate accepts only structured, ontology-grounded candidates  
-└── Free-form agent output cannot enter Safety Gate directly  
-└── Candidate must include action type, target node, source agent, evidence, current state reference, and trace ID
+└── Safety Gate accepts only structured, ontology-grounded ApprovedAction objects with RuntimeValidationResult  
+└── Free-form agent output or ActionCandidate cannot enter Safety Gate directly  
+└── ApprovedAction must include action type, target node, source candidate, decision case, approval decision, evidence, current state reference, and trace ID
 
 ---
 
@@ -109,8 +109,8 @@ Input Rule:
 └── AuditRecord
 
 Output Rule:  
-└── ApprovedAction is the only output that may enter the Unified Cyber-Physical Core execution lifecycle  
-└── Rejected, blocked, or escalation-required candidates must not create execution requests  
+└── SafetyGatePass is the only Safety Gate output that may allow ExecutionRequest creation  
+└── SafetyGateBlock, rejected, blocked, or escalation-required results must not create execution requests  
 └── Every output must be auditable and traceable
 
 ---
@@ -703,8 +703,8 @@ Audit Rule:
 └── It should use Layer 4 ontology contracts for action meaning and constraints  
 └── It should use Layer 3 policy decisions for authorization and approval authority  
 └── It should use Layer 5 memory and evidence for supporting context  
-└── It creates ApprovedAction only when all required validations pass  
-└── It passes ApprovedAction to Layer 10 Unified Cyber-Physical Core
+└── It does not create ApprovedAction; Approval creates ApprovedAction before this layer  
+└── It passes SafetyGatePass or SafetyGateBlock to Layer 10 Unified Cyber-Physical Core
 
 ---
 
@@ -732,7 +732,7 @@ Audit Rule:
 ## **Recommended MVP Stack Mapping**
 
 └── Validation Engine: Python service  
-└── DTOs: Pydantic ActionCandidateDTO, ApprovedActionDTO, ValidationReportDTO  
+└── DTOs: Pydantic ApprovedActionDTO, RuntimeValidationResultDTO, SafetyGatePassDTO, SafetyGateBlockDTO  
 └── Ontology Action Registry: Python registry generated or synchronized from ontology  
 └── SHACL: pySHACL for target-specific ActionCandidate validation  
 └── Policy: OPA / Rego policy decision call  
@@ -743,10 +743,10 @@ Audit Rule:
 └── State Machine: explicit Python enum state machine  
 └── Audit: PostgreSQL audit event \+ OpenTelemetry trace  
 └── Interlock: hard-coded safety interlock table first, policy-backed later  
-└── Output: ApprovedAction only when all required validation passes
+└── Output: SafetyGatePass only when all required runtime validation passes; otherwise SafetyGateBlock
 
 MVP Rule:  
-└── Start with a strict ActionCandidate → ApprovedAction validation pipeline  
+└── Start with a strict ApprovedAction -> RuntimeValidationResult -> SafetyGatePass/SafetyGateBlock validation pipeline  
 └── Define 5 to 9 approved action types only  
 └── Validate action type, target node, state freshness, approval, policy, capability, and evidence  
 └── Use fail-secure defaults  
@@ -758,11 +758,11 @@ MVP Rule:
 ## **Approved Action / Safety Gate Core Principles**
 
 1. ActionCandidate Is Not ApprovedAction  
-   └── A candidate is only a proposal; it becomes executable only after Safety Gate validation.  
+   └── A candidate is only a proposal; it becomes ApprovedAction only after policy, decision, and approval.  
 2. Only Ontology-defined Action Types Can Be Executed  
    └── Unknown action types must be rejected or sent to ontology governance review.  
 3. Safety Gate Is the Final Pre-execution Boundary  
-   └── No execution lifecycle should begin without passing Safety Gate.  
+   └── No ExecutionRequest should be created without a valid SafetyGatePass.  
 4. Validation Must Be Multi-dimensional  
    └── Constraint, policy, capability, approval, authorization, emergency rule, evidence, and current state must all be validated where required.  
 5. Human Approval Alone Is Not Enough  
@@ -780,7 +780,7 @@ MVP Rule:
 11. Vector-only Retrieval Cannot Approve Action  
     └── Similarity search may support context, but cannot be final approval evidence.  
 12. Emergency Fast Path Must Be Predefined  
-    └── Emergency execution is allowed only through predefined deterministic policy and post-execution audit.  
+    └── Emergency execution is allowed only through predefined deterministic policy, minimum Runtime Validation, emergency Safety Gate decision, and post-execution audit.  
 13. Safety Interlocks Must Fail Secure  
     └── Active hard interlocks must block approval until explicitly released through authorized and audited process.  
 14. Every Rejection Needs a Reason  
@@ -789,10 +789,10 @@ MVP Rule:
     └── ApprovedAction must preserve candidate ID, decision case ID, evidence, policy version, approval record, world state snapshot, and trace ID.  
 16. Safety Gate Must Be Deterministic and Bounded  
     └── It should avoid long-running LLM reasoning, broad RAG, full graph scans, or full OWL reasoning in the critical path.  
-17. Safety Gate Depends on Other Layers but Owns Final Validation  
-    └── It consumes ontology, policy, world state, memory, approval, and evidence, but owns the final pre-execution approval decision.  
+17. Safety Gate Depends on Other Layers but Owns Final Execution-readiness Decision  
+    └── It consumes ontology, policy, world state, memory, approval, evidence, and RuntimeValidationResult, but owns only the final pass/block decision.  
 18. ApprovedAction Is Still Not a Physical Command  
-    └── ApprovedAction enters Unified Cyber-Physical Core, which creates execution lifecycle and execution request.  
+    └── ApprovedAction requires Runtime Validation and a valid SafetyGatePass before Unified Cyber-Physical Core creates an ExecutionRequest.  
 19. No Actor Can Bypass Safety Gate  
     └── Agents, UI, supervisors, external systems, and automated workflows must all pass through Safety Gate for executable actions.  
 20. Safety Gate Protects the Physical World  
