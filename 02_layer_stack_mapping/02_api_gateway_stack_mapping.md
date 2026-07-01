@@ -243,7 +243,7 @@ Boundary:
 Example:  
 └── API Gateway checks whether the user can access approval APIs  
 └── Governance Layer checks whether the user has permission to approve this specific high-risk action  
-└── Safety Gate validates whether the action can become an ApprovedAction
+└── ApprovalDecision produces ApprovedAction; Safety Gate later consumes ApprovedAction plus RuntimeValidationResult and issues SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -616,4 +616,3 @@ MVP Rule:
     └── Routing through the gateway does not mean the gateway owns the decision. Decision ownership remains in the proper backend layer.  
 20. API Gateway Protects the Ontology-Centric Core  
     └── Its purpose is to expose the system safely while preserving control boundaries, contracts, identity, validation, and traceability.
-

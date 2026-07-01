@@ -427,7 +427,7 @@ Important Boundary:
 Example:  
 └── Ontology defines what RiskScore means  
 └── Runtime service computes a risk score using current world state, policy, graph context, and rule engine  
-└── Safety Gate validates whether the risk score can support an ApprovedAction
+└── ApprovalDecision produces ApprovedAction; Safety Gate validates execution readiness by consuming ApprovedAction plus RuntimeValidationResult
 
 ---
 
@@ -701,12 +701,12 @@ Boundary Rule:
 └── Ontology defines policy concepts, action types, constraints, approval requirement structures, and semantic relationships  
 └── Governance Layer evaluates authority, access control, approval rules, security boundaries, and compliance decisions  
 └── OPA / Rego implements operational policy evaluation  
-└── Safety Gate combines ontology validation, policy decision, current state, capability, evidence, and approval result
+└── Safety Gate consumes ApprovedAction plus RuntimeValidationResult based on precomputed ontology, policy, current state, capability, evidence, and approval materialization
 
 Boundary Rule:  
 └── Ontology explains what a policy means  
 └── Governance decides who is authorized and which policy applies  
-└── Safety Gate decides whether a candidate can become an ApprovedAction
+└── ApprovalDecision produces ApprovedAction; Safety Gate issues SafetyGatePass or SafetyGateBlock and does not decide whether a candidate becomes ApprovedAction
 
 ---
 
@@ -866,4 +866,3 @@ MVP Rule:
     └── Ontology releases should run reasoner checks, SHACL validation, SPARQL regression tests, and compatibility checks.  
 30. Ontology Controls Meaning, Not Motors  
     └── The ontology system defines operational meaning, constraints, approval context, and execution request semantics; external control systems handle motion, machinery, fleet execution, and device-level behavior.
-

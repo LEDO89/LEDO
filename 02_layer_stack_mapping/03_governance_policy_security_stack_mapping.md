@@ -325,7 +325,7 @@ Boundary:
 └── Governance defines who may approve and under what conditions  
 └── Experience Layer presents approval UI  
 └── API Gateway routes approval requests  
-└── Safety Gate uses approval result when deciding whether an action can become an ApprovedAction
+└── ApprovalDecision produces ApprovedAction; Safety Gate uses that ApprovedAction plus RuntimeValidationResult to issue SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -726,4 +726,3 @@ MVP Rule:
     └── Fleet managers, robot middleware, PLC / SCADA systems, and equipment controllers must be authenticated, scoped, and audited.  
 20. Governance Protects the Ontology-Centric Core  
     └── Its purpose is to preserve safety, authority, compliance, privacy, accountability, and trust across the entire system.
-

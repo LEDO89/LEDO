@@ -187,14 +187,14 @@ An ActionCandidate is a concrete proposal generated based on an event, evidence,
 
 An ActionCandidate is not yet an executable object.
 
-An ApprovedAction is an execution-approved object that has passed Safety Gate, policy, evidence, and approval validation.
+An ApprovedAction is an authority object produced by ApprovalDecision after policy, evidence, and approval validation.
 
 Core principles:
 
 An ActionCandidate is a proposal.  
-An ApprovedAction is an approved action.  
+An ApprovedAction grants authority, not execution readiness.  
 An ActionCandidate cannot be executed directly.  
-Only an ApprovedAction can be promoted to an ExecutionRequest.
+ExecutionRequest MUST NOT be created unless a SafetyGatePass has been issued from a valid RuntimeValidationResult.
 
 ---
 
@@ -214,7 +214,7 @@ ExecutionRequest:
 
 Send disable mission request to FleetManager\_A for Robot\_07 Mission\_991.
 
-An ApprovedAction is the policy and safety boundary.  
+An ApprovedAction is the authority boundary.  
 An ExecutionRequest is the execution request sent to an external system.
 
 ---
@@ -788,6 +788,12 @@ ApprovedAction created
 
 → expected\_mutated\_state recorded
 
+→ RuntimeValidationInput created
+
+→ RuntimeValidationResult produced
+
+→ Safety Gate issues SafetyGatePass or SafetyGateBlock
+
 → ExecutionRequest created
 
 → pending\_state applied
@@ -799,6 +805,8 @@ ApprovedAction created
 → reconciliation performed
 
 → reconciled\_state committed
+
+ExecutionRequest MUST NOT be created unless a SafetyGatePass has been issued from a valid RuntimeValidationResult.
 
 Example:
 
@@ -1476,7 +1484,7 @@ Emergency Actions cannot be created directly by an LLM.
 
 An LLM or agent may describe an emergency situation or propose an ActionCandidate.
 
-However, an EmergencyApprovedAction must pass the registry, deterministic rule, local policy, and safety validation.
+However, an EmergencyApprovedAction grants emergency authority only; EmergencyExecutionRequest requires EmergencyRuntimeValidationResult and EmergencySafetyGatePass.
 
 ---
 
@@ -1531,6 +1539,12 @@ Basic flow:
 
 ApprovedAction created
 
+→ RuntimeValidationInput created
+
+→ RuntimeValidationResult produced
+
+→ Safety Gate issues SafetyGatePass or SafetyGateBlock
+
 → ExecutionRequest created
 
 → Feedback received
@@ -1538,6 +1552,8 @@ ApprovedAction created
 → PostHocAudit pending
 
 → PostHocAudit completed
+
+ExecutionRequest MUST NOT be created unless a SafetyGatePass has been issued from a valid RuntimeValidationResult.
 
 If a problem occurs:
 

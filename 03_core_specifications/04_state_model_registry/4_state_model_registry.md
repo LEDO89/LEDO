@@ -699,10 +699,15 @@ Reconciliation FAILED
 → Safety Interceptor triggered  
 → Pre-approved Emergency Action selected  
 → EmergencyApprovedAction created  
+→ EmergencyRuntimeValidationInput created  
+→ EmergencyRuntimeValidationResult produced  
+→ Emergency Safety Gate issues EmergencySafetyGatePass or EmergencySafetyGateBlock  
 → EmergencyExecutionRequest sent  
 → External Safety / Control System executes  
 → Feedback received  
 → Post-hoc Audit
+
+EmergencyExecutionRequest MUST NOT be created unless an EmergencySafetyGatePass has been issued from a valid EmergencyRuntimeValidationResult.
 
 Important architectural boundary:
 
@@ -1126,7 +1131,7 @@ required
 Principles:
 
 The platform does not directly control the robot motor.  
-The platform makes the fail-safe judgment, requires minimum deterministic Runtime Validation, requires an emergency SafetyGatePass, and only then generates an emergency request.  
+The platform makes the fail-safe judgment, requires EmergencyRuntimeValidationResult, requires EmergencySafetyGatePass, and only then generates an emergency request.  
 Actual physical control is performed by the external control system.
 
 ---
@@ -1154,9 +1159,14 @@ GasSensorValueState exceeds critical threshold
    ACTION\_EMERGENCY\_EVACUATE\_ZONE  
    ACTION\_EMERGENCY\_TRIGGER\_ALARM  
 → EmergencyApprovedAction  
+→ EmergencyRuntimeValidationInput  
+→ EmergencyRuntimeValidationResult  
+→ Emergency Safety Gate issues EmergencySafetyGatePass or EmergencySafetyGateBlock  
 → EmergencyExecutionRequest  
 → Feedback  
 → Post-hoc Audit
+
+EmergencyExecutionRequest MUST NOT be created unless an EmergencySafetyGatePass has been issued from a valid EmergencyRuntimeValidationResult.
 
 Principles:
 

@@ -122,7 +122,7 @@ Input Rule:
 Output Rule:  
 └── Outputs determine the next processing path  
 └── Outputs are not execution commands  
-└── Execution authority belongs to Safety Gate and approved cyber-physical command lifecycle
+└── Execution readiness requires SafetyGatePass from the Safety Gate and the approved cyber-physical command lifecycle
 
 ---
 
@@ -459,7 +459,7 @@ Routing Rule:
 Approval Routing Rule:  
 └── Decision Router routes cases to approval workflow  
 └── It does not approve the action itself  
-└── Approval decision must still be validated by Governance and Safety Gate before ApprovedAction creation
+└── ApprovalDecision produces ApprovedAction; Safety Gate later consumes ApprovedAction plus RuntimeValidationResult before any ExecutionRequest creation
 
 ---
 
@@ -751,7 +751,7 @@ MVP Rule:
 12. Every Routed Case Needs Trace Context  
     └── Routing decisions must preserve event ID, candidate ID, decision case ID, trace ID, and correlation ID.  
 13. Approval Routing Is Not Approval  
-    └── Routing a case to approval workflow does not approve it; Governance and Safety Gate still validate authority and execution eligibility.  
+    └── Routing a case to approval workflow does not approve it; Governance validates authority, ApprovalDecision produces ApprovedAction, and Safety Gate validates execution readiness.  
 14. War Room Is for High Signal, Not Noise  
     └── War Room should show high-risk, critical, exceptional, multi-party, or strategic cases only.  
 15. Conflict Routing Must Prefer Safety  
@@ -766,4 +766,3 @@ MVP Rule:
     └── It should use bounded rules, cached context, and lightweight policy calls instead of heavy reasoning in critical paths.  
 20. Decision Router Enables Safe Scaling  
     └── Its purpose is to let many agents and many events exist without overwhelming humans, safety gates, or execution systems.
-

@@ -429,7 +429,7 @@ Approval UI Requirements:
 Boundary:  
 └── UI does not create ApprovedAction directly  
 └── UI submits approval decision to backend approval workflow  
-└── Safety Gate creates or rejects ApprovedAction
+└── ApprovalDecision produces ApprovedAction; Safety Gate consumes ApprovedAction plus RuntimeValidationResult and issues SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -679,4 +679,3 @@ MVP Rule:
     └── Routine, notice, warning, high-risk, critical emergency, and exceptional cases should have different UI treatment.  
 20. Experience Layer Must Make the Ontology Understandable  
     └── The purpose of this layer is to translate ontology-backed operational intelligence into usable human interfaces.
-

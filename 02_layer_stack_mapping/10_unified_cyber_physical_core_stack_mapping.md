@@ -149,7 +149,7 @@ CoreEvent Rule:
 └── Execution Readiness Check
 
 ApprovedAction Intake Rule:  
-└── Only ApprovedAction from Safety Gate may enter Unified Cyber-Physical Core  
+└── Only ApprovedAction with a valid SafetyGatePass may proceed toward ExecutionRequest creation in Unified Cyber-Physical Core  
 └── ActionCandidate cannot bypass Safety Gate and enter this layer directly  
 └── Expired, duplicated, revoked, or invalid ApprovedAction must not create ExecutionRequest
 
@@ -707,7 +707,7 @@ Security Rule:
 
 ## **Runtime Boundary**
 
-└── This layer is active after Safety Gate approval and before external control integration  
+└── This layer is active after SafetyGatePass and before external control integration  
 └── It owns execution lifecycle, command state, feedback, recovery, idempotency, event sourcing, and audit linkage  
 └── It must not perform full ontology reasoning, broad RAG, or LLM decision-making in the critical path  
 └── It must not perform low-level physical control logic  
@@ -768,7 +768,7 @@ MVP Rule:
 ## **Unified Cyber-Physical Core Principles**
 
 1. ApprovedAction Is the Entry Point  
-   └── Only Safety Gate-approved actions may enter this layer.  
+   └── Unified Cyber-Physical Core must not treat Safety Gate as the producer of ApprovedAction; only execution paths with a valid SafetyGatePass may proceed to ExecutionRequest creation.  
 2. ApprovedAction Is Not a Physical Command  
    └── It must first become an ExecutionRequest with lifecycle, constraints, target, trace, and idempotency.  
 3. ExecutionRequest Is the Bridge Object  
@@ -807,4 +807,3 @@ MVP Rule:
     └── It should avoid open-ended LLM reasoning, broad retrieval, or full ontology reasoning in execution lifecycle path.  
 20. This Layer Standardizes the Cyber-Physical Language  
     └── Its purpose is to make every approved action, execution request, feedback event, recovery flow, and audit record speak the same lifecycle language.
-
