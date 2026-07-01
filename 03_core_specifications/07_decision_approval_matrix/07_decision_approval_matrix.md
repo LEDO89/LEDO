@@ -20,7 +20,7 @@ Should this situation be dropped or routed to fail-safe because of network laten
 Is there a TOCTOU risk caused by a state change between approval time and execution time?  
 Does this judgment satisfy the time trust, source trust, device health, trust upgrade, and privacy lifecycle requirements defined in the Evidence Model?
 
-If an Event Type expresses “what happened,” a State Model expresses “what is currently in what state,” an Evidence Model expresses “what proves that judgment,” and an Action Type expresses “what response can be taken,” then the Decision / Approval Matrix expresses “who must judge and approve at what level under these conditions.”
+If an Event Type expresses ?�what happened,??a State Model expresses ?�what is currently in what state,??an Evidence Model expresses ?�what proves that judgment,??and an Action Type expresses ?�what response can be taken,??then the Decision / Approval Matrix expresses ?�who must judge and approve at what level under these conditions.??
 
 The core principle is as follows:
 
@@ -188,7 +188,7 @@ A Policy Decision is a judgment returned by a specific policy engine, such as al
 Example:
 
 Decision Matrix:  
-ZoneRiskState.CRITICAL → emergency route
+ZoneRiskState.CRITICAL ??emergency route
 
 Policy Decision:  
 OPA allows ACTION\_EMERGENCY\_EVACUATE\_ZONE under EmergencyPolicy\_001
@@ -249,20 +249,30 @@ ApprovedAction is not a direct physical control command.
 
 ## **4.5 Difference Between Emergency Bypass and No Approval**
 
-Emergency bypass does not mean “no approval is required.”
+Emergency bypass does not mean ?�no approval is required.??
 
 Emergency bypass means that an execution request may be allowed before human approval under a predefined emergency policy, while post-hoc audit is required afterward.
 
 Example:
 
 Gas level critical  
-→ Emergency policy matched  
-→ EmergencyApprovedAction created  
-→ EmergencyExecutionRequest sent  
-→ Post-hoc audit required
+??Emergency policy matched  
+??EmergencyApprovedAction created  
+??EmergencyRuntimeValidationInput prepared  
+??EmergencyRuntimeValidationResult produced  
+??Emergency Safety Gate evaluated  
+??EmergencySafetyGatePass issued or EmergencySafetyGateBlock issued  
+??EmergencyExecutionRequest sent only if EmergencySafetyGatePass exists  
+??Post-hoc audit required
 
 Emergency bypass is not irresponsible automatic execution.  
 Emergency bypass is a structure that combines pre-approved policy with post-hoc audit.
+
+EmergencyApprovedAction grants emergency authority. EmergencySafetyGatePass grants short-lived execution readiness. EmergencySafetyGateBlock prevents EmergencyExecutionRequest creation.
+
+EmergencyExecutionRequest MUST NOT be created unless an EmergencySafetyGatePass has been issued from a valid EmergencyRuntimeValidationResult.
+
+The emergency path may be accelerated, but it must not bypass Runtime Validation or Safety Gate.
 
 ---
 
@@ -328,12 +338,12 @@ evidence\_freshness\_summary \= {
 The Decision Matrix must connect AI-derived evidence with `trust_upgrade_status` from the Evidence Model.
 
 AI\_DERIVED\_ONLY  
-→ trust\_upgrade\_status \= NO\_UPGRADE or TRUST\_UPGRADE\_PENDING  
-→ approval not allowed
+??trust\_upgrade\_status \= NO\_UPGRADE or TRUST\_UPGRADE\_PENDING  
+??approval not allowed
 
 ATTESTED\_AI\_DERIVED  
-→ trust\_upgrade\_status \= TRUST\_UPGRADED\_BY\_RULE / TRUST\_UPGRADED\_BY\_HUMAN / TRUST\_UPGRADED\_BY\_CROSS\_CHECK  
-→ limited use allowed
+??trust\_upgrade\_status \= TRUST\_UPGRADED\_BY\_RULE / TRUST\_UPGRADED\_BY\_HUMAN / TRUST\_UPGRADED\_BY\_CROSS\_CHECK  
+??limited use allowed
 
 AI\_DERIVED\_ONLY can be used for explanation or candidate generation.  
 AI\_DERIVED\_ONLY cannot be used as the basis for high-risk approval.  
@@ -346,16 +356,16 @@ ATTESTED\_AI\_DERIVED can be used for limited purposes, but must not become the 
 The Decision Matrix must consider device health when using sensor or robot evidence.
 
 device\_health\_snapshot \= OK  
-→ normal evidence weighting
+??normal evidence weighting
 
 device\_health\_snapshot \= WARNING  
-→ lower confidence or conflict policy required
+??lower confidence or conflict policy required
 
 device\_health\_snapshot \= CRITICAL  
-→ evidence review or fail-safe evaluation
+??evidence review or fail-safe evaluation
 
 device\_health\_snapshot missing in high-risk path  
-→ evidence review required
+??evidence review required
 
 ---
 
@@ -364,16 +374,16 @@ device\_health\_snapshot missing in high-risk path
 Privacy-related evidence may affect a decision depending on its privacy lifecycle.
 
 PII\_PRESENT  
-→ access policy required
+??access policy required
 
 PII\_MASKED  
-→ limited use
+??limited use
 
 PII\_CRYPTO\_SHREDDED  
-→ audit shell exists, operational approval not allowed
+??audit shell exists, operational approval not allowed
 
 LEGAL\_HOLD  
-→ retention and audit restrictions apply
+??retention and audit restrictions apply
 
 ---
 
@@ -482,16 +492,16 @@ correlation\_id
 In high-risk decisions, snapshots must be fixed.
 
 state\_snapshot\_ref  
-→ World State snapshot at decision time
+??World State snapshot at decision time
 
 evidence\_snapshot\_ref  
-→ Evidence Bundle snapshot at decision time
+??Evidence Bundle snapshot at decision time
 
 network\_snapshot\_ref  
-→ heartbeat / latency snapshot at decision time
+??heartbeat / latency snapshot at decision time
 
 ai\_snapshot\_ref  
-→ AI model, prompt, retrieval, ontology mapping snapshot
+??AI model, prompt, retrieval, ontology mapping snapshot
 
 This keeps DecisionCaseDTO lightweight, while detailed information needed for audit can still be traced through snapshot refs.
 
@@ -570,22 +580,22 @@ EXCEPTIONAL
 ## **9.2 Meaning of Risk Levels**
 
 INFO  
-→ General information, automatic handling, or log recording
+??General information, automatic handling, or log recording
 
 NOTICE  
-→ Operator notification required
+??Operator notification required
 
 WARNING  
-→ Supervisor review may be required
+??Supervisor review may be required
 
 HIGH\_RISK  
-→ Safety manager or supervisor approval required
+??Safety manager or supervisor approval required
 
 CRITICAL\_EMERGENCY  
-→ Emergency fast-path or fail-safe required
+??Emergency fast-path or fail-safe required
 
 EXCEPTIONAL  
-→ Expert review, war room, or policy exception review required
+??Expert review, war room, or policy exception review required
 
 ---
 
@@ -612,31 +622,31 @@ POST\_HOC\_AUDIT\_ONLY
 ## **10.2 Meaning of Approval Levels**
 
 NO\_APPROVAL  
-→ Automatic handling allowed
+??Automatic handling allowed
 
 OPERATOR\_ACK  
-→ Operator acknowledgment required
+??Operator acknowledgment required
 
 SUPERVISOR\_APPROVAL  
-→ Field supervisor approval required
+??Field supervisor approval required
 
 SAFETY\_MANAGER\_APPROVAL  
-→ Safety manager approval required
+??Safety manager approval required
 
 WAR\_ROOM\_APPROVAL  
-→ Multi-party approval required in complex high-risk situations
+??Multi-party approval required in complex high-risk situations
 
 EXPERT\_REVIEW  
-→ Review required from structural, legal, AI, robotics, or equipment experts
+??Review required from structural, legal, AI, robotics, or equipment experts
 
 POLICY\_OWNER\_APPROVAL  
-→ Policy exception or policy change required
+??Policy exception or policy change required
 
 EMERGENCY\_POLICY\_BYPASS  
-→ Immediate handling allowed under a predefined emergency policy; post-hoc audit is mandatory
+??Immediate handling allowed under a predefined emergency policy; post-hoc audit is mandatory
 
 POST\_HOC\_AUDIT\_ONLY  
-→ Only post-hoc audit is required
+??Only post-hoc audit is required
 
 ---
 
@@ -645,28 +655,28 @@ POST\_HOC\_AUDIT\_ONLY
 ## **11.1 Basic Mapping**
 
 INFO  
-→ AUTO\_ALLOW or AUDIT\_ONLY  
-→ NO\_APPROVAL
+??AUTO\_ALLOW or AUDIT\_ONLY  
+??NO\_APPROVAL
 
 NOTICE  
-→ NOTIFICATION\_ONLY  
-→ OPERATOR\_ACK
+??NOTIFICATION\_ONLY  
+??OPERATOR\_ACK
 
 WARNING  
-→ SUPERVISOR\_APPROVAL\_REQUIRED  
-→ SUPERVISOR\_APPROVAL
+??SUPERVISOR\_APPROVAL\_REQUIRED  
+??SUPERVISOR\_APPROVAL
 
 HIGH\_RISK  
-→ SAFETY\_MANAGER\_APPROVAL\_REQUIRED  
-→ SAFETY\_MANAGER\_APPROVAL
+??SAFETY\_MANAGER\_APPROVAL\_REQUIRED  
+??SAFETY\_MANAGER\_APPROVAL
 
 CRITICAL\_EMERGENCY  
-→ EMERGENCY\_FAST\_PATH or FAIL\_SAFE\_REQUIRED  
-→ EMERGENCY\_POLICY\_BYPASS \+ POST\_HOC\_AUDIT\_ONLY
+??EMERGENCY\_FAST\_PATH or FAIL\_SAFE\_REQUIRED  
+??EMERGENCY\_POLICY\_BYPASS \+ POST\_HOC\_AUDIT\_ONLY
 
 EXCEPTIONAL  
-→ WAR\_ROOM\_APPROVAL\_REQUIRED or EXPERT\_REVIEW\_REQUIRED  
-→ WAR\_ROOM\_APPROVAL / EXPERT\_REVIEW
+??WAR\_ROOM\_APPROVAL\_REQUIRED or EXPERT\_REVIEW\_REQUIRED  
+??WAR\_ROOM\_APPROVAL / EXPERT\_REVIEW
 
 ---
 
@@ -698,13 +708,13 @@ Example:
 
 risk\_level \= WARNING  
 but evidence\_conflict\_unresolved \= true  
-→ EVIDENCE\_REVIEW\_REQUIRED or SAFETY\_MANAGER\_APPROVAL\_REQUIRED
+??EVIDENCE\_REVIEW\_REQUIRED or SAFETY\_MANAGER\_APPROVAL\_REQUIRED
 
 Example:
 
 risk\_level \= HIGH\_RISK  
 but network\_latency\_exceeded \= true  
-→ NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
+??NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
 
 ---
 
@@ -735,60 +745,60 @@ If device\_health\_snapshot is WARNING or CRITICAL, conflict policy or evidence 
 ## **12.2 Decision Impact by Evidence Status**
 
 VALID  
-→ normal judgment possible
+??normal judgment possible
 
 STALE  
-→ high-risk approval not allowed, revalidation required
+??high-risk approval not allowed, revalidation required
 
 CONFLICTED  
-→ conflict resolution required
+??conflict resolution required
 
 UNVERIFIED  
-→ approval not allowed, evidence review required
+??approval not allowed, evidence review required
 
 AI\_DERIVED\_ONLY  
-→ explanation allowed, approval not allowed
+??explanation allowed, approval not allowed
 
 ATTESTED\_AI\_DERIVED  
-→ limited use allowed
+??limited use allowed
 
 CRYPTO\_SHREDDED  
-→ audit shell exists, but not usable for operational approval
+??audit shell exists, but not usable for operational approval
 
 ---
 
 ## **12.3 Decision Impact by Time Trust Status**
 
 HIGH\_TIME\_TRUST  
-→ normal decision allowed
+??normal decision allowed
 
 MEDIUM\_TIME\_TRUST  
-→ allowed for non-critical decision, high-risk requires policy
+??allowed for non-critical decision, high-risk requires policy
 
 LOW\_TIME\_TRUST  
-→ revalidation required
+??revalidation required
 
 UNTRUSTED\_TIME  
-→ approval blocked
+??approval blocked
 
 UNKNOWN\_TIME\_TRUST  
-→ evidence review required
+??evidence review required
 
 ---
 
 ## **12.4 Decision Impact by Device Health Status**
 
 OK  
-→ normal evidence use
+??normal evidence use
 
 WARNING  
-→ lower confidence, conflict policy required
+??lower confidence, conflict policy required
 
 CRITICAL  
-→ evidence review or fail-safe evaluation
+??evidence review or fail-safe evaluation
 
 UNKNOWN  
-→ high-risk approval blocked unless alternative verified evidence exists
+??high-risk approval blocked unless alternative verified evidence exists
 
 ---
 
@@ -811,22 +821,22 @@ If reconciliation failure is safety-critical, it must be routed to the fail-safe
 ## **13.2 Decision Impact by State Status**
 
 CONFIRMED  
-→ normal judgment possible
+??normal judgment possible
 
 PENDING  
-→ execution may be held even if approval is possible
+??execution may be held even if approval is possible
 
 STALE  
-→ revalidation required
+??revalidation required
 
 UNKNOWN  
-→ manual review or fail-safe evaluation
+??manual review or fail-safe evaluation
 
 CONFLICT  
-→ reconciliation required
+??reconciliation required
 
 FAIL\_SAFE\_TRIGGERED  
-→ emergency route
+??emergency route
 
 ---
 
@@ -865,16 +875,16 @@ target\_state\_at\_execution
 ## **14.2 TOCTOU Decision Result**
 
 NO\_DELTA  
-→ execution may proceed
+??execution may proceed
 
 LOW\_RISK\_DELTA  
-→ proceed with audit
+??proceed with audit
 
 HIGH\_RISK\_DELTA  
-→ TOCTOU\_REVALIDATION\_REQUIRED
+??TOCTOU\_REVALIDATION\_REQUIRED
 
 SAFETY\_CRITICAL\_DELTA  
-→ FAIL\_SAFE\_REQUIRED or MANUAL\_OVERRIDE\_REQUIRED
+??FAIL\_SAFE\_REQUIRED or MANUAL\_OVERRIDE\_REQUIRED
 
 ---
 
@@ -924,22 +934,22 @@ command\_ack\_timeout
 ## **15.3 Decision Impact by Network Status**
 
 HEALTHY  
-→ normal execution path
+??normal execution path
 
 DEGRADED  
-→ approval may remain valid, execution requires caution or recheck
+??approval may remain valid, execution requires caution or recheck
 
 LATENCY\_EXCEEDED  
-→ NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
+??NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
 
 HEARTBEAT\_LOST  
-→ execution blocked
+??execution blocked
 
 ADAPTER\_UNAVAILABLE  
-→ execution blocked or fallback route
+??execution blocked or fallback route
 
 COMMAND\_ACK\_TIMEOUT  
-→ recovery or fail-safe evaluation
+??recovery or fail-safe evaluation
 
 ---
 
@@ -960,22 +970,22 @@ If evidence conflict or state conflict exists, the decision route must change.
 ## **16.1 Conflict Decision Rule**
 
 NO\_CONFLICT  
-→ normal decision route
+??normal decision route
 
 CONFLICT\_DETECTED  
-→ apply conflict policy
+??apply conflict policy
 
 CONFLICT\_RESOLVED  
-→ judgment possible based on selected evidence
+??judgment possible based on selected evidence
 
 CONFLICT\_UNDER\_REVIEW  
-→ approval hold
+??approval hold
 
 CONFLICT\_ESCALATED  
-→ safety manager or expert review
+??safety manager or expert review
 
 FAIL\_SAFE\_ON\_CONFLICT  
-→ emergency fast-path or fail-safe required
+??emergency fast-path or fail-safe required
 
 ---
 
@@ -1073,9 +1083,9 @@ ATTESTED\_AI\_DERIVED evidence may be used as supporting evidence.
 Example:
 
 Permit condition extracted from document  
-→ ATTESTED\_AI\_DERIVED  
-→ can support emergency context  
-→ cannot be the sole emergency trigger
+??ATTESTED\_AI\_DERIVED  
+??can support emergency context  
+??cannot be the sole emergency trigger
 
 That is, physical emergency fast-path execution must not be triggered by AI or document-extracted evidence alone.
 
@@ -1104,16 +1114,21 @@ An execution request must not be created if network latency exceeds the allowed 
 ## **18.4 Emergency Fast-Path Flow**
 
 Critical Event  
-→ Minimum Evidence Bundle  
-→ Emergency Policy Match  
-→ Network / Heartbeat Check  
-→ Decision Route: EMERGENCY\_FAST\_PATH  
-→ EmergencyApprovedAction  
-→ Safety Gate  
-→ EmergencyExecutionRequest  
-→ External Control System  
-→ Feedback  
-→ Post-hoc Audit
+??Minimum Evidence Bundle  
+??Emergency Policy Match  
+??Network / Heartbeat Check  
+??Decision Route: EMERGENCY\_FAST\_PATH  
+??EmergencyApprovedAction  
+??EmergencyRuntimeValidationInput  
+??EmergencyRuntimeValidationResult  
+??Emergency Safety Gate  
+??EmergencySafetyGatePass or EmergencySafetyGateBlock  
+??EmergencyExecutionRequest only if EmergencySafetyGatePass exists  
+??External Control System  
+??Feedback  
+??Post-hoc Audit
+
+EmergencyApprovedAction grants emergency authority. EmergencySafetyGatePass grants short-lived execution readiness. EmergencySafetyGateBlock prevents EmergencyExecutionRequest creation. EmergencyExecutionRequest MUST NOT be created unless an EmergencySafetyGatePass has been issued from a valid EmergencyRuntimeValidationResult.
 
 ---
 
@@ -1133,16 +1148,16 @@ PIP \= Policy Information Point
 ## **19.2 Roles Inside the Platform**
 
 PAP  
-→ manages policy registry, approval matrix, safety policy, and emergency policy
+??manages policy registry, approval matrix, safety policy, and emergency policy
 
 PDP  
-→ OPA / Rego / policy evaluator returns allow / deny / require\_approval decisions
+??OPA / Rego / policy evaluator returns allow / deny / require\_approval decisions
 
 PEP  
-→ enforces policy at the API Gateway, Safety Gate, and External Adapter
+??enforces policy at the API Gateway, Safety Gate, and External Adapter
 
 PIP  
-→ World State, Ontology, Evidence Store, Role DB, Approval DB
+??World State, Ontology, Evidence Store, Role DB, Approval DB
 
 ---
 
@@ -1155,7 +1170,7 @@ The PDP returns a specific policy decision.
 Example:
 
 Decision Matrix:  
-ZoneRiskState.CRITICAL → EMERGENCY\_FAST\_PATH
+ZoneRiskState.CRITICAL ??EMERGENCY\_FAST\_PATH
 
 PDP:  
 EmergencyPolicy\_001 allows ACTION\_EMERGENCY\_EVACUATE\_ZONE
@@ -1274,11 +1289,11 @@ ApprovalRequest must have a timeout\_policy.
 
 Recommended timeout examples:
 
-OPERATOR\_ACK → 30 seconds  
-SUPERVISOR\_APPROVAL → 2 minutes  
-SAFETY\_MANAGER\_APPROVAL → 5 minutes  
-WAR\_ROOM\_APPROVAL → 15 minutes  
-EXPERT\_REVIEW → policy-defined
+OPERATOR\_ACK ??30 seconds  
+SUPERVISOR\_APPROVAL ??2 minutes  
+SAFETY\_MANAGER\_APPROVAL ??5 minutes  
+WAR\_ROOM\_APPROVAL ??15 minutes  
+EXPERT\_REVIEW ??policy-defined
 
 ---
 
@@ -1323,19 +1338,19 @@ That is, the timeout for the higher approval stage is recalculated dynamically, 
 ## **21.4 Handling After Timeout**
 
 NO\_RESPONSE  
-→ escalate
+??escalate
 
 REJECTED  
-→ deny or recovery route
+??deny or recovery route
 
 TIMEOUT\_HIGH\_RISK  
-→ escalate to safety manager
+??escalate to safety manager
 
 TIMEOUT\_CRITICAL  
-→ emergency policy evaluation or fail-safe evaluation
+??emergency policy evaluation or fail-safe evaluation
 
 TIMEOUT\_EXCEPTIONAL  
-→ war room escalation
+??war room escalation
 
 ---
 
@@ -1484,10 +1499,10 @@ If every Runtime Validation requirement is applied directly to high-frequency se
 Therefore, high-frequency telemetry must first pass through the stream layer and evidence promotion rules.
 
 High-frequency telemetry  
-→ stream aggregation  
-→ threshold / anomaly / state change detection  
-→ semantic event promotion  
-→ decision evaluation
+??stream aggregation  
+??threshold / anomaly / state change detection  
+??semantic event promotion  
+??decision evaluation
 
 The Decision / Approval Matrix operates on semantic events or promoted evidence.
 
@@ -1496,34 +1511,34 @@ The Decision / Approval Matrix operates on semantic events or promoted evidence.
 ## **24.6 Handling on Failure**
 
 approval expired  
-→ deny execution, request re-approval
+??deny execution, request re-approval
 
 TOCTOU high-risk delta  
-→ TOCTOU\_REVALIDATION\_REQUIRED
+??TOCTOU\_REVALIDATION\_REQUIRED
 
 network latency exceeded  
-→ NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
+??NETWORK\_HEALTH\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
 
 heartbeat lost  
-→ block execution
+??block execution
 
 adapter unavailable  
-→ fallback route or fail-safe evaluation
+??fallback route or fail-safe evaluation
 
 idempotency collision  
-→ return previous result or block duplicate execution
+??return previous result or block duplicate execution
 
 time trust insufficient  
-→ EVIDENCE\_REVIEW\_REQUIRED
+??EVIDENCE\_REVIEW\_REQUIRED
 
 device health critical  
-→ EVIDENCE\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
+??EVIDENCE\_REVIEW\_REQUIRED or FAIL\_SAFE\_REQUIRED
 
 ---
 
 # **25\. DecisionTrace Rule**
 
-The entire flow from DecisionCase → ApprovalRequest → ApprovalDecision → ApprovedAction → ExecutionRequest → Feedback → AuditRecord must be connected with a single decision\_trace\_id.
+The entire flow from DecisionCase ??ApprovalRequest ??ApprovalDecision ??ApprovedAction ??ExecutionRequest ??Feedback ??AuditRecord must be connected with a single decision\_trace\_id.
 
 ---
 
@@ -1904,7 +1919,7 @@ External System Owner
 
 # **33\. Core Scenarios**
 
-## **33.1 Scenario 1: Gas Critical → Emergency Evacuation**
+## **33.1 Scenario 1: Gas Critical ??Emergency Evacuation**
 
 Situation:
 
@@ -1934,15 +1949,18 @@ post\_hoc\_audit\_required \= true
 Result:
 
 EmergencyApprovedAction  
-→ Safety Gate  
-→ EmergencyExecutionRequest  
-→ External Control System  
-→ Feedback  
-→ Post-hoc Audit
+??EmergencyRuntimeValidationInput  
+??EmergencyRuntimeValidationResult  
+??Emergency Safety Gate  
+??EmergencySafetyGatePass or EmergencySafetyGateBlock  
+??EmergencyExecutionRequest only if EmergencySafetyGatePass exists  
+??External Control System  
+??Feedback  
+??Post-hoc Audit
 
 ---
 
-## **33.2 Scenario 2: Robot Mission Blocked → Supervisor Approval**
+## **33.2 Scenario 2: Robot Mission Blocked ??Supervisor Approval**
 
 Situation:
 
@@ -1965,14 +1983,14 @@ safety\_gate\_required \= true
 Result:
 
 ApprovalRequest  
-→ Supervisor Approval  
-→ ApprovedAction  
-→ Safety Gate  
-→ ExecutionRequest to FleetManager
+??Supervisor Approval  
+??ApprovedAction  
+??Safety Gate  
+??ExecutionRequest to FleetManager
 
 ---
 
-## **33.3 Scenario 3: Stale Worker Location → Approval Hold**
+## **33.3 Scenario 3: Stale Worker Location ??Approval Hold**
 
 Situation:
 
@@ -1993,12 +2011,12 @@ execution\_allowed \= false
 Result:
 
 Request fresh worker location evidence  
-→ hold approval  
-→ re-evaluate
+??hold approval  
+??re-evaluate
 
 ---
 
-## **33.4 Scenario 4: Evidence Conflict → Fail-Safe**
+## **33.4 Scenario 4: Evidence Conflict ??Fail-Safe**
 
 Situation:
 
@@ -2020,13 +2038,17 @@ post\_hoc\_audit\_required \= true
 Result:
 
 Fail-safe evaluation  
-→ Emergency action candidate  
-→ Safety Gate  
-→ EmergencyExecutionRequest
+??Emergency action candidate  
+??EmergencyApprovedAction  
+??EmergencyRuntimeValidationInput  
+??EmergencyRuntimeValidationResult  
+??Emergency Safety Gate  
+??EmergencySafetyGatePass or EmergencySafetyGateBlock  
+??EmergencyExecutionRequest only if EmergencySafetyGatePass exists
 
 ---
 
-## **33.5 Scenario 5: LLM Proposed Action → Evidence Check**
+## **33.5 Scenario 5: LLM Proposed Action ??Evidence Check**
 
 Situation:
 
@@ -2048,8 +2070,8 @@ execution\_allowed \= false
 Result:
 
 LLM proposal stored as ActionCandidate  
-→ request evidence grounding  
-→ no approval until evidence bundle exists
+??request evidence grounding  
+??no approval until evidence bundle exists
 
 ---
 
@@ -2079,7 +2101,7 @@ execution\_allowed \= false
 Result:
 
 Hold ExecutionRequest  
-→ request fresh approval or emergency evaluation
+??request fresh approval or emergency evaluation
 
 ---
 
@@ -2109,7 +2131,7 @@ fallback\_route \= FAIL\_SAFE\_REQUIRED if safety-critical
 Result:
 
 Do not send ExecutionRequest  
-→ escalate or use local fail-safe policy
+??escalate or use local fail-safe policy
 
 ---
 
@@ -2303,7 +2325,7 @@ Even if the external adapter is alive, execution must not proceed if heartbeat o
 Physical execution requests must prevent duplicate execution using idempotency\_key.  
 AI-derived decision support must leave auditable model version, prompt, retrieval snapshot, and ontology mapping snapshot.  
 DecisionCase must be separated into DecisionContext and snapshot\_ref so that it does not become excessively heavy.  
-DecisionCase → ApprovalRequest → ApprovalDecision → ExecutionRequest → Feedback → AuditRecord must be connected through decision\_trace\_id.  
+DecisionCase ??ApprovalRequest ??ApprovalDecision ??ExecutionRequest ??Feedback ??AuditRecord must be connected through decision\_trace\_id.  
 Fallback routes must follow safety-first priority.
 
 The final principles are as follows:

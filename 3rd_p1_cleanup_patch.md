@@ -1,5 +1,11 @@
 # 3rd P1 Cleanup Patch
 
+> Historical Review Artifact
+>
+> This document records an architecture cleanup result.
+> It is not an architecture source-of-truth document.
+> If this document conflicts with AGENTS.md or 00_master_architecture/, AGENTS.md and 00_master_architecture/ take precedence.
+
 ## 1. Final Status
 PASS WITH WARNINGS
 
