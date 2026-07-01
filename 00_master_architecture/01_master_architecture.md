@@ -2,7 +2,7 @@
 
 ## **1\. Purpose**
 
-`01_ledo_master_architecture.md` defines the full system architecture of the LEDO project.
+`01_master_architecture.md` defines the full system architecture of the LEDO project.
 
 This document explains what kind of system LEDO is, what responsibility structure it follows, what each layer owns, and how meaning, evidence, state, policy, approval, validation, and execution are separated.
 
@@ -182,17 +182,17 @@ Each folder has the following responsibility.
 
   README.md
 
-  00\_ledo\_first\_constitution.md
+  00\_first\_construction.md
 
-  01\_ledo\_master\_architecture.md
+  01\_master\_architecture.md
 
 Each document has the following role.
 
 | Document | Role |
 | ----- | ----- |
 | `README.md` | Explains the purpose and role of the Master Architecture folder |
-| `00_ledo_first_constitution.md` | Defines the non-negotiable principles and forbidden boundaries |
-| `01_ledo_master_architecture.md` | Defines the full system structure and responsibility separation |
+| `00_first_construction.md` | Defines the non-negotiable principles and forbidden boundaries |
+| `01_master_architecture.md` | Defines the full system structure and responsibility separation |
 
 If needed, a Source of Truth Matrix or Document Control Map may be separated into an additional document later.  
 At the initial Master Architecture level, these three documents are sufficient and should remain strong.

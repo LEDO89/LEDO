@@ -56,14 +56,22 @@ RawInput
 → OntologyBoundEvent  
 → Evidence  
 → WorldStateUpdate  
-→ ActionCandidate  
-→ DecisionCase  
-→ ApprovalRequest  
-→ ApprovedAction  
-→ ExecutionRequest  
-→ ExternalControlRequest  
-→ FeedbackEvent  
-→ AuditRecord
+??ActionCandidate  
+??DecisionCase  
+??PolicyEvaluation  
+??ApprovalRequest  
+??ApprovalDecision  
+??ApprovedAction  
+??RuntimeValidationInput  
+??RuntimeValidationResult  
+??Safety Gate  
+??SafetyGatePass or SafetyGateBlock  
+??ExecutionRequest  
+??ExternalControlRequest  
+??External System  
+??FeedbackEvent  
+??AuditRecord  
+??World State Update
 
 However, in production environments, not every event should follow the same heavyweight lifecycle.
 
@@ -207,8 +215,8 @@ RawInput
 -> ExecutionRequest
 -> ExternalControlRequest
 -> FeedbackEvent
--> WorldState Reconciliation
 -> AuditRecord
+-> World State Update
 
 Example use cases:
 
@@ -241,8 +249,8 @@ RawInput
 -> ExternalControlRequest
 -> FeedbackEvent
 -> Post-hoc Ontology Binding
--> WorldState Reconciliation
 -> AuditRecord
+-> World State Update
 
 Example use cases:
 
@@ -1158,13 +1166,16 @@ RawInput
 → SafetyAgent creates ACTION\_EVACUATE\_ZONE candidate  
 → Decision Router classifies High Risk  
 → SupervisorApproval requested  
-→ Safety Gate validates  
-→ ApprovedAction created  
-→ ExecutionRequest created  
+??ApprovedAction created  
+??RuntimeValidationInput created  
+??RuntimeValidationResult produced  
+??Safety Gate consumes RuntimeValidationResult  
+??SafetyGatePass or SafetyGateBlock issued  
+??ExecutionRequest created only after SafetyGatePass  
 → Smart Helmet Alert \+ Site Operation Platform notified  
 → Feedback received  
-→ WorldState reconciled  
-→ AuditRecord closed
+→ AuditRecord closed  
+→ World State updated
 
 ## **11.2 Emergency Fast-Path Example**
 
@@ -1181,14 +1192,16 @@ RawInput
 → Deterministic Safety Rule  
 → Local Emergency Policy Check  
 → EmergencyApprovedAction  
--> Minimum deterministic Runtime Validation
+-> Emergency RuntimeValidationInput
+-> Emergency RuntimeValidationResult
+-> Emergency Safety Gate consumes RuntimeValidationResult
 -> EmergencySafetyGatePass or EmergencySafetyGateBlock
 -> EmergencyExecutionRequest only after emergency SafetyGatePass
 → Emergency alert dispatch  
 → Feedback received  
 → Post-hoc Ontology Binding  
-→ WorldState reconciled  
-→ AuditRecord closed
+→ AuditRecord closed  
+→ World State updated
 
 ## **11.3 Monitoring-Only Path Example**
 

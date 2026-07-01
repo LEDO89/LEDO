@@ -1,3 +1,9 @@
+> Historical Review Artifact
+>
+> This document records an architecture review result.
+> It is not an architecture source-of-truth document.
+> If this document conflicts with AGENTS.md or 00_master_architecture/, AGENTS.md and 00_master_architecture/ take precedence.
+
 # 1st P0 Review
 
 ## 1. Modified Files

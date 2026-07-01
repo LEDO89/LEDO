@@ -199,16 +199,12 @@ The architecture control plane lives under:
 
 00\_master\_architecture/
 
-Recommended control documents:
+Current control documents:
 
 00\_master\_architecture/  
   README.md  
-  00\_ledo\_first\_constitution.md  
-  01\_ledo\_master\_architecture.md  
-  02\_document\_control\_map.md  
-  03\_source\_of\_truth\_matrix.md  
-  04\_code\_generation\_strategy.md  
-  05\_codex\_architecture\_review\_prompt.md
+  00\_first\_construction.md  
+  01\_master\_architecture.md
 
 These documents should remain short and directive.
 
@@ -232,12 +228,10 @@ The source of truth is ordered as follows:
 1\. Root-level AGENTS.md  
 2\. 00\_master\_architecture/00\_first\_construction.md  
 3\. 00\_master\_architecture/01\_master\_architecture.md  
-4\. 00\_master\_architecture/02\_document\_control\_map.md  
-5\. 00\_master\_architecture/03\_source\_of\_truth\_matrix.md  
-6\. Module-level implementation\_guide.md  
-7\. Module-level specification markdown file  
-8\. Existing source code  
-9\. Existing tests
+4\. Module-level implementation\_guide.md  
+5\. Module-level specification markdown file  
+6\. Existing source code  
+7\. Existing tests
 
 If there is a conflict, prefer the safer interpretation.
 
@@ -251,8 +245,12 @@ Use the following high-level structure:
 
 ledo\_ontology\_core/  
   AGENTS.md  
-  README.md  
+  README.md \(optional; not an architecture source-of-truth\)  
   pyproject.toml
+
+AGENTS.md is the repository-level operational entry document.  
+00\_master\_architecture/README.md is the master architecture entry document.  
+A root README.md is optional and is not required as an architecture source-of-truth.
 
   00\_master\_architecture/  
   01\_layer\_architecture/  

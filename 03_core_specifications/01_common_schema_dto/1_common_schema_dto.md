@@ -2071,12 +2071,19 @@ RawInputDTO
 → WorldStateUpdateDTO  
 → ActionCandidateDTO  
 → DecisionCaseDTO  
-→ ApprovalRequestDTO  
-→ ApprovedActionDTO  
-→ ExecutionRequestDTO  
+??PolicyEvaluationDTO  
+??ApprovalRequestDTO  
+??ApprovalDecisionDTO  
+??ApprovedActionDTO  
+??RuntimeValidationInputDTO  
+??RuntimeValidationResultDTO  
+??SafetyGateInputDTO  
+??SafetyGatePassDTO or SafetyGateBlockDTO  
+??ExecutionRequestDTO  
 → ExternalControlRequestDTO  
 → FeedbackEventDTO  
 → AuditRecordDTO
+??WorldStateUpdateDTO
 
 High-frequency data may follow this path:
 
@@ -2091,7 +2098,11 @@ Emergency situations may follow this path:
 
 CanonicalEventEnvelopeDTO  
 → EmergencyApprovedActionDTO  
-→ ExecutionRequestDTO  
+??RuntimeValidationInputDTO  
+??RuntimeValidationResultDTO  
+??SafetyGateInputDTO  
+??SafetyGatePassDTO or SafetyGateBlockDTO  
+??ExecutionRequestDTO only after SafetyGatePassDTO  
 → FeedbackEventDTO  
 → PostHocAuditDTO  
 → AuditRecordDTO

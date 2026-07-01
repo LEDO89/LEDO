@@ -1,3 +1,9 @@
+> Historical Review Artifact
+>
+> This document records an architecture review result.
+> It is not an architecture source-of-truth document.
+> If this document conflicts with AGENTS.md or 00_master_architecture/, AGENTS.md and 00_master_architecture/ take precedence.
+
 # LEDO 전체 문서 아키텍처 검토 리포트
 
 ## 1. Executive Summary

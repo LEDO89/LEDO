@@ -2,7 +2,7 @@
 
 ## **1\. Purpose**
 
-`00_ledo_first_constitution.md` is the first constitution of the LEDO project.
+`00_first_construction.md` is the first constitution of the LEDO project.
 
 This document defines the highest-level principles that all architecture documents, specifications, models, validation structures, and implementation code in the LEDO Ontology Core must follow.
 

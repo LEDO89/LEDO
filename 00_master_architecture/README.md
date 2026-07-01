@@ -166,15 +166,9 @@ This separation must be preserved across all documents and code.
 
   README.md
 
-  00\_ledo\_first\_constitution.md
+  00\_first\_construction.md
 
-  01\_ledo\_master\_architecture.md
-
-  02\_document\_control\_map.md
-
-  03\_source\_of\_truth\_matrix.md
-
-  04\_code\_generation\_strategy.md
+  01\_master\_architecture.md
 
 Each document has the following role.
 
@@ -183,10 +177,6 @@ Each document has the following role.
 | `README.md` | Explains the purpose and architectural role of this folder |
 | `00_first_construction.md` | Defines the highest-level principles that must never be violated |
 | `01_master_architecture.md` | Defines the full system architecture and layer relationships |
-| `02_document_control_map.md` | Defines which document owns which concept |
-| `03_source_of_truth_matrix.md` | Defines authority over meaning, evidence, state, policy, validation, execution, and audit |
-| `04_code_generation_strategy.md` | Defines how architecture documents are transformed into implementation artifacts |
-| `05_codex_architecture_review_prompt.md` | Defines the architecture review criteria before implementation begins |
 
 ---
 
@@ -200,9 +190,6 @@ The Master Architecture defines the original source location of major concepts.
 | ----- | ----- |
 | Non-negotiable principles and boundaries | `00_first_construction.md` |
 | Full architecture and layer relationships | `01_master_architecture.md` |
-| Concept ownership by document | `02_document_control_map.md` |
-| Authority over meaning, evidence, state, policy, and execution | `03_source_of_truth_matrix.md` |
-| Code generation order | `04_code_generation_strategy.md` |
 | Detailed ontology modeling principles | `04_ontology_foundation/` |
 | Operational object and lifecycle contracts | `03_core_specifications/` |
 | Runtime Validation and Safety Gate rules | `08_runtime_validation/` |
