@@ -405,7 +405,7 @@ The ID of the direct causal object.
 
 Standard rule:
 
-If event A causes candidate B to be created, then B’s causation\_id is A’s event\_id.
+If event A causes candidate B to be created, then B's causation\_id is A's event\_id.
 
 Example:
 
@@ -2071,19 +2071,19 @@ RawInputDTO
 → WorldStateUpdateDTO  
 → ActionCandidateDTO  
 → DecisionCaseDTO  
-??PolicyEvaluationDTO  
-??ApprovalRequestDTO  
-??ApprovalDecisionDTO  
-??ApprovedActionDTO  
-??RuntimeValidationInputDTO  
-??RuntimeValidationResultDTO  
-??SafetyGateInputDTO  
-??SafetyGatePassDTO or SafetyGateBlockDTO  
-??ExecutionRequestDTO  
+→ PolicyEvaluationDTO  
+→ ApprovalRequestDTO  
+→ ApprovalDecisionDTO  
+→ ApprovedActionDTO  
+→ RuntimeValidationInputDTO  
+→ RuntimeValidationResultDTO  
+→ SafetyGateInputDTO  
+→ SafetyGatePassDTO or SafetyGateBlockDTO  
+→ ExecutionRequestDTO  
 → ExternalControlRequestDTO  
 → FeedbackEventDTO  
 → AuditRecordDTO
-??WorldStateUpdateDTO
+→ WorldStateUpdateDTO
 
 High-frequency data may follow this path:
 
@@ -2098,11 +2098,11 @@ Emergency situations may follow this path:
 
 CanonicalEventEnvelopeDTO  
 → EmergencyApprovedActionDTO  
-??RuntimeValidationInputDTO  
-??RuntimeValidationResultDTO  
-??SafetyGateInputDTO  
-??SafetyGatePassDTO or SafetyGateBlockDTO  
-??ExecutionRequestDTO only after SafetyGatePassDTO  
+→ RuntimeValidationInputDTO  
+→ RuntimeValidationResultDTO  
+→ SafetyGateInputDTO  
+→ SafetyGatePassDTO or SafetyGateBlockDTO  
+→ ExecutionRequestDTO only after SafetyGatePassDTO  
 → FeedbackEventDTO  
 → PostHocAuditDTO  
 → AuditRecordDTO

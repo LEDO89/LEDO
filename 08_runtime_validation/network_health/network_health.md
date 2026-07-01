@@ -1,4 +1,4 @@
-# **Network Health**
+﻿# **Network Health**
 
 ## **1\. Purpose**
 
@@ -15,7 +15,7 @@ Therefore, before an `ApprovedAction` becomes an `ExecutionRequest`, LEDO must v
 The core principle is:
 
 network reachable  
-    ≠  
+    →
 safe to execute
 
 A reachable network does not mean execution is safe.
@@ -29,17 +29,17 @@ Network Health is only one input to Runtime Validation and does not automaticall
 `network_health/` defines the state of the external execution path inside `08_runtime_validation/`.
 
 ApprovedAction  
-    ↓  
+    →
 Runtime Validation  
-    ↓  
+    →
 NetworkHealthResult  
-    ↓  
+    →
 ValidatorResult  
-    ↓  
+    →
 RuntimeValidationResult  
-    ↓  
+    →
 Safety Gate  
-    ↓  
+    →
 SafetyGatePass or SafetyGateBlock
 
 `network_health/` does not directly mean the actual validators.
@@ -121,13 +121,13 @@ no reliable execution feedback.
 Network Health is only one input to safety judgment.
 
 Network Health  
-    → checks whether the external execution path is currently usable.
+    - checks whether the external execution path is currently usable.
 
 Validator  
-    → checks whether the health state satisfies action requirements.
+    - checks whether the health state satisfies action requirements.
 
 Safety Gate  
-    → makes the final pass/block decision based on the full Runtime Validation result.
+    - makes the final pass/block decision based on the full Runtime Validation result.
 
 Example:
 
@@ -181,42 +181,42 @@ unknown
 State meanings:
 
 healthy  
-    → usable normally
+    - usable normally
 
 degraded  
-    → usable, but with reduced performance or reliability
+    - usable, but with reduced performance or reliability
 
 unreachable  
-    → not reachable
+    - not reachable
 
 timeout  
-    → response time exceeded the allowed threshold
+    - response time exceeded the allowed threshold
 
 circuit\_open  
-    → requests are blocked due to repeated failures
+    - requests are blocked due to repeated failures
 
 unknown  
-    → current state cannot be determined
+    - current state cannot be determined
 
 Handling rules:
 
 healthy  
-    → usable as validation input
+    - usable as validation input
 
 degraded  
-    → hold / retry / degraded mode
+    - hold / retry / degraded mode
 
 unreachable  
-    → block safety-critical action
+    - block safety-critical action
 
 timeout  
-    → retry or block depending on tier
+    - retry or block depending on tier
 
 circuit\_open  
-    → no dispatch
+    - no dispatch
 
 unknown  
-    → block for Tier 1
+    - block for Tier 1
 
 ---
 
@@ -248,19 +248,19 @@ expected feedback channel must exist
 Failure handling:
 
 external\_system\_unregistered  
-    → block
+    - block
 
 external\_system\_inactive  
-    → block
+    - block
 
 external\_system\_unreachable  
-    → block
+    - block
 
 external\_system\_health\_stale  
-    → block or hold depending on tier
+    - block or hold depending on tier
 
 unsupported\_action\_type  
-    → block
+    - block
 
 ---
 
@@ -292,22 +292,22 @@ protocol must be compatible
 Failure handling:
 
 adapter\_unregistered  
-    → block
+    - block
 
 adapter\_inactive  
-    → block
+    - block
 
 adapter\_unhealthy  
-    → block
+    - block
 
 adapter\_degraded  
-    → hold or retry
+    - hold or retry
 
 adapter\_version\_incompatible  
-    → block
+    - block
 
 adapter\_latency\_exceeded  
-    → hold or block depending on tier
+    - hold or block depending on tier
 
 ---
 
@@ -327,13 +327,13 @@ current\_time \- last\_heartbeat\_at
 Failure handling:
 
 heartbeat\_stale  
-    → block or hold depending on tier
+    - block or hold depending on tier
 
 heartbeat\_missing  
-    → block
+    - block
 
 heartbeat\_future\_timestamp  
-    → block
+    - block
 
 For safety-critical actions, stale heartbeat defaults to block.
 
@@ -344,18 +344,18 @@ For safety-critical actions, stale heartbeat defaults to block.
 If the external system or adapter response does not arrive within the allowed time, it is treated as timeout.
 
 response\_time\_ms \> timeout\_ms  
-    → timeout
+    - timeout
 
 Handling rules:
 
 Tier 1 timeout  
-    → block
+    - block
 
 Tier 2 timeout  
-    → retry / hold / degraded mode
+    - retry / hold / degraded mode
 
 Tier 3 timeout  
-    → warning
+    - warning
 
 Timeout must not wait indefinitely.
 
@@ -375,13 +375,13 @@ retry must not create duplicate physical execution
 Failure handling:
 
 retry\_exhausted  
-    → block or hold
+    - block or hold
 
 retry\_without\_idempotency\_key  
-    → block
+    - block
 
 retry\_creates\_duplicate\_execution\_risk  
-    → block
+    - block
 
 Important principles:
 
@@ -404,32 +404,32 @@ half\_open
 State meanings:
 
 closed  
-    → normal requests allowed
+    - normal requests allowed
 
 open  
-    → requests blocked
+    - requests blocked
 
 half\_open  
-    → limited probes allowed
+    - limited probes allowed
 
 Example transitions:
 
 repeated failure  
-    → circuit\_open
+    - circuit\_open
 
 cooldown elapsed  
-    → half\_open
+    - half\_open
 
 probe success  
-    → closed
+    - closed
 
 probe failure  
-    → open
+    - open
 
 For safety-critical actions, dispatch must not be sent to an external system whose circuit is open.
 
 circuit\_open  
-    → no dispatch
+    - no dispatch
 
 ---
 
@@ -454,16 +454,16 @@ trace\_id\_support
 Failure handling:
 
 feedback\_channel\_missing  
-    → block or hold
+    - block or hold
 
 feedback\_channel\_unavailable  
-    → block or hold
+    - block or hold
 
 feedback\_correlation\_not\_supported  
-    → block
+    - block
 
 feedback\_channel\_stale  
-    → hold or block depending on tier
+    - hold or block depending on tier
 
 ---
 
@@ -474,18 +474,18 @@ Some external systems or adapters may be degraded.
 A degraded state does not always mean block.
 
 degraded  
-    → hold / retry / limited execution / manual review
+    - hold / retry / limited execution / manual review
 
 However, for safety-critical actions, degraded must not be treated as allow by default.
 
 Tier 1 degraded  
-    → block or manual review
+    - block or manual review
 
 Tier 2 degraded  
-    → hold / retry / limited execution
+    - hold / retry / limited execution
 
 Tier 3 degraded  
-    → warning
+    - warning
 
 Degraded mode is determined by policy and action context.
 
@@ -542,12 +542,12 @@ circuit\_breaker\_status\_validator
 Validator results are aggregated into RuntimeValidationResult.
 
 NetworkHealthResult  
-    ↓  
+    →
 ValidatorResult  
-    ↓  
+    →
 RuntimeValidationResult  
-    ↓  
-SafetyGateResult
+    →
+SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -596,16 +596,16 @@ idempotency key available
 Failure handling:
 
 notification system unreachable  
-    → hold or fallback channel
+    - hold or fallback channel
 
 site operation system unreachable  
-    → block or manual escalation
+    - block or manual escalation
 
 feedback channel unavailable  
-    → hold or manual escalation
+    - hold or manual escalation
 
 adapter unhealthy  
-    → block or fallback adapter
+    - block or fallback adapter
 
 STOP\_WORK is a safety-critical action, so fallback path and manual escalation policy must be defined.
 
@@ -625,19 +625,19 @@ circuit breaker closed
 Failure handling:
 
 fleet\_manager\_unreachable  
-    → block
+    - block
 
 robot\_adapter\_unhealthy  
-    → block
+    - block
 
 adapter\_latency\_exceeded  
-    → hold or block
+    - hold or block
 
 feedback\_channel\_unavailable  
-    → block or hold
+    - block or hold
 
 circuit\_open  
-    → block
+    - block
 
 For DISPATCH\_ROBOT, the external Fleet Manager performs the actual robot execution.
 
@@ -670,10 +670,10 @@ audit\_ref
 If a Network Health failure leads to a Safety Gate block, the following linkage must be preserved:
 
 NetworkHealthResult  
-    → ValidatorResult  
-    → RuntimeValidationResult  
-    → SafetyGateBlock  
-    → AuditRecord
+    - ValidatorResult  
+    - RuntimeValidationResult  
+    - SafetyGateBlock  
+    - AuditRecord
 
 ---
 

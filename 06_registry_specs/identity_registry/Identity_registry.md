@@ -30,9 +30,9 @@ What system access may this actor have?
 
 Is this authority delegated or original?
 
-Can this actor’s behavior be audited?
+Can this actor's behavior be audited?
 
-In other words, `identity_registry` is the core deterministic registry that controls **“who performed this action, and under what authority?”** in the LEDO system.
+In other words, `identity_registry` is the core deterministic registry that controls **"who performed this action, and under what authority?"** in the LEDO system.
 
 ---
 
@@ -88,7 +88,7 @@ Approval authorizes.
 
 Safety Gate validates execution readiness.
 
-`identity_registry` provides “who this actor is” and “which attributes this actor has.”  
+`identity_registry` provides "who this actor is" and "which attributes this actor has."
 The final decision of whether the actor may perform an operation is determined together by `policy_registry`, `approval_registry`, `access_control_registry`, and `safety_gate`.
 
 ---
@@ -99,55 +99,51 @@ The final decision of whether the actor may perform an operation is determined t
 
 Human / Agent / Service / External System
 
-        ↓
-
+        →
 identity\_registry validation
 
-        ↓
-
+        →
 Role / Attribute / Scope / Certification verification
 
-        ↓
-
+        →
 Policy Evaluation
 
-        ↓
-
+        →
 Decision / Approval / Execution / Audit
 
 `identity_registry` must be used in the following flows:
 
 Agent Output
 
-    → verify Agent Identity
+    - verify Agent Identity
 
 ActionCandidate
 
-    → verify proposed\_by identity
+    - verify proposed\_by identity
 
 DecisionCase
 
-    → verify decision actor identity
+    - verify decision actor identity
 
 ApprovalRequest
 
-    → verify approver identity / role / scope / certification
+    - verify approver identity / role / scope / certification
 
-SafetyGateResult
+SafetyGatePass or SafetyGateBlock
 
-    → verify validator identity
+    - verify validator identity
 
 ExecutionRequest
 
-    → verify service identity / adapter identity
+    - verify service identity / adapter identity
 
 ExternalControlRequest
 
-    → verify external system identity
+    - verify external system identity
 
 AuditRecord
 
-    → record all actor identities
+    - record all actor identities
 
 ---
 
@@ -198,7 +194,7 @@ external\_system:robot\_fleet\_manager\_site\_A
 
 adapter:robot\_fleet\_adapter\_site\_A
 
-Identity expresses “who the actor is.”
+Identity expresses "who the actor is."
 
 ---
 
@@ -263,11 +259,11 @@ external\_system
 Role is an input to authority evaluation.  
 However, Role itself is not final authority.
 
-Role ≠ Permission
+Role → Permission
 
-Role ≠ Approval
+Role → Approval
 
-Role ≠ Execution Authority
+Role → Execution Authority
 
 ---
 
@@ -301,7 +297,7 @@ Attributes are used for ABAC, Approval, and Policy Evaluation.
 
 ### **5.5 Scope**
 
-`Scope` is the boundary within which an identity’s role or authority is valid.
+Scope is the boundary within which an identity's role or authority is valid.
 
 Recommended scopes:
 
@@ -1562,32 +1558,25 @@ Identity is connected to the following lifecycle:
 
 Identity Registered
 
-        ↓
-
+        →
 Identity Verification
 
-        ↓
-
+        →
 Role / Attribute / Scope Assignment
 
-        ↓
-
+        →
 Certification / Training Validation
 
-        ↓
-
+        →
 Activation
 
-        ↓
-
+        →
 Runtime Identity Check
 
-        ↓
-
+        →
 Policy / Approval / Execution / Audit Usage
 
-        ↓
-
+        →
 Suspension / Revocation / Expiration / Retirement
 
 The important point is that an active Identity does not automatically have all authority.
@@ -1908,9 +1897,9 @@ device identity linked to a worker:
 
 ## **24\. Relationship to Access Control Registry**
 
-`identity_registry` defines “who the actor is” and “which attributes the actor has.”
+`identity_registry` defines "who the actor is" and "which attributes the actor has."
 
-`access_control_registry` defines “what the actor can access.”
+`access_control_registry` defines "what the actor can access."
 
 identity\_registry:
 
@@ -2713,7 +2702,7 @@ Identity is not PhysicalCommand.
 
 `identity_registry` is the core deterministic registry that governs the identity, role, attributes, scope, certification, delegation, and trust level of every actor in the LEDO system.
 
-This module clearly traces **“who performed this action, and under what qualification?”** and ensures that no identity-less action can occur in decision, approval, execution, or audit flows.
+This module clearly traces **"who performed this action, and under what qualification?"** and ensures that no identity-less action can occur in decision, approval, execution, or audit flows.
 
 The core definition is:
 

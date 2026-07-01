@@ -28,7 +28,7 @@ From which World State snapshot or Event was the Evidence derived?
 
 Is the Evidence auditable and reproducible?
 
-In other words, `evidence_registry` is the core deterministic registry that controls “what judgment was based on” in the LEDO system.
+In other words, `evidence_registry` is the core deterministic registry that controls "what judgment was based on" in the LEDO system.
 
 ---
 
@@ -84,36 +84,43 @@ Evidence does not execute.
 
 Event / Sensor / World State / External System
 
-        ↓
-
+        →
 Evidence Generation or Evidence Binding
 
-        ↓
-
+        →
 evidence\_registry validation
 
-        ↓
-
+        →
 EvidenceBundle
 
-        ↓
-
+        →
 ActionCandidate
 
-        ↓
-
+        →
 DecisionCase
 
-        ↓
-
+        →
 ApprovalRequest
 
-        ↓
+        →
+ApprovalDecision
 
-SafetyGateResult
+        →
+ApprovedAction
 
-        ↓
+        →
+RuntimeValidationInput
 
+        →
+RuntimeValidationResult
+
+        →
+Safety Gate
+
+        →
+SafetyGatePass or SafetyGateBlock
+
+        →
 AuditRecord
 
 `evidence_registry` is strongly connected to the following registries:
@@ -189,7 +196,7 @@ approval\_context\_evidence
 
 execution\_feedback\_evidence
 
-Evidence Type defines “what kind of basis this is.”
+Evidence Type defines "what kind of basis this is."
 
 ---
 
@@ -237,7 +244,7 @@ Evidence Type is the design-level definition, while Evidence Instance is the act
 
 ### **5.3 Evidence Bundle**
 
-`EvidenceBundle` is a collection of multiple Evidence Instances used for one ActionCandidate, DecisionCase, ApprovalRequest, or SafetyGateResult.
+`EvidenceBundle` is a collection of multiple Evidence Instances used for one ActionCandidate, DecisionCase, ApprovalRequest, or SafetyGatePass or SafetyGateBlock.
 
 Example:
 
@@ -1334,36 +1341,28 @@ Evidence is connected to the following lifecycle:
 
 Event / World State / External System / Agent Output
 
-        ↓
-
+        →
 Evidence Generation or Evidence Binding
 
-        ↓
-
+        →
 Evidence Registry Validation
 
-        ↓
-
+        →
 Schema Validation
 
-        ↓
-
+        →
 Quality / Freshness / Source Trust Validation
 
-        ↓
-
+        →
 Evidence Instance
 
-        ↓
-
+        →
 EvidenceBundle
 
-        ↓
+        →
+ActionCandidate / DecisionCase / ApprovalRequest / SafetyGatePass or SafetyGateBlock
 
-ActionCandidate / DecisionCase / ApprovalRequest / SafetyGateResult
-
-        ↓
-
+        →
 AuditRecord
 
 The important point is that Evidence may support judgment, but it must not bypass lifecycle boundaries.
@@ -1584,7 +1583,7 @@ ApprovalRequest
 
 ApprovalDecision
 
-SafetyGateResult
+SafetyGatePass or SafetyGateBlock
 
 ExecutionResult
 
@@ -1670,15 +1669,15 @@ Example:
 
 Sensor Event
 
-    → World State Update
+    - World State Update
 
-    → Risk Agent Analysis
+    - Risk Agent Analysis
 
-    → Evidence Instance
+    - Evidence Instance
 
-    → EvidenceBundle
+    - EvidenceBundle
 
-    → DecisionCase
+    - DecisionCase
 
 ---
 
@@ -2392,7 +2391,7 @@ Evidence is not PhysicalCommand.
 
 `evidence_registry` is the core deterministic registry that governs the basis of every judgment in the LEDO system.
 
-This module defines the meaning, schema, source, freshness, quality, trust, lineage, provenance, binding, retention, and audit rules of Evidence Types, and ensures that unsupported ActionCandidates, DecisionCases, ApprovalDecisions, and SafetyGateResults cannot be created.
+This module defines the meaning, schema, source, freshness, quality, trust, lineage, provenance, binding, retention, and audit rules of Evidence Types, and ensures that unsupported ActionCandidates, DecisionCases, ApprovalDecisions, and Safety Gate pass/block outputs cannot be created.
 
 The core definition is:
 

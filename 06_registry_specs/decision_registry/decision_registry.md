@@ -1,4 +1,4 @@
-# **Decisionregistry**
+﻿# **Decisionregistry**
 
 ## **1\. Overview**
 
@@ -79,52 +79,40 @@ It defines **which judgment procedure must be applied to a proposed Action**.
 
 Agent Output
 
-        ↓
-
+        →
 ActionCandidate
 
-        ↓
-
+        →
 action\_registry validation
 
-        ↓
-
+        →
 decision\_registry lookup
 
-        ↓
-
+        →
 DecisionCase
 
-        ↓
-
+        →
 Evidence Evaluation
 
-        ↓
-
+        →
 Policy Evaluation
 
-        ↓
-
+        →
 Risk / Priority / Escalation Classification
 
-        ↓
-
+        →
 Approval Routing
 
-        ↓
-
+        →
 ApprovalRequest
 
-        ↓
-
+        →
 ApprovedAction
 
-        ↓
-
+        →
 Safety Gate
 
-        ↓
-
+        →
 ExecutionRequest
 
 In other words, `decision_registry` controls the point where an ActionCandidate becomes an official judgment case.
@@ -1011,60 +999,55 @@ Decision is connected to the following lifecycle objects:
 
 AgentOutput
 
-    ↓
-
+    →
 ActionCandidate
 
-    ↓
-
+    →
 DecisionRuleLookup
 
-    ↓
-
+    →
 DecisionCase
 
-    ↓
-
+    →
 EvidenceEvaluation
 
-    ↓
-
+    →
 PolicyEvaluation
 
-    ↓
-
+    →
 RiskClassification
 
-    ↓
-
+    →
 PriorityClassification
 
-    ↓
-
+    →
 EscalationDecision
 
-    ↓
-
+    →
 ApprovalRouting
 
-    ↓
-
+    →
 ApprovalRequest
 
-    ↓
-
+    →
 ApprovalDecision
 
-    ↓
-
+    →
 ApprovedAction
 
-    ↓
+    →
+RuntimeValidationInput
 
-SafetyGateResult
+    →
+RuntimeValidationResult
 
-    ↓
+    →
+Safety Gate
 
+    →
+SafetyGatePass or SafetyGateBlock
+
+    →
 ExecutionRequest
 
 DecisionCase is the official judgment object before ApprovalRequest.
@@ -1311,16 +1294,13 @@ Decision Registry defines which approval route should be used when the Decision 
 
 DecisionCase
 
-    ↓
-
+    →
 approval\_routing\_rule\_ref
 
-    ↓
-
+    →
 ApprovalRequest
 
-    ↓
-
+    →
 approval\_registry
 
 Decision Registry does not perform approval directly.
@@ -1427,9 +1407,9 @@ Safety Gate:
 
 Core principle:
 
-Decision pass ≠ Approval pass
+Decision pass → Approval pass
 
-Approval pass ≠ Safety Gate pass
+Approval pass → RuntimeValidationResult → SafetyGatePass or SafetyGateBlock
 
 ---
 

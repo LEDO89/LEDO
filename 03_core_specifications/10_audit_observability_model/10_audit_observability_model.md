@@ -1,4 +1,4 @@
-# **Audit Observability Model**
+﻿# **Audit Observability Model**
 
 ## **Audit, Observability, and Traceability Model for an Ontology-Centric Platform v1.2**
 
@@ -109,21 +109,21 @@ The Audit Observability Model does not operate only at the end of the flow.
 Audit and Observability are cross-cutting concerns that connect across all stages.
 
 Raw Object  
-→ Canonical Object  
-→ Ontology-Bound Object  
-→ Evidence-Linked Object  
-→ State-Tracked Object  
-→ ActionCandidate  
-→ DecisionCase  
-→ PolicyDecision  
-→ ApprovalDecision  
-→ ApprovedAction  
-→ Safety Gate  
-→ ExecutionRequest  
-→ ExternalControlRequest  
-→ FeedbackEvent  
-→ Reconciliation  
-→ AuditRecord
+- Canonical Object  
+- Ontology-Bound Object  
+- Evidence-Linked Object  
+- State-Tracked Object  
+- ActionCandidate  
+- DecisionCase  
+- PolicyDecision  
+- ApprovalDecision  
+- ApprovedAction  
+- Safety Gate  
+- ExecutionRequest  
+- ExternalControlRequest  
+- FeedbackEvent  
+- Reconciliation  
+- AuditRecord
 
 All major stages must be connected by `trace_id`, `correlation_id`, `decision_trace_id`, and `causality_ids`.
 
@@ -271,12 +271,12 @@ A Trace connects the flow of one request or decision as it passes through multip
 Example:
 
 ActionCandidate  
-→ PolicyDecision  
-→ ApprovalDecision  
-→ SafetyGateResult  
-→ ExecutionRequest  
-→ ExternalControlRequest  
-→ FeedbackEvent
+- PolicyDecision  
+- ApprovalDecision  
+- SafetyGatePass or SafetyGateBlock  
+- ExecutionRequest  
+- ExternalControlRequest  
+- FeedbackEvent
 
 Trace preserves causality.
 
@@ -336,9 +336,9 @@ root\_event\_id
 Example:
 
 API request  
-→ policy engine call  
-→ Safety Gate call  
-→ adapter dispatch
+- policy engine call  
+- Safety Gate call  
+- adapter dispatch
 
 ---
 
@@ -349,11 +349,11 @@ API request
 Example:
 
 Worker entered danger zone incident  
-→ sensor event  
-→ dashboard alert  
-→ supervisor approval  
-→ zone lock request  
-→ feedback event
+- sensor event  
+- dashboard alert  
+- supervisor approval  
+- zone lock request  
+- feedback event
 
 ---
 
@@ -364,11 +364,11 @@ Worker entered danger zone incident
 Example:
 
 ActionCandidate  
-→ DecisionCase  
-→ PolicyDecision  
-→ ApprovalDecision  
-→ SafetyGateResult  
-→ ExecutionRequest
+- DecisionCase  
+- PolicyDecision  
+- ApprovalDecision  
+- SafetyGatePass or SafetyGateBlock  
+- ExecutionRequest
 
 ---
 
@@ -431,11 +431,11 @@ Resulting flow:
 GasSensor critical event  
 \+ Worker presence risk  
 \+ Ventilation degraded  
-→ Emergency Policy Bypass  
-→ Evacuation Warning  
-→ Stop Work Request  
-→ Access Restriction  
-→ Post-Hoc Audit
+- Emergency Policy Bypass  
+- Evacuation Warning  
+- Stop Work Request  
+- Access Restriction  
+- Post-Hoc Audit
 
 In this case, one Emergency Bypass has multiple causal sources.
 
@@ -633,23 +633,23 @@ causality\_ids
 Recommended structure:
 
 AuditRecord  
-→ audit\_context\_snapshot\_ref  
-→ decision\_trace\_ref  
-→ related object refs
+- audit\_context\_snapshot\_ref  
+- decision\_trace\_ref  
+- related object refs
 
 Example:
 
 SAFETY\_GATE\_BLOCKED AuditRecord  
-→ AuditContextSnapshot  
-   → safety\_gate\_result\_refs  
-   → evidence\_bundle\_refs  
-   → state\_snapshot\_refs  
-   → policy\_decision\_refs  
-→ DecisionTrace  
-   → ActionCandidate  
-   → PolicyDecision  
-   → ApprovalDecision  
-   → SafetyGateResult
+- AuditContextSnapshot  
+   - safety\_gate\_result\_refs  
+   - evidence\_bundle\_refs  
+   - state\_snapshot\_refs  
+   - policy\_decision\_refs  
+- DecisionTrace  
+   - ActionCandidate  
+   - PolicyDecision  
+   - ApprovalDecision  
+   - SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -899,7 +899,7 @@ DecisionCase
 PolicyDecision  
 PolicyResolutionRecord  
 ApprovalDecision  
-SafetyGateResult  
+SafetyGatePass or SafetyGateBlock  
 ExecutionRequest
 
 Recommended fields:
@@ -924,7 +924,7 @@ DecisionTraceDTO must be included from MVP Phase 1\.
 Reasons:
 
 The decision flow can be reconstructed from the beginning.  
-PolicyDecision, ApprovalDecision, and SafetyGateResult connections can be tested.  
+PolicyDecision, ApprovalDecision, and SafetyGatePass or SafetyGateBlock connections can be tested.  
 Audit Query Service becomes easier to implement later.
 
 ---
@@ -1284,22 +1284,22 @@ REJECT\_UNTRUSTED\_RECORD
 Meanings:
 
 APPEND\_ONLY\_MERGE  
-→ Merge as a new record without overwriting existing records.
+- Merge as a new record without overwriting existing records.
 
 SOURCE\_TRUST\_PRIORITY  
-→ Prioritize the record from the more trusted source\_system\_ref.
+- Prioritize the record from the more trusted source\_system\_ref.
 
 TIME\_TRUST\_PRIORITY  
-→ Prioritize the record with better time\_trust\_level and clock\_sync\_status.
+- Prioritize the record with better time\_trust\_level and clock\_sync\_status.
 
 MANUAL\_REVIEW\_REQUIRED  
-→ Route to human review when automatic merge is risky.
+- Route to human review when automatic merge is risky.
 
 MARK\_AS\_CONFLICTED  
-→ Mark as conflicted and require follow-up reconciliation.
+- Mark as conflicted and require follow-up reconciliation.
 
 REJECT\_UNTRUSTED\_RECORD  
-→ Do not include the untrusted record in the audit chain.
+- Do not include the untrusted record in the audit chain.
 
 Important rules:
 
@@ -1342,19 +1342,19 @@ EXTERNAL\_ANCHOR
 Meanings:
 
 NONE  
-→ no integrity chain
+- no integrity chain
 
 BASIC\_HASH  
-→ store only the individual record content hash
+- store only the individual record content hash
 
 CHAINED\_HASH  
-→ include previous\_record\_hash in the chain
+- include previous\_record\_hash in the chain
 
 SIGNED\_CHAIN  
-→ include a signature reference
+- include a signature reference
 
 EXTERNAL\_ANCHOR  
-→ record to an external immutable store or separate anchor
+- record to an external immutable store or separate anchor
 
 ---
 
@@ -1435,19 +1435,19 @@ Audit and Observability data may have different retention periods.
 Examples:
 
 debug logs  
-→ short retention
+- short retention
 
 metrics  
-→ medium retention
+- medium retention
 
 high-risk audit records  
-→ long retention
+- long retention
 
 emergency bypass audit  
-→ long retention
+- long retention
 
 PII-heavy raw payload  
-→ minimized or redacted retention
+- minimized or redacted retention
 
 Retention Policy must define the following:
 
@@ -1480,19 +1480,19 @@ PII\_HEAVY\_PAYLOAD
 Recommended principles:
 
 NO\_PII  
-→ apply normal retention policy
+- apply normal retention policy
 
 PSEUDONYMIZED\_PII  
-→ may be retained for the period required for audit purposes
+- may be retained for the period required for audit purposes
 
 DIRECT\_PII  
-→ requires access control and masking
+- requires access control and masking
 
 SENSITIVE\_PII  
-→ minimal retention, strong access control, export restriction
+- minimal retention, strong access control, export restriction
 
 PII\_HEAVY\_PAYLOAD  
-→ do not retain original payload long-term; prefer redacted references
+- do not retain original payload long-term; prefer redacted references
 
 Original PII payloads should not be retained long-term unless they are strictly required for audit accountability.
 
@@ -1511,19 +1511,19 @@ Audit storage may be separated from operational log storage.
 Recommended separation:
 
 Operational Logs  
-→ debugging and runtime diagnostics
+- debugging and runtime diagnostics
 
 Metrics Store  
-→ time-series performance and health indicators
+- time-series performance and health indicators
 
 Trace Store  
-→ distributed request tracing
+- distributed request tracing
 
 Audit Store  
-→ accountability and compliance-grade records
+- accountability and compliance-grade records
 
 Evidence Store  
-→ evidence objects and validation records
+- evidence objects and validation records
 
 Audit Store prioritizes accountability and retention.
 
@@ -1589,7 +1589,7 @@ DISPATCHED exists
 ACKNOWLEDGED exists  
 ACCEPTED does not exist  
 FEEDBACK\_RECEIVED does not exist  
-→ ACCEPTANCE\_PENDING or ACCEPTANCE\_TIMEOUT should be investigated
+- ACCEPTANCE\_PENDING or ACCEPTANCE\_TIMEOUT should be investigated
 
 ---
 
@@ -1609,12 +1609,12 @@ and target\_entity\_refs contains Zone\_A
 Connected records:
 
 AuditRecord  
-→ audit\_context\_snapshot\_ref  
-→ safety\_gate\_result\_refs  
-→ failure\_codes  
-→ evidence\_bundle\_refs  
-→ state\_snapshot\_refs  
-→ policy\_decision\_refs
+- audit\_context\_snapshot\_ref  
+- safety\_gate\_result\_refs  
+- failure\_codes  
+- evidence\_bundle\_refs  
+- state\_snapshot\_refs  
+- policy\_decision\_refs
 
 Expected interpretation:
 
@@ -1641,10 +1641,10 @@ and emergency\_bypass\_ref \= "EB-001"
 Connected records:
 
 AuditRecord  
-→ causality\_ids  
-→ related Evidence  
-→ related StateSnapshot  
-→ related Event
+- causality\_ids  
+- related Evidence  
+- related StateSnapshot  
+- related Event
 
 Expected interpretation:
 
@@ -1653,7 +1653,7 @@ causality\_ids:
 \- WorkerLocation near danger zone  
 \- VentilationSystem degraded
 
-→ Multi-causality emergency bypass
+- Multi-causality emergency bypass
 
 ---
 
@@ -1689,10 +1689,10 @@ AuditEventType may be connected to Event Type Taxonomy.
 Example:
 
 safety.worker.entered\_danger\_zone  
-→ ACTION\_CANDIDATE\_CREATED  
-→ POLICY\_DECISION\_EVALUATED  
-→ SAFETY\_GATE\_PASSED  
-→ EXECUTION\_REQUEST\_CREATED
+- ACTION\_CANDIDATE\_CREATED  
+- POLICY\_DECISION\_EVALUATED  
+- SAFETY\_GATE\_PASSED  
+- EXECUTION\_REQUEST\_CREATED
 
 ---
 

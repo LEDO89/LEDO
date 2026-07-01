@@ -60,21 +60,27 @@ no physical execution.
 `approval_registry` sits between the Action Registry, Policy Registry, Identity Registry, and Safety Gate.
 
 ActionCandidate  
-        ↓  
+        →
 DecisionCase  
-        ↓  
+        →
 Policy Evaluation  
-        ↓  
+        →
 approval\_registry lookup  
-        ↓  
+        →
 ApprovalRequest  
-        ↓  
+        →
 Human / Role / Authority Approval  
-        ↓  
+        →
 ApprovedAction  
-        ↓  
+        →
+RuntimeValidationInput  
+        →
+RuntimeValidationResult  
+        →
 Safety Gate  
-        ↓  
+        →
+SafetyGatePass or SafetyGateBlock  
+        →
 ExecutionRequest
 
 `approval_registry` determines which actions require approval, who may approve them, and under what conditions approval is valid.
@@ -741,21 +747,21 @@ replacement\_approval\_rule\_id: null
 Approval is connected to the following lifecycle objects:
 
 ActionCandidate  
-    ↓  
+    →
 DecisionCase  
-    ↓  
+    →
 ApprovalRequirement  
-    ↓  
+    →
 ApprovalRequest  
-    ↓  
+    →
 ApprovalDecision  
-    ↓  
+    →
 ApprovedAction  
-    ↓  
-SafetyGateResult  
-    ↓  
+    →
+SafetyGatePass or SafetyGateBlock  
+    →
 ExecutionRequest  
-    ↓  
+    →
 AuditRecord
 
 Approval Type must remain a reference throughout the lifecycle.
@@ -798,9 +804,9 @@ Is the Action Type included in applicable\_action\_type\_refs?
 Is the Risk Class included in applicable\_risk\_classes?  
 Is the Target Type included in applicable\_target\_types?  
 Does the approver have one of the required\_authority\_roles?  
-Are the approver’s identity attributes valid?  
-Is the approver’s certification valid?  
-Does the approver’s site/zone scope match the target scope?  
+Are the approver's identity attributes valid?  
+Is the approver's certification valid?  
+Does the approver's site/zone scope match the target scope?  
 Does the required evidence exist?  
 Has the required policy evaluation been completed?  
 Has the approval not expired?  
@@ -966,7 +972,7 @@ Safety Gate:
 
 Core principle:
 
-Approval pass ≠ Safety Gate pass
+Approval pass → RuntimeValidationResult → SafetyGatePass or SafetyGateBlock
 
 ---
 
@@ -983,7 +989,7 @@ Generate notification for approvers
 
 Agents must not directly create `ApprovalDecision = approved`.
 
-Agent Recommendation ≠ Approval Decision
+Agent Recommendation → Approval Decision
 
 ---
 

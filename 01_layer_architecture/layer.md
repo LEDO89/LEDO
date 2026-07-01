@@ -1,4 +1,4 @@
-**Ontology-Centric Layer**
+﻿**Ontology-Centric Layer**
 
 **1\. Purpose**
 
@@ -188,7 +188,7 @@ Approval
 
 ApprovedAction
 
-SafetyGateResult
+SafetyGatePass or SafetyGateBlock
 
 ExecutionRequest
 
