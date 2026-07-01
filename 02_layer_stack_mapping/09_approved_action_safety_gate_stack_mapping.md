@@ -93,7 +93,7 @@ Input Rule:
 
 ---
 
-## **Output Stack**
+## **Related Lifecycle Objects and Gate Outputs**
 
 └── ApprovedAction  
 └── RejectedActionCandidate  
@@ -109,6 +109,9 @@ Input Rule:
 └── AuditRecord
 
 Output Rule:  
+└── ApprovedAction is an input authority object produced by ApprovalDecision, not a Safety Gate-created output  
+└── Safety Gate does not create ApprovedAction  
+└── SafetyGatePass and SafetyGateBlock are Safety Gate outputs  
 └── SafetyGatePass is the only Safety Gate output that may allow ExecutionRequest creation  
 └── SafetyGateBlock, rejected, blocked, or escalation-required results must not create execution requests  
 └── Every output must be auditable and traceable
@@ -143,8 +146,8 @@ Output Rule:
 
 ApprovedAction Rule:  
 └── ApprovedAction is not yet a physical command  
-└── It is a validated, approved, ontology-defined action ready to enter cyber-physical execution lifecycle  
-└── Unified Cyber-Physical Core converts ApprovedAction into ExecutionRequest
+└── It is an authority object produced by ApprovalDecision and ready to enter runtime validation  
+└── ApprovedAction requires RuntimeValidationResult and a valid SafetyGatePass before Unified Cyber-Physical Core may create an ExecutionRequest
 
 ---
 
@@ -505,7 +508,8 @@ Integration Rule:
 └── Experience Layer presents approval UI  
 └── Governance defines who can approve  
 └── Safety Gate validates whether approval is sufficient  
-└── ApprovedAction is created only after validation passes
+└── ApprovalDecision creates ApprovedAction before Safety Gate  
+└── Safety Gate does not create ApprovedAction
 
 ---
 
@@ -797,4 +801,3 @@ MVP Rule:
     └── Agents, UI, supervisors, external systems, and automated workflows must all pass through Safety Gate for executable actions.  
 20. Safety Gate Protects the Physical World  
     └── Its purpose is to prevent unsafe, unauthorized, stale, ungrounded, or insufficiently evidenced candidates from reaching execution.
-

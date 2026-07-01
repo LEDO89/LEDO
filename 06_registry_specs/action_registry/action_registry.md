@@ -569,25 +569,43 @@ ActionCandidate
     ↓  
 DecisionCase  
     ↓  
-Approval  
+PolicyEvaluation  
+    ↓  
+ApprovalRequest  
+    ↓  
+ApprovalDecision  
     ↓  
 ApprovedAction  
     ↓  
-SafetyGateResult  
+RuntimeValidationInput  
+    ↓  
+RuntimeValidationResult  
+    ↓  
+Safety Gate  
+    ↓  
+SafetyGatePass or SafetyGateBlock  
     ↓  
 ExecutionRequest  
     ↓  
 ExternalControlRequest  
     ↓  
+External System  
+    ↓  
 FeedbackEvent  
     ↓  
-AuditRecord
+AuditRecord  
+    ↓  
+World State Update
 
 The Action Type remains a reference throughout the lifecycle.
 
 It must not become a physical command.
 
 The same `action_type_id` must be traceable across all lifecycle objects.
+
+`ApprovedAction` is produced by `ApprovalDecision`; Safety Gate does not create `ApprovedAction`. Runtime Validation produces `RuntimeValidationResult` before Safety Gate. Safety Gate consumes `ApprovedAction` plus `RuntimeValidationResult` and issues `SafetyGatePass` or `SafetyGateBlock`.
+
+No SafetyGatePass, no ExecutionRequest.
 
 ---
 
@@ -648,8 +666,8 @@ No approval, no ApprovedAction.
 An `ExecutionRequest` is valid only if:
 
 1. It references an `ApprovedAction`.  
-2. Runtime validation has passed.
-3. Safety Gate has issued a valid SafetyGatePass.  
+2. Runtime validation has produced a passing `RuntimeValidationResult`.  
+3. Safety Gate has consumed the `ApprovedAction` and `RuntimeValidationResult` and issued a valid `SafetyGatePass`.  
 4. Adapter compatibility is available.  
 5. External system boundary is declared.  
 6. Physical execution remains delegated to external systems.
@@ -1120,7 +1138,10 @@ no Approval.
 No approval,  
 no ApprovedAction.
 
-No Safety Gate pass,  
+No RuntimeValidationResult,  
+no SafetyGatePass.
+
+No SafetyGatePass,  
 no ExecutionRequest.
 
 No adapter compatibility,  
