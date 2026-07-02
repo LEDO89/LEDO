@@ -139,13 +139,6 @@ ledo_ontology_core/
 |       |   |   `-- __init__.py
 |       |   |-- construction/
 |       |   |   |-- __init__.py
-|       |   |   |-- action_types.yaml
-|       |   |   |-- classes.yaml
-|       |   |   |-- decision_rules.yaml
-|       |   |   |-- event_types.yaml
-|       |   |   |-- evidence_rules.yaml
-|       |   |   |-- properties.yaml
-|       |   |   `-- state_models.yaml
 |       |   |-- core_crosscutting/
 |       |   |   `-- __init__.py
 |       |   |-- core_upper/
@@ -156,33 +149,12 @@ ledo_ontology_core/
 |       |   |   `-- __init__.py
 |       |   |-- industrial/
 |       |   |   |-- __init__.py
-|       |   |   |-- action_types.yaml
-|       |   |   |-- classes.yaml
-|       |   |   |-- decision_rules.yaml
-|       |   |   |-- event_types.yaml
-|       |   |   |-- evidence_rules.yaml
-|       |   |   |-- properties.yaml
-|       |   |   `-- state_models.yaml
 |       |   |-- mapping/
 |       |   |   |-- __init__.py
-|       |   |   |-- external_schema_mappings.yaml
-|       |   |   `-- ontology_mappings.yaml
 |       |   |-- policy/
 |       |   |   |-- __init__.py
-|       |   |   |-- approval_rules.yaml
-|       |   |   |-- permissions.yaml
-|       |   |   |-- policy_rules.yaml
-|       |   |   `-- roles.yaml
 |       |   |-- robot/
 |       |   |   |-- __init__.py
-|       |   |   |-- action_types.yaml
-|       |   |   |-- capabilities.yaml
-|       |   |   |-- classes.yaml
-|       |   |   |-- decision_rules.yaml
-|       |   |   |-- event_types.yaml
-|       |   |   |-- evidence_rules.yaml
-|       |   |   |-- mission_states.yaml
-|       |   |   `-- properties.yaml
 |       |   `-- state/
 |       |       `-- __init__.py
 |       `-- framework/
