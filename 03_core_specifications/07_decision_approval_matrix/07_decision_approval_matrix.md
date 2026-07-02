@@ -188,7 +188,7 @@ A Policy Decision is a judgment returned by a specific policy engine, such as al
 Example:
 
 Decision Matrix:  
-ZoneRiskState.CRITICAL �� emergency route
+ZoneRiskState.CRITICAL → emergency route
 
 Policy Decision:  
 OPA allows ACTION\_EMERGENCY\_EVACUATE\_ZONE under EmergencyPolicy\_001
@@ -1170,7 +1170,7 @@ The PDP returns a specific policy decision.
 Example:
 
 Decision Matrix:  
-ZoneRiskState.CRITICAL �� EMERGENCY\_FAST\_PATH
+ZoneRiskState.CRITICAL → EMERGENCY\_FAST\_PATH
 
 PDP:  
 EmergencyPolicy\_001 allows ACTION\_EMERGENCY\_EVACUATE\_ZONE
@@ -1289,11 +1289,11 @@ ApprovalRequest must have a timeout\_policy.
 
 Recommended timeout examples:
 
-OPERATOR\_ACK �� 30 seconds  
-SUPERVISOR\_APPROVAL �� 2 minutes  
-SAFETY\_MANAGER\_APPROVAL �� 5 minutes  
-WAR\_ROOM\_APPROVAL �� 15 minutes  
-EXPERT\_REVIEW �� policy-defined
+OPERATOR\_ACK → 30 seconds  
+SUPERVISOR\_APPROVAL → 2 minutes  
+SAFETY\_MANAGER\_APPROVAL → 5 minutes  
+WAR\_ROOM\_APPROVAL → 15 minutes  
+EXPERT\_REVIEW → policy-defined
 
 ---
 
@@ -1538,7 +1538,7 @@ device health critical
 
 # **25\. DecisionTrace Rule**
 
-The entire flow from DecisionCase �� ApprovalRequest �� ApprovalDecision �� ApprovedAction �� RuntimeValidationInput �� RuntimeValidationResult �� Safety Gate �� SafetyGatePass or SafetyGateBlock �� ExecutionRequest �� Feedback �� AuditRecord must be connected with a single decision\_trace\_id.
+The entire flow from DecisionCase → ApprovalRequest → ApprovalDecision → ApprovedAction → RuntimeValidationInput → RuntimeValidationResult → Safety Gate → SafetyGatePass or SafetyGateBlock → ExecutionRequest → Feedback → AuditRecord must be connected with a single decision\_trace\_id.
 
 ---
 
@@ -2325,7 +2325,7 @@ Even if the external adapter is alive, execution must not proceed if heartbeat o
 Physical execution requests must prevent duplicate execution using idempotency\_key.  
 AI-derived decision support must leave auditable model version, prompt, retrieval snapshot, and ontology mapping snapshot.  
 DecisionCase must be separated into DecisionContext and snapshot\_ref so that it does not become excessively heavy.  
-DecisionCase �� ApprovalRequest �� ApprovalDecision �� ApprovedAction �� RuntimeValidationInput �� RuntimeValidationResult �� Safety Gate �� SafetyGatePass or SafetyGateBlock �� ExecutionRequest �� Feedback �� AuditRecord must be connected through decision\_trace\_id.  
+DecisionCase → ApprovalRequest → ApprovalDecision → ApprovedAction → RuntimeValidationInput → RuntimeValidationResult → Safety Gate → SafetyGatePass or SafetyGateBlock → ExecutionRequest → Feedback → AuditRecord must be connected through decision\_trace\_id.  
 Fallback routes must follow safety-first priority.
 
 The final principles are as follows:

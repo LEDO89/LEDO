@@ -58,10 +58,8 @@ Policy / Approval
 ApprovedAction  
         ↓  
 Runtime Validation  
-        -> 
-Safety Gate  
-        -> 
-ExecutionRequest Builder  
+        → Safety Gate  
+        → ExecutionRequest Builder  
         ↓  
 action\_registry validation  
         ↓  

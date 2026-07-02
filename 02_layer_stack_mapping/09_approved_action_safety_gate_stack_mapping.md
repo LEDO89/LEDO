@@ -750,7 +750,7 @@ Audit Rule:
 └── Output: SafetyGatePass only when all required runtime validation passes; otherwise SafetyGateBlock
 
 MVP Rule:  
-└── Start with a strict ApprovedAction -> RuntimeValidationInput -> RuntimeValidationResult -> Safety Gate -> SafetyGatePass/SafetyGateBlock validation pipeline  
+└── Start with a strict ApprovedAction → RuntimeValidationInput → RuntimeValidationResult → Safety Gate → SafetyGatePass/SafetyGateBlock validation pipeline  
 └── Define 5 to 9 approved action types only  
 └── Validate action type, target node, state freshness, approval, policy, capability, and evidence  
 └── Use fail-secure defaults  

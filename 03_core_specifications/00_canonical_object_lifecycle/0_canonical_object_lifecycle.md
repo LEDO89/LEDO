@@ -51,27 +51,27 @@ The purpose of this lifecycle is to transform heterogeneous inputs from industri
 The default lifecycle is:
 
 RawInput  
-¡æ CanonicalEventEnvelope  
-¡æ Canonicalization  
-¡æ OntologyBoundEvent  
-¡æ Evidence  
-¡æ WorldStateUpdate  
-¡æ ActionCandidate  
-¡æ DecisionCase  
-¡æ PolicyEvaluation  
-¡æ ApprovalRequest  
-¡æ ApprovalDecision  
-¡æ ApprovedAction  
-¡æ RuntimeValidationInput  
-¡æ RuntimeValidationResult  
-¡æ Safety Gate  
-¡æ SafetyGatePass or SafetyGateBlock  
-¡æ ExecutionRequest  
-¡æ ExternalControlRequest  
-¡æ External System  
-¡æ FeedbackEvent  
-¡æ AuditRecord  
-¡æ World State Update
+â†’ CanonicalEventEnvelope  
+â†’ Canonicalization  
+â†’ OntologyBoundEvent  
+â†’ Evidence  
+â†’ WorldStateUpdate  
+â†’ ActionCandidate  
+â†’ DecisionCase  
+â†’ PolicyEvaluation  
+â†’ ApprovalRequest  
+â†’ ApprovalDecision  
+â†’ ApprovedAction  
+â†’ RuntimeValidationInput  
+â†’ RuntimeValidationResult  
+â†’ Safety Gate  
+â†’ SafetyGatePass or SafetyGateBlock  
+â†’ ExecutionRequest  
+â†’ ExternalControlRequest  
+â†’ External System  
+â†’ FeedbackEvent  
+â†’ AuditRecord  
+â†’ World State Update
 
 However, in production environments, not every event should follow the same heavyweight lifecycle.
 
@@ -115,13 +115,13 @@ Ontology Binding gives meaning to data.
 Example:
 
 CR-001  
-¡æ construction:Crane\_01
+â†’ construction:Crane\_01
 
 MODE  
-¡æ industrial:hasOperationMode
+â†’ industrial:hasOperationMode
 
 LIFTING  
-¡æ industrial:LiftingMode
+â†’ industrial:LiftingMode
 
 ## **Rule 3\. Grounding Gives Evidence**
 
@@ -197,26 +197,26 @@ The Standard Path is the normal path for semantic interpretation, decisioning, a
 
 RawInput  
 
--> CanonicalEventEnvelope
--> Canonicalization
--> OntologyBoundEvent
--> Evidence
--> WorldStateUpdate
--> ActionCandidate
--> DecisionCase
--> PolicyEvaluation
--> ApprovalRequest
--> ApprovalDecision
--> ApprovedAction
--> RuntimeValidationInput
-¡æ RuntimeValidationResult
--> Safety Gate
-¡æ SafetyGatePass or SafetyGateBlock
--> ExecutionRequest
--> ExternalControlRequest
--> FeedbackEvent
--> AuditRecord
--> World State Update
+â†’ CanonicalEventEnvelope
+â†’ Canonicalization
+â†’ OntologyBoundEvent
+â†’ Evidence
+â†’ WorldStateUpdate
+â†’ ActionCandidate
+â†’ DecisionCase
+â†’ PolicyEvaluation
+â†’ ApprovalRequest
+â†’ ApprovalDecision
+â†’ ApprovedAction
+â†’ RuntimeValidationInput
+â†’ RuntimeValidationResult
+â†’ Safety Gate
+â†’ SafetyGatePass or SafetyGateBlock
+â†’ ExecutionRequest
+â†’ ExternalControlRequest
+â†’ FeedbackEvent
+â†’ AuditRecord
+â†’ World State Update
 
 Example use cases:
 
@@ -235,22 +235,22 @@ The Emergency Fast-Path is an ultra-low-latency safety path for Critical Emergen
 
 RawInput  
 
--> CanonicalEventEnvelope
--> Emergency Classification Check
--> Minimal Target Binding
--> Deterministic Safety Rule
--> Local Emergency Policy Check
--> EmergencyApprovedAction
--> RuntimeValidationInput
-¡æ RuntimeValidationResult
--> Emergency Safety Gate Decision
-¡æ EmergencySafetyGatePass or EmergencySafetyGateBlock
--> EmergencyExecutionRequest
--> ExternalControlRequest
--> FeedbackEvent
--> Post-hoc Ontology Binding
--> AuditRecord
--> World State Update
+â†’ CanonicalEventEnvelope
+â†’ Emergency Classification Check
+â†’ Minimal Target Binding
+â†’ Deterministic Safety Rule
+â†’ Local Emergency Policy Check
+â†’ EmergencyApprovedAction
+â†’ RuntimeValidationInput
+â†’ RuntimeValidationResult
+â†’ Emergency Safety Gate Decision
+â†’ EmergencySafetyGatePass or EmergencySafetyGateBlock
+â†’ EmergencyExecutionRequest
+â†’ ExternalControlRequest
+â†’ FeedbackEvent
+â†’ Post-hoc Ontology Binding
+â†’ AuditRecord
+â†’ World State Update
 
 Example use cases:
 
@@ -276,12 +276,12 @@ Sending every high-frequency sensor update or low-risk telemetry signal through 
 Therefore, a monitoring-only path is required.
 
 RawInput  
-¡æ CanonicalEventEnvelope  
-¡æ Lightweight Canonicalization  
-¡æ Basic Ontology Binding or Known Source Mapping  
-¡æ WorldStateUpdate  
-¡æ Metric / Trend / Dashboard Update  
-¡æ Optional Audit Sampling
+â†’ CanonicalEventEnvelope  
+â†’ Lightweight Canonicalization  
+â†’ Basic Ontology Binding or Known Source Mapping  
+â†’ WorldStateUpdate  
+â†’ Metric / Trend / Dashboard Update  
+â†’ Optional Audit Sampling
 
 Example use cases:
 
@@ -388,7 +388,7 @@ TowerCrane-A
 ?¥ë¹„10045  
 crane\_main\_01
 
-¡æ construction:Crane\_01
+â†’ construction:Crane\_01
 
 Possible failure states:
 
@@ -423,16 +423,16 @@ Example:
 CR-001 MODE \= LIFTING
 
 CR-001  
-¡æ construction:Crane\_01
+â†’ construction:Crane\_01
 
 MODE  
-¡æ industrial:hasOperationMode
+â†’ industrial:hasOperationMode
 
 LIFTING  
-¡æ industrial:LiftingMode
+â†’ industrial:LiftingMode
 
 Crane\_01  
-¡æ industrial:HeavyEquipment
+â†’ industrial:HeavyEquipment
 
 ## **4.5 Evidence**
 
@@ -1078,48 +1078,48 @@ It is part of the safety architecture.
 ## **10.1 Standard Path State Machine**
 
 RAW\_RECEIVED  
-¡æ ENVELOPED  
-¡æ PATH\_CLASSIFIED  
-¡æ CANONICALIZED  
-¡æ ONTOLOGY\_BOUND  
-¡æ EVIDENCE\_ATTACHED  
-¡æ WORLD\_STATE\_UPDATED  
-¡æ CANDIDATE\_GENERATED  
-¡æ DECISION\_ROUTED  
-¡æ APPROVAL\_PENDING  
-¡æ APPROVAL\_GRANTED  
-¡æ SAFETY\_VALIDATED  
-¡æ APPROVED\_ACTION\_CREATED  
-¡æ EXECUTION\_REQUEST\_CREATED  
-¡æ EXTERNAL\_REQUEST\_DISPATCHED  
-¡æ FEEDBACK\_RECEIVED  
-¡æ WORLD\_STATE\_RECONCILED  
-¡æ AUDIT\_CLOSED
+â†’ ENVELOPED  
+â†’ PATH\_CLASSIFIED  
+â†’ CANONICALIZED  
+â†’ ONTOLOGY\_BOUND  
+â†’ EVIDENCE\_ATTACHED  
+â†’ WORLD\_STATE\_UPDATED  
+â†’ CANDIDATE\_GENERATED  
+â†’ DECISION\_ROUTED  
+â†’ APPROVAL\_PENDING  
+â†’ APPROVAL\_GRANTED  
+â†’ SAFETY\_VALIDATED  
+â†’ APPROVED\_ACTION\_CREATED  
+â†’ EXECUTION\_REQUEST\_CREATED  
+â†’ EXTERNAL\_REQUEST\_DISPATCHED  
+â†’ FEEDBACK\_RECEIVED  
+â†’ WORLD\_STATE\_RECONCILED  
+â†’ AUDIT\_CLOSED
 
 ## **10.2 Emergency Fast-Path State Machine**
 
 RAW\_RECEIVED  
-¡æ ENVELOPED  
-¡æ EMERGENCY\_DETECTED  
-¡æ MINIMAL\_TARGET\_BOUND  
-¡æ LOCAL\_EMERGENCY\_POLICY\_PASSED  
-¡æ EMERGENCY\_APPROVED\_ACTION\_CREATED  
-¡æ EMERGENCY\_EXECUTION\_REQUEST\_CREATED  
-¡æ EXTERNAL\_REQUEST\_DISPATCHED  
-¡æ FEEDBACK\_RECEIVED  
-¡æ POST\_HOC\_ONTOLOGY\_BINDING  
-¡æ WORLD\_STATE\_RECONCILED  
-¡æ AUDIT\_CLOSED
+â†’ ENVELOPED  
+â†’ EMERGENCY\_DETECTED  
+â†’ MINIMAL\_TARGET\_BOUND  
+â†’ LOCAL\_EMERGENCY\_POLICY\_PASSED  
+â†’ EMERGENCY\_APPROVED\_ACTION\_CREATED  
+â†’ EMERGENCY\_EXECUTION\_REQUEST\_CREATED  
+â†’ EXTERNAL\_REQUEST\_DISPATCHED  
+â†’ FEEDBACK\_RECEIVED  
+â†’ POST\_HOC\_ONTOLOGY\_BINDING  
+â†’ WORLD\_STATE\_RECONCILED  
+â†’ AUDIT\_CLOSED
 
 ## **10.3 Monitoring-Only Path State Machine**
 
 RAW\_RECEIVED  
-¡æ ENVELOPED  
-¡æ LIGHTWEIGHT\_CANONICALIZED  
-¡æ BASIC\_BOUND\_OR\_KNOWN\_SOURCE\_MAPPED  
-¡æ WORLD\_STATE\_UPDATED  
-¡æ METRIC\_UPDATED  
-¡æ OPTIONAL\_AUDIT\_SAMPLED
+â†’ ENVELOPED  
+â†’ LIGHTWEIGHT\_CANONICALIZED  
+â†’ BASIC\_BOUND\_OR\_KNOWN\_SOURCE\_MAPPED  
+â†’ WORLD\_STATE\_UPDATED  
+â†’ METRIC\_UPDATED  
+â†’ OPTIONAL\_AUDIT\_SAMPLED
 
 ## **10.4 Failure States**
 
@@ -1158,24 +1158,24 @@ A gas sensor detects abnormal but non-critical gas concentration in Zone\_A whil
 Flow:
 
 RawInput  
-¡æ CanonicalEventEnvelope  
-¡æ Standard Path classification  
-¡æ Ontology Binding  
-¡æ Evidence  
-¡æ WorldStateUpdate  
-¡æ SafetyAgent creates ACTION\_EVACUATE\_ZONE candidate  
-¡æ Decision Router classifies High Risk  
-¡æ SupervisorApproval requested  
-¡æ ApprovedAction created  
-¡æ RuntimeValidationInput created  
-¡æ RuntimeValidationResult produced  
-¡æ Safety Gate consumes RuntimeValidationResult  
-¡æ SafetyGatePass or SafetyGateBlock issued  
-¡æ ExecutionRequest created only after SafetyGatePass  
-¡æ Smart Helmet Alert \+ Site Operation Platform notified  
-¡æ Feedback received  
-¡æ AuditRecord closed  
-¡æ World State updated
+â†’ CanonicalEventEnvelope  
+â†’ Standard Path classification  
+â†’ Ontology Binding  
+â†’ Evidence  
+â†’ WorldStateUpdate  
+â†’ SafetyAgent creates ACTION\_EVACUATE\_ZONE candidate  
+â†’ Decision Router classifies High Risk  
+â†’ SupervisorApproval requested  
+â†’ ApprovedAction created  
+â†’ RuntimeValidationInput created  
+â†’ RuntimeValidationResult produced  
+â†’ Safety Gate consumes RuntimeValidationResult  
+â†’ SafetyGatePass or SafetyGateBlock issued  
+â†’ ExecutionRequest created only after SafetyGatePass  
+â†’ Smart Helmet Alert \+ Site Operation Platform notified  
+â†’ Feedback received  
+â†’ AuditRecord closed  
+â†’ World State updated
 
 ## **11.2 Emergency Fast-Path Example**
 
@@ -1186,22 +1186,22 @@ A gas sensor detects critical gas concentration in Zone\_A while Worker\_03 is i
 Flow:
 
 RawInput  
-¡æ CanonicalEventEnvelope with emergency\_hint  
-¡æ Emergency Classification Check  
-¡æ Minimal Target Binding  
-¡æ Deterministic Safety Rule  
-¡æ Local Emergency Policy Check  
-¡æ EmergencyApprovedAction  
--> Emergency RuntimeValidationInput
-¡æ EmergencyRuntimeValidationResult
-¡æ Emergency Safety Gate consumes EmergencyRuntimeValidationResult
-¡æ EmergencySafetyGatePass or EmergencySafetyGateBlock
-¡æ EmergencyExecutionRequest only after EmergencySafetyGatePass
-¡æ Emergency alert dispatch  
-¡æ Feedback received  
-¡æ Post-hoc Ontology Binding  
-¡æ AuditRecord closed  
-¡æ World State updated
+â†’ CanonicalEventEnvelope with emergency\_hint  
+â†’ Emergency Classification Check  
+â†’ Minimal Target Binding  
+â†’ Deterministic Safety Rule  
+â†’ Local Emergency Policy Check  
+â†’ EmergencyApprovedAction  
+â†’ Emergency RuntimeValidationInput
+â†’ EmergencyRuntimeValidationResult
+â†’ Emergency Safety Gate consumes EmergencyRuntimeValidationResult
+â†’ EmergencySafetyGatePass or EmergencySafetyGateBlock
+â†’ EmergencyExecutionRequest only after EmergencySafetyGatePass
+â†’ Emergency alert dispatch  
+â†’ Feedback received  
+â†’ Post-hoc Ontology Binding  
+â†’ AuditRecord closed  
+â†’ World State updated
 
 ## **11.3 Monitoring-Only Path Example**
 
@@ -1212,18 +1212,18 @@ A temperature sensor sends a normal reading every 100ms.
 Flow:
 
 RawInput  
-¡æ CanonicalEventEnvelope  
-¡æ Lightweight Canonicalization  
-¡æ Known Source Mapping  
-¡æ WorldStateUpdate  
-¡æ Dashboard metric update  
-¡æ No ActionCandidate  
-¡æ Optional audit sampling
+â†’ CanonicalEventEnvelope  
+â†’ Lightweight Canonicalization  
+â†’ Known Source Mapping  
+â†’ WorldStateUpdate  
+â†’ Dashboard metric update  
+â†’ No ActionCandidate  
+â†’ Optional audit sampling
 
 If the temperature crosses a threshold:
 
 Monitoring-Only Path  
-¡æ Standard Path or Emergency Fast-Path escalation
+â†’ Standard Path or Emergency Fast-Path escalation
 
 ---
 
