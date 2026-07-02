@@ -1,7 +1,7 @@
 ---
 title: Archive
 version: 1.0
-status: draft
+status: active
 owner: platform-ontology
 language: en
 last_updated: 2026-06-22
