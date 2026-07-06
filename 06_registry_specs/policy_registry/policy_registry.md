@@ -875,6 +875,8 @@ replacement\_policy\_id: string | null
 
 ## **10\. Registry Entry Example: STOP\_WORK Policy**
 
+> **Non-normative placeholder.** This entry and the three that follow (Sections 11–13) are illustrative scaffolding only. Every concrete condition, priority ordering, role name, and threshold shown is an example, not an approved governance decision. Per `AGENTS.md` Domain Authority Rule and Domain No-Guessing Rule, real policy content, approval-authority assignments, and priority rankings must be authored by the domain expert / policy owner and approved through the change process in `03_core_specifications/08_policy_governance_model` Section 18, before being treated as `active` in a real deployment.
+
 policy\_id: policy:stop\_work\_policy\_v1
 
 canonical\_name: stop\_work\_policy\_v1
@@ -1066,6 +1068,8 @@ replacement\_policy\_id: null
 ---
 
 ## **11\. Registry Entry Example: Robot Dispatch Policy**
+
+> **Non-normative placeholder.** See the governance note in Section 10.
 
 policy\_id: policy:robot\_dispatch\_policy\_v1
 
@@ -1283,6 +1287,8 @@ replacement\_policy\_id: null
 
 ## **12\. Registry Entry Example: Worker Location Privacy Policy**
 
+> **Non-normative placeholder.** See the governance note in Section 10.
+
 policy\_id: policy:worker\_location\_privacy\_policy\_v1
 
 canonical\_name: worker\_location\_privacy\_policy\_v1
@@ -1468,6 +1474,8 @@ replacement\_policy\_id: null
 ---
 
 ## **13\. Registry Entry Example: Emergency Override Policy**
+
+> **Non-normative placeholder.** See the governance note in Section 10. This example is especially sensitive: per `AGENTS.md` Constitution and `03_core_specifications/08_policy_governance_model` Section 16, no Emergency Policy Bypass may be treated as real/`active` without explicit Safety Committee, Safety Owner, Policy Owner, and Audit Owner approval — this example must not be used as a de facto emergency policy.
 
 policy\_id: policy:emergency\_override\_policy\_v1
 

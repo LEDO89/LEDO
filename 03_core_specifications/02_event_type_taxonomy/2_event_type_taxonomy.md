@@ -47,7 +47,7 @@ ontology mapping rule
 vendor extension pattern  
 registry governance  
 lifecycle routing rule  
-MVP event type set
+Initial reference event type set
 
 ## **2.2 Appendix A: Event Type Catalog**
 
@@ -881,13 +881,13 @@ An Emergency event whose post-hoc audit has not been closed is not considered to
 
 ---
 
-# **12\. MVP Event Type Set**
+# **12\. Initial Reference Event Type Set**
 
 The full event list is managed in the appendix.
 
-In the MVP, only the following event types should be registered first.
+In the initial implementation, only the following event types should be registered first.
 
-## **12.1 Industrial MVP Events**
+## **12.1 Industrial Reference Events**
 
 industrial.sensor.reading\_received  
 industrial.sensor.threshold\_crossed  
@@ -895,7 +895,7 @@ industrial.sensor.offline\_detected
 industrial.plc.alarm\_raised  
 industrial.equipment.mode\_changed
 
-## **12.2 Construction MVP Events**
+## **12.2 Construction Reference Events**
 
 construction.worker.entered\_zone  
 construction.worker.exited\_zone  
@@ -903,14 +903,14 @@ construction.permit.expired
 construction.task.status\_changed  
 construction.inspection.failed
 
-## **12.3 Safety MVP Events**
+## **12.3 Safety Reference Events**
 
 safety.zone.risk\_level\_changed  
 safety.worker.entered\_danger\_zone  
 safety.gas.critical\_threshold\_exceeded  
 safety.emergency.fast\_path\_triggered
 
-## **12.4 Robot MVP Events**
+## **12.4 Robot Reference Events**
 
 robot.telemetry.received  
 robot.pose.updated  
@@ -919,7 +919,7 @@ robot.mission.blocked
 robot.mission.completed  
 robot.battery.critical
 
-## **12.5 Lifecycle MVP Events**
+## **12.5 Lifecycle Reference Events**
 
 validation.input.passed  
 canonicalization.identity.resolved  
@@ -939,11 +939,11 @@ audit.emergency.post\_audit\_completed
 
 ---
 
-# **13\. Separation Criteria for Appendix A: Event Type Catalog**
+# **13\. Separation Criteria for Appendix B: Event Type Catalog**
 
 Detailed lists by Event Category are not included in the main body.
 
-The following items are managed in Appendix A:
+The following items are managed in `09_appendices/appendix_b_event_catalog/event_catalog.md` (Appendix B; Appendix A is the Stack Catalog):
 
 industrial event catalog  
 construction event catalog  
@@ -1001,7 +1001,7 @@ event\_taxonomy/mappings/
 
 # **15\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 EventCategory enum  
 DomainModule enum  
@@ -1018,7 +1018,7 @@ EventTypeRegistry
 Registry status enum  
 Vendor wildcard pattern validator  
 Event-to-Ontology Mapping Table  
-MVP event type constants  
+Initial reference event type constants  
 EventType validation function  
 Connection to CanonicalEventEnvelopeDTO  
 Connection to PathClassificationDTO

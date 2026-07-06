@@ -385,7 +385,7 @@ Example:
 CR-001  
 Crane01  
 TowerCrane-A  
-?�비10045  
+?�비10045  
 crane\_main\_01
 
 → construction:Crane\_01
@@ -950,6 +950,8 @@ Feedback Reconciliation
 Audit Closure
 
 ## **8.2 Command State Machine**
+
+Canonical Reference: this is a conceptual overview of the command/dispatch state progression. The single canonical, implementation-authoritative enum (`DispatchStatus`) is defined in `03_core_specifications/09_execution_adapter_model/9_execution_adapter_model.md`, Section 20 "Dispatch Lifecycle". `03_action_type_registry.md` Section 9.1 also derives from that same canonical enum. Code must implement `DispatchStatus` once, from `09_execution_adapter_model`, and this section's states must be read as a subset/paraphrase of it, not a second enum.
 
 CREATED  
 DISPATCH\_PENDING  

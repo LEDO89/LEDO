@@ -66,7 +66,6 @@ If this README conflicts with `AGENTS.md` or `00_master_architecture/`, `AGENTS.
 - `contracts/` follows: Pydantic Models -> JSON Schema -> Examples -> OpenAPI -> AsyncAPI -> Protobuf.
 - OpenAPI is not OpenAI and does not imply paid API usage.
 - `infra/` - deployment and operations scaffolding.
-- `templates/` - documentation and task templates.
 - `tests/` - future unit, integration, fixture, and regression test suite area.
 
 ## Recommended Reading Order
@@ -109,7 +108,7 @@ ActionCandidate
 
 ## Implementation Direction
 
-The next major phase is implementation skeleton planning. Implementation should proceed from schemas/DTOs, enums, registries, validators, runtime services, adapter interfaces, mock adapters, tests, contracts, API/CLI/worker entrypoints, and then frontend integration.
+Implementation proceeds from schemas/DTOs, enums, registries, validators, runtime services, adapter interfaces, interface-stub adapter implementations (non-production test doubles for external systems not yet approved for production dispatch), tests, contracts, API/CLI/worker entrypoints, and then frontend integration.
 
 Frontend and graph visualization are first-class product surfaces. They must consume backend contracts and must not become ontology source-of-truth.
 

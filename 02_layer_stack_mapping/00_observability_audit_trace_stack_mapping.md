@@ -533,7 +533,7 @@ Access Rules:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Telemetry: OpenTelemetry  
 └── Metrics: Prometheus  
@@ -549,7 +549,7 @@ Access Rules:
 └── Trace IDs: OpenTelemetry trace context  
 └── Correlation IDs: required across all DTOs
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with OpenTelemetry \+ Prometheus \+ Grafana \+ structured logs \+ PostgreSQL audit tables  
 └── Add distributed tracing once FastAPI, agents, decision router, safety gate, and execution integration begin interacting  
 └── Add provenance graph and full lineage tracking after core event schema stabilizes

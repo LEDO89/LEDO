@@ -662,7 +662,7 @@ PolicyDecisionDTO Fields:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Identity Provider: Keycloak  
 └── Authentication: OAuth2 / OIDC  
@@ -678,7 +678,7 @@ PolicyDecisionDTO Fields:
 └── Policy Testing: Rego unit tests \+ scenario tests  
 └── Policy Versioning: Git versioning \+ policy\_version in decisions
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with Keycloak or simple OIDC-compatible identity, FastAPI JWT validation, RBAC, OPA / Rego for action and object policy, PostgreSQL approval workflow, and audit records  
 └── Add full ABAC, Vault, mTLS, compliance engine, SIEM, and advanced object security after core DTOs and action types stabilize
 

@@ -459,9 +459,9 @@ Therefore, they should be applied differently depending on the path.
 
 ---
 
-## **7.2 MVP Strategy**
+## **7.2 Initial Implementation Strategy**
 
-In the MVP, prioritize the following:
+In the initial implementation, prioritize the following:
 
 payload: dict  
 metadata: dict  
@@ -469,7 +469,7 @@ Use GenericPayloadDTO
 Strictly validate only core DTO structures  
 Strongly validate Action / Execution / Emergency DTOs
 
-Typed Generics are optional in the MVP.
+Typed Generics are optional in the initial implementation.
 
 ---
 
@@ -1966,7 +1966,7 @@ source\_inputs.py
 
 # **22\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows:
+The implementation order should be as follows:
 
 base.py  
 context.py  
@@ -1989,9 +1989,9 @@ source\_inputs.py
 
 ---
 
-# **23\. Required DTOs for MVP**
+# **23\. Required DTOs for the Initial Implementation**
 
-The following DTOs are required in the initial MVP:
+The following DTOs are required in the initial implementation:
 
 BaseDTO  
 TraceContextDTO  
@@ -2019,7 +2019,7 @@ ExternalControlRequestDTO
 FeedbackEventDTO  
 AuditRecordDTO
 
-If the Emergency MVP is included, the following DTOs are additionally required:
+If the Emergency reference flow is included, the following DTOs are additionally required:
 
 EmergencyApprovedActionDTO  
 EmergencyActionSpecDTO  
@@ -2028,7 +2028,7 @@ RecoveryPolicyDTO
 IdempotencyContextDTO  
 PostHocAuditDTO
 
-If the Monitoring MVP is included, the following DTOs are additionally required:
+If the Monitoring reference flow is included, the following DTOs are additionally required:
 
 TimeSeriesSampleDTO  
 TimeSeriesBundleInputDTO  

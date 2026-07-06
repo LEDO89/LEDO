@@ -151,7 +151,7 @@ SafetyGatePass lease valid
 
 ## **6\. Health Targets**
 
-For the MVP, `network_health/` targets the following:
+For the initial implementation, `network_health/` targets the following:
 
 external system  
 adapter  
@@ -582,7 +582,7 @@ Hot path does not perform unbounded health discovery.
 
 ---
 
-## **19\. MVP Scenario: STOP\_WORK**
+## **19\. Reference Scenario: STOP\_WORK**
 
 For STOP\_WORK, required Network Health checks are:
 
@@ -611,7 +611,7 @@ STOP\_WORK is a safety-critical action, so fallback path and manual escalation p
 
 ---
 
-## **20\. MVP Scenario: DISPATCH\_ROBOT**
+## **20\. Reference Scenario: DISPATCH\_ROBOT**
 
 For DISPATCH\_ROBOT, required Network Health checks are:
 

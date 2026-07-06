@@ -649,7 +649,7 @@ target changed
 
 ---
 
-## **21\. MVP Scenario: STOP\_WORK**
+## **21\. Reference Scenario: STOP\_WORK**
 
 For STOP\_WORK, the Safety Gate must consume the following results:
 
@@ -692,7 +692,7 @@ Unknown required safety condition must block or escalate to manual review.
 
 ---
 
-## **22\. MVP Scenario: DISPATCH\_ROBOT**
+## **22\. Reference Scenario: DISPATCH\_ROBOT**
 
 For DISPATCH\_ROBOT, the Safety Gate must consume the following results:
 

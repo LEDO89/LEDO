@@ -1306,7 +1306,7 @@ default failure effect \= block
 
 ---
 
-## **26\. MVP Scenario: STOP\_WORK**
+## **26\. Reference Scenario: STOP\_WORK**
 
 For STOP\_WORK, TOCTOU Validation checks:
 
@@ -1368,7 +1368,7 @@ If STOP\_WORK is already active for the same target zone, duplicate execution mu
 
 ---
 
-## **27\. MVP Scenario: DISPATCH\_ROBOT**
+## **27\. Reference Scenario: DISPATCH\_ROBOT**
 
 For DISPATCH\_ROBOT, TOCTOU Validation checks:
 

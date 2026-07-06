@@ -21,7 +21,7 @@ Define the asynchronous feedback loop and execution states.
 Define the responsibility boundary for idempotency.  
 Define how vendor-specific actions and external adapter actions can be extended without contaminating the core registry.
 
-The complete list of action types is managed in a separate document: Appendix B: Action Type Catalog.
+The complete list of action types is managed in a separate document: `06_registry_specs/action_registry/action_registry.md` (there is no dedicated "Action Type Catalog" appendix under `09_appendices/`; `09_appendices/appendix_b_event_catalog/` is the Event Type Catalog, not the Action Type Catalog).
 
 ---
 
@@ -48,11 +48,11 @@ Relationship between Action Type and ExecutionRequest
 Relationship between Action Type and Feedback / Reconciliation  
 Emergency Action Type rules  
 External Adapter Extension Pattern  
-MVP action type set
+Initial reference action type set
 
-## **2.2 Appendix B: Action Type Catalog**
+## **2.2 Action Type Catalog (`06_registry_specs/action_registry/`)**
 
-This is a separate appendix document.
+This is a separate registry document, not a `09_appendices/` file.
 
 It covers:
 
@@ -894,6 +894,8 @@ Therefore, intermediate states after ExecutionRequest must be clearly managed.
 
 ## **9.1 Core Execution States**
 
+Canonical Reference: the states below are the minimal subset relevant to Feedback Requirement mapping (Section 9.3). The single canonical, implementation-authoritative enum (`DispatchStatus`) is defined in `03_core_specifications/09_execution_adapter_model/9_execution_adapter_model.md`, Section 20 "Dispatch Lifecycle", which additionally defines `READY_TO_DISPATCH`, `ACCEPTANCE_PENDING`, `REJECTED`, `ACK_TIMEOUT`, `ACCEPTANCE_TIMEOUT`, and `FEEDBACK_TIMEOUT`. Implementations must use one `DispatchStatus` enum sourced from `09_execution_adapter_model`; this section must not be implemented as a second, separate enum.
+
 Recommended core states are as follows:
 
 CREATED
@@ -1118,7 +1120,7 @@ idempotency\_key \= hash(
 
 )
 
-For the MVP, the following may be used:
+For the current implementation stage, the following may be used:
 
 idempotency\_key \= ApprovedActionID
 
@@ -1580,13 +1582,15 @@ An emergency action whose post-hoc audit has not been closed is not considered t
 
 ---
 
-# **16\. MVP Action Type Set**
+# **16\. Initial Reference Action Type Set**
 
-The complete action type list is managed in Appendix B.
+The complete action type list is managed in `06_registry_specs/action_registry/action_registry.md`.
 
-For the MVP, only the following action types should be registered first.
+**Non-normative note:** the action type names below are reference fixtures used to exercise the registry and lifecycle end to end. They are not an approved domain decision; see `06_registry_specs/action_registry/action_registry.md` Sections 11–12 for the corresponding non-normative marking on the registry side.
 
-## **16.1 Safety MVP Actions**
+For the first formal implementation, only the following action types should be registered first.
+
+## **16.1 Safety Reference Actions**
 
 ACTION\_NOTIFY\_SUPERVISOR
 
@@ -1598,7 +1602,7 @@ ACTION\_LOCK\_ZONE
 
 ACTION\_TRIGGER\_LOCAL\_ALARM
 
-## **16.2 Emergency MVP Actions**
+## **16.2 Emergency Reference Actions**
 
 ACTION\_EMERGENCY\_STOP
 
@@ -1610,7 +1614,7 @@ ACTION\_EMERGENCY\_LOCK\_ZONE
 
 ACTION\_EMERGENCY\_DISABLE\_ROBOT\_MISSION
 
-## **16.3 Robot MVP Actions**
+## **16.3 Robot Reference Actions**
 
 ACTION\_NOTIFY\_OPERATOR
 
@@ -1620,7 +1624,7 @@ ACTION\_REPLAN\_ROBOT\_MISSION
 
 ACTION\_RETURN\_ROBOT\_TO\_SAFE\_ZONE
 
-## **16.4 Construction MVP Actions**
+## **16.4 Construction Reference Actions**
 
 ACTION\_REQUEST\_INSPECTION
 
@@ -1630,7 +1634,7 @@ ACTION\_RESUME\_TASK
 
 ACTION\_REQUEST\_PERMIT\_REVIEW
 
-## **16.5 Governance MVP Actions**
+## **16.5 Governance Reference Actions**
 
 ACTION\_REQUEST\_APPROVAL
 
@@ -1640,7 +1644,7 @@ ACTION\_ESCALATE\_TO\_WAR\_ROOM
 
 ACTION\_CREATE\_MAPPING\_REVIEW
 
-## **16.6 Notification MVP Actions**
+## **16.6 Notification Reference Actions**
 
 ACTION\_SEND\_MOBILE\_ALERT
 
@@ -1650,11 +1654,11 @@ ACTION\_SEND\_SMART\_HELMET\_ALERT
 
 ---
 
-# **17\. Separation Criteria for Appendix B: Action Type Catalog**
+# **17\. Separation Criteria for the Action Type Catalog (`06_registry_specs/action_registry/`)**
 
 Detailed lists by Action Category are not included in the main body.
 
-The following items are managed in Appendix B:
+The following items are managed in `06_registry_specs/action_registry/action_registry.md`, not in `09_appendices/`:
 
 safety action catalog  
 emergency action catalog  
@@ -1741,7 +1745,7 @@ action\_registry/mappings/
 
 # **19\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 ActionCategory enum  
 RiskLevel enum  
@@ -1760,7 +1764,7 @@ Action-to-Policy Mapping Table
 Action-to-Adapter Mapping Table  
 Action-to-Feedback Mapping Table  
 Action-to-Mutation Mapping Table  
-MVP action type constants  
+Initial reference action type constants  
 ActionType validation function  
 Connection to ActionCandidateDTO  
 Connection to ApprovedActionDTO  

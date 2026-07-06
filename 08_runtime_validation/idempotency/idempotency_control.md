@@ -428,7 +428,7 @@ Hot path does not perform unbounded duplicate discovery.
 
 ---
 
-## **17\. MVP Scenario: STOP\_WORK**
+## **17\. Reference Scenario: STOP\_WORK**
 
 For STOP\_WORK, idempotency must prevent repeated stop-work execution for the same target zone.
 
@@ -460,7 +460,7 @@ STOP\_WORK may use fallback channels, but fallback must preserve the same idempo
 
 ---
 
-## **18\. MVP Scenario: DISPATCH\_ROBOT**
+## **18\. Reference Scenario: DISPATCH\_ROBOT**
 
 For DISPATCH\_ROBOT, idempotency must prevent duplicate robot dispatch or duplicated mission creation.
 

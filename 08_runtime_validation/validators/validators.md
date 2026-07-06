@@ -311,7 +311,7 @@ stale required state
 
 ## **9\. Validator Categories**
 
-For the MVP, Validators are divided into the following categories:
+For the initial implementation, Validators are divided into the following categories:
 
 Freshness Validators  
 Time Validators  
@@ -861,7 +861,7 @@ no valid ExecutionRequest.
 
 ## **18\. Validator Execution Order**
 
-Recommended execution order for the MVP:
+Recommended execution order for the initial implementation:
 
 1\. timestamp\_trust\_validator  
 2\. clock\_skew\_validator  
@@ -988,7 +988,7 @@ ValidatorResult
 
 ---
 
-## **22\. MVP Scenario: STOP\_WORK**
+## **22\. Reference Scenario: STOP\_WORK**
 
 For STOP\_WORK, the main required Validators are:
 
@@ -1010,7 +1010,7 @@ STOP\_WORK is directly related to human safety and site control, so most of its 
 
 ---
 
-## **23\. MVP Scenario: DISPATCH\_ROBOT**
+## **23\. Reference Scenario: DISPATCH\_ROBOT**
 
 For DISPATCH\_ROBOT, the main required Validators are:
 

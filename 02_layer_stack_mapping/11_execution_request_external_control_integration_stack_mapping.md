@@ -680,7 +680,7 @@ Integration Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Execution Adapter Service: Python FastAPI or async service  
 └── Request Schema: Pydantic ExecutionRequestDTO and ExternalControlRequestDTO  
@@ -697,7 +697,7 @@ Integration Rule:
 └── Observability: OpenTelemetry trace \+ adapter health metrics  
 └── Audit: external dispatch and feedback audit records
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with mock external control adapter  
 └── Then build REST adapter and MQTT notification adapter  
 └── Add real fleet manager or ROS2 bridge only after ExecutionRequest schema is stable  

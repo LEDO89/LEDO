@@ -169,7 +169,7 @@ Recommended Usage:
 └── Optional for flexible frontend graph queries  
 └── Useful for dashboard aggregation  
 └── Useful for graph explorer and digital twin panels  
-└── Not required for MVP
+└── Not required for the initial implementation
 
 Boundary:  
 └── GraphQL should not expose unrestricted graph traversal  
@@ -190,7 +190,7 @@ Boundary:
 Recommended Usage:  
 └── Optional for internal backend service communication  
 └── Useful for agent service, inference service, execution service, or high-throughput external integration  
-└── Not required for first MVP
+└── Not required for the first implementation slice
 
 Boundary:  
 └── gRPC is not the primary frontend protocol  
@@ -514,7 +514,7 @@ Metrics:
 
 Boundary:  
 └── Service Mesh is infrastructure support  
-└── It is not required for MVP  
+└── It is not required for the initial implementation  
 └── It becomes useful when the system is split into multiple services and deployed on Kubernetes
 
 ---
@@ -549,7 +549,7 @@ Boundary:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── API Framework: FastAPI  
 └── Request / Response Models: Pydantic  
@@ -566,7 +566,7 @@ Boundary:
 └── Security: TLS, CORS, token validation, request validation  
 └── Background Service Routing: internal Python service clients or HTTP clients
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with FastAPI \+ REST \+ WebSocket/SSE \+ Pydantic DTOs \+ OpenAPI \+ JWT validation  
 └── Add GraphQL only if frontend data composition becomes painful  
 └── Add gRPC only if internal service-to-service performance or streaming requires it  
@@ -609,9 +609,9 @@ MVP Rule:
 16. UI Actions Must Become Structured Requests  
     └── Approval, rejection, escalation, manual override, and execution-related actions must become typed DTO requests, not free-form commands.  
 17. Service Mesh Is Optional Infrastructure  
-    └── Service Mesh supports secure service-to-service communication, traffic policy, and observability, but it is not required for the initial MVP.  
+    └── Service Mesh supports secure service-to-service communication, traffic policy, and observability, but it is not required for the initial implementation.  
 18. GraphQL and gRPC Are Optional  
-    └── REST \+ WebSocket/SSE should be the MVP baseline; GraphQL and gRPC should be introduced only when their specific advantages are needed.  
+    └── REST \+ WebSocket/SSE should be the initial baseline; GraphQL and gRPC should be introduced only when their specific advantages are needed.  
 19. Gateway Must Not Hide Business Responsibility  
     └── Routing through the gateway does not mean the gateway owns the decision. Decision ownership remains in the proper backend layer.  
 20. API Gateway Protects the Ontology-Centric Core  

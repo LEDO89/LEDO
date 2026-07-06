@@ -1325,6 +1325,8 @@ decision\_registry:
 
 Even if an agent has a high confidence score, it must not bypass the Decision Registry.
 
+**Implementation status note:** `agent_vocabulary_registry` is out of scope for the current implementation stage (see `06_registry_specs/README.md` Section 11 and `07_implementation_plan/implementation_slice_2/implementation_slice_2_plan.md`). Until it exists, `applicable_agent_type_refs` (Section 10) must be treated as an unvalidated placeholder field: it may be populated with plain strings for documentation purposes, but the cross-registry reference resolver (`06_registry_specs/README.md` Section 12B) must not attempt to resolve or enforce it against a target registry. This is a temporary gap, not a design decision — when `agent_vocabulary_registry` is implemented, `applicable_agent_type_refs` must be brought under the same referential-integrity rule as every other `*_ref` / `*_refs` field.
+
 ---
 
 ## **23\. Relationship to Action Registry**

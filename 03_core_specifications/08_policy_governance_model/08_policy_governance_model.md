@@ -146,7 +146,7 @@ inventing domain-specific safety criteria
 
 The Policy Governance Model defines the policy structure.
 
-Actual runtime validation is performed in `06_runtime_validation/`.
+Actual runtime validation is performed in `08_runtime_validation/`.
 
 The boundary for external requests is defined in `09_execution_adapter_model/`.
 
@@ -467,7 +467,7 @@ Execution Policy defines the conditions under which an ExecutionRequest can be c
 Examples:
 
 Physical execution is disabled in development environment.  
-Only DryRunAdapter or MockAdapter is allowed in MVP.
+Only DryRunAdapter or MockAdapter is allowed in the current implementation stage.
 
 ---
 
@@ -947,6 +947,8 @@ decision\_trace\_id
 ---
 
 ## **15\. Grace Period for Evidence / State**
+
+Terminology Note: "Grace Period" in this section is a distinct concept from the "Temporal Grace Period" defined in `04_state_model_registry/4_state_model_registry.md` Section 9.3. This section's Grace Period limits authority during communication loss between Edge and central systems; it is not an ontology-inference-lag tolerance mechanism. Implementations must use `GracePeriodPolicyDTO` / `grace_period_ref` for this concept, and must not reuse these names for the State Model Registry's `temporal_grace_period`.
 
 When communication is lost, it becomes difficult to determine the freshness of Evidence and State.
 
@@ -1834,7 +1836,7 @@ decision\_trace\_id
 
 ## **28\. PolicyAuditEventDTO**
 
-The policy audit structure should be included from MVP Phase 1\.
+The policy audit structure should be included starting with Rollout Stage 1 (Section 31.1).
 
 Recommended fields:
 
@@ -2009,7 +2011,7 @@ The Decision / Approval Matrix determines the required approval route, and the P
 Policies define which external adapters can be used under which conditions.
 
 Production PLCAdapter requires ExternalSystemOwner approval.  
-DryRunAdapter allowed in MVP.
+DryRunAdapter allowed in the current implementation stage.
 
 ---
 
@@ -2019,9 +2021,11 @@ Policy decisions, policy changes, policy exceptions, policy conflict resolution,
 
 ---
 
-## **31\. MVP Scope**
+## **31\. Implementation Rollout Scope**
 
-### **31.1 MVP Phase 1**
+Note: the "Rollout Stage 1/2/3" labels below are internal to this document only. They are not the same numbering as `07_implementation_plan/implementation_plan.md`'s Phase 0–19, nor the same as `07_implementation_plan/implementation_slice_1/2/3`. This document's DTOs and interfaces are built as part of Implementation Slice 1 (Foundation, for the Role/Clearance/Permission skeleton) and Implementation Slice 2 (Registries, for the Policy Registry and `PolicyEngineAdapter`/`DummyPDP`); Rollout Stage 2 and 3 below describe later hardening work beyond the current implementation stage.
+
+### **31.1 Rollout Stage 1**
 
 PolicySpecDTO  
 PolicyContextDTO  
@@ -2044,13 +2048,13 @@ AI Governance Policy skeleton
 Execution Policy skeleton  
 pytest unit tests
 
-In Phase 1, real OPA/Rego integration is not required.
+In Rollout Stage 1, real OPA/Rego integration is not required.
 
-DummyPDP is sufficient.
+`DummyPDP` (the specification's own name for the interface-stub `PolicyEngineAdapter` implementation) is sufficient.
 
 ---
 
-### **31.2 MVP Phase 2**
+### **31.2 Rollout Stage 2**
 
 OPA/Rego adapter  
 Rego input mapper  
@@ -2065,7 +2069,7 @@ Policy audit integration
 
 ---
 
-### **31.3 MVP Phase 3**
+### **31.3 Rollout Stage 3**
 
 policy UI  
 policy graph visualization  

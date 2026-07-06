@@ -529,7 +529,7 @@ MockAdapter is used to test requests, responses, failures, timeouts, and feedbac
 
 MockAdapter must not only return successful responses.
 
-From MVP Phase 1, it must support minimal chaos injection.
+Starting with Rollout Stage 1 (Section 34.1), it must support minimal chaos injection.
 
 Required chaos scenarios include:
 
@@ -553,7 +553,7 @@ Each chaos scenario should be used to test DispatchTracker, RetryPolicy, Idempot
 
 The DryRunAdapter validates request format and policy flow without affecting actual external systems.
 
-DryRunAdapter is important during MVP and development stages.
+DryRunAdapter is important during the current implementation stage and throughout ongoing development.
 
 ---
 
@@ -1004,6 +1004,8 @@ UNKNOWN
 # **20\. Dispatch Lifecycle**
 
 ExternalControlRequest must have a dispatch lifecycle.
+
+Canonical Reference: the `DispatchStatus` enum defined below is the single canonical, implementation-authoritative execution/dispatch state enum for the whole platform. `00_canonical_object_lifecycle.md` Section 8.2 ("Command State Machine") and `03_action_type_registry.md` Section 9.1 ("Core Execution States") both describe the same underlying state progression at a conceptual level and must be implemented against this one enum, not as separate enums.
 
 Recommended states:
 
@@ -1688,7 +1690,7 @@ The Policy Governance Model defines which adapters may be used under which condi
 Examples:
 
 Production PLCAdapter requires ExternalSystemOwner approval.  
-DryRunAdapter allowed in MVP.  
+DryRunAdapter allowed in the current implementation stage.  
 Emergency external request requires emergency policy.  
 Retry may depend on Policy Resolution and Grace Period.
 
@@ -1700,11 +1702,13 @@ All requests, responses, failures, retries, timeouts, ACK, ACCEPT, feedback, and
 
 ---
 
-# **34\. MVP Scope**
+# **34\. Implementation Rollout Scope**
 
-## **34.1 MVP Phase 1**
+Note: the "Rollout Stage 1/2/3" labels below are internal to this document only. They are not the same numbering as `07_implementation_plan/implementation_plan.md`'s Phase 0–19, nor the same as `07_implementation_plan/implementation_slice_1/2/3`. `ExecutionAdapter`, `MockAdapter`, and `DryRunAdapter` are built as part of Implementation Slice 3 (Runtime and Execution); Rollout Stage 2 and 3 below describe later hardening and real-adapter work beyond the current implementation stage, and any adapter beyond `MockAdapter`/`DryRunAdapter` remains subject to the Safety Boundary Rule regardless of rollout stage.
 
-MVP Phase 1 implements the following:
+## **34.1 Rollout Stage 1**
+
+Rollout Stage 1 implements the following:
 
 ExecutionRequestDTO  
 ExecutionContextSnapshotDTO  
@@ -1732,11 +1736,11 @@ timeout policy skeleton
 minimal chaos injection in MockAdapter  
 pytest unit tests
 
-Actual external system integration is not required in Phase 1\.
+Actual external system integration is not required in Rollout Stage 1.
 
-MockAdapter and DryRunAdapter are sufficient.
+`MockAdapter` and `DryRunAdapter` — the specification's own named `AdapterType` values (Section 8.11–8.12) — are implemented as complete, tested interface-stub adapters.
 
-MockAdapter must simulate at least the following chaos scenarios:
+`MockAdapter` must simulate at least the following chaos scenarios:
 
 ACK\_TIMEOUT  
 ACCEPTANCE\_TIMEOUT  
@@ -1752,9 +1756,9 @@ IDEMPOTENCY\_CONFLICT
 
 ---
 
-## **34.2 MVP Phase 2**
+## **34.2 Rollout Stage 2**
 
-MVP Phase 2 adds the following:
+Rollout Stage 2 adds the following:
 
 SimulationAdapter  
 NotificationAdapter  
@@ -1772,9 +1776,9 @@ physical safety capability mapping
 
 ---
 
-## **34.3 MVP Phase 3**
+## **34.3 Rollout Stage 3**
 
-MVP Phase 3 adds the following:
+Rollout Stage 3 adds the following:
 
 AccessControlAdapter  
 RobotMiddlewareAdapter  

@@ -812,7 +812,7 @@ Observability Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Triple Store: Apache Jena Fuseki for shared SPARQL endpoint  
 └── Production Triple Store Option: GraphDB or Stardog later  
@@ -832,7 +832,7 @@ Observability Rule:
 └── Backend API: FastAPI \+ Pydantic DTOs  
 └── Observability: retrieval latency, grounding failure, stale knowledge, sync lag
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with PostgreSQL \+ pgvector \+ MinIO/local storage \+ Jena Fuseki \+ Neo4j read model only if graph exploration is needed early  
 └── Separate embeddings by purpose from the beginning  
 └── Do not allow vector-only results to trigger operational actions  

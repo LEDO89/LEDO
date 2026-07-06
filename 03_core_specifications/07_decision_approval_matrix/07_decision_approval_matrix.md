@@ -80,7 +80,7 @@ ApprovalRequestDTO definition
 ApprovalDecisionDTO definition  
 DecisionMatrixSpecDTO definition  
 ApprovalMatrixSpecDTO definition  
-MVP decision / approval matrix set  
+Initial reference decision / approval matrix set  
 Core scenario flows
 
 ## **2.2 Appendix F: Decision / Approval Matrix Catalog**
@@ -2135,9 +2135,9 @@ Do not send ExecutionRequest
 
 ---
 
-# **34\. MVP Decision / Approval Matrix Set**
+# **34\. Initial Reference Decision / Approval Matrix Set**
 
-For the MVP, reduce the scope and implement the following three first:
+For the initial implementation, reduce the scope and implement the following three first:
 
 Safety Decision Matrix  
 Evidence Conflict Matrix  
@@ -2149,9 +2149,11 @@ Safety is the highest-value domain.
 Evidence Conflict is the main source of wrong decisions.  
 Emergency Fast-Path defines the physical safety boundary.
 
+Note: the "Rollout Stage 1/2/3" labels below are internal to this document only and are not the same numbering as `07_implementation_plan/implementation_plan.md`'s Phase 0–19 or `07_implementation_plan/implementation_slice_1/2/3`.
+
 ---
 
-## **34.1 MVP Phase 1**
+## **34.1 Rollout Stage 1**
 
 Gas critical threshold decision matrix  
 Evidence conflict decision matrix  
@@ -2160,7 +2162,7 @@ Post-hoc audit matrix
 
 ---
 
-## **34.2 MVP Phase 2**
+## **34.2 Rollout Stage 2**
 
 Robot mission blocked decision matrix  
 Robot mission disable approval matrix  
@@ -2170,7 +2172,7 @@ Network health review matrix
 
 ---
 
-## **34.3 MVP Phase 3**
+## **34.3 Rollout Stage 3**
 
 Permit expired decision matrix  
 Inspection failed decision matrix  
@@ -2249,7 +2251,7 @@ decision\_registry/validation/
 
 # **36\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 DecisionRoute enum  
 ApprovalLevel enum  
@@ -2279,9 +2281,9 @@ DecisionRouter
 ApprovalRouter  
 EmergencyFastPathValidator  
 SafetyGatePrecheck  
-MVP Safety Decision Matrix  
-MVP Evidence Conflict Matrix  
-MVP Emergency Fast-Path Matrix  
+Initial Reference Safety Decision Matrix  
+Initial Reference Evidence Conflict Matrix  
+Initial Reference Emergency Fast-Path Matrix  
 Audit integration  
 Post-hoc Audit integration
 

@@ -55,7 +55,7 @@ Privacy-safe append-only rule
 Evidence requirement rule  
 LLM/RAG evidence boundary  
 Registry governance  
-MVP evidence model set  
+Initial reference evidence model set  
 Core scenario flows
 
 ## **2.2 Appendix D: Evidence Type Catalog**
@@ -1675,9 +1675,9 @@ Emergency action evidence bundle
 
 ---
 
-# **23\. MVP Evidence Model Set**
+# **23\. Initial Reference Evidence Model Set**
 
-For the MVP, the following evidence models should be registered first.
+For the initial implementation, the following evidence models should be registered first.
 
 ## **23.1 Sensor / Telemetry**
 
@@ -1794,7 +1794,7 @@ evidence\_registry/mappings/
 
 # **26\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 EvidenceCategory enum  
 EvidenceType enum  
@@ -1825,7 +1825,7 @@ Attested Extraction Policy
 Privacy-safe Append-only Policy  
 Grounding Policy  
 AI Evidence Boundary Policy  
-MVP evidence type constants  
+Initial reference evidence type constants  
 Event-to-Evidence Requirement Mapping  
 Action-to-Evidence Requirement Mapping  
 StateTransition-to-Evidence Requirement Mapping  

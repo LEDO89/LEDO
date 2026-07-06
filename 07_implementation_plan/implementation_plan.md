@@ -371,7 +371,7 @@ Ontology Foundation
 Domain Ontology Modules  
 Registry Specifications  
 Runtime Validation  
-MVP Plan  
+Reference Flow Scope  
 Pre-Code Checklist
 
 ---
@@ -1427,13 +1427,15 @@ No execution request without audit.
 
 ---
 
-# **9\. MVP Implementation Scope**
+# **9\. Reference Flow Scope**
 
-The MVP must not implement everything.
+**Non-normative note:** `STOP_WORK` and `DISPATCH_ROBOT` below (and the event/state/evidence names used in their flows) are reference fixtures, not approved domain content. They are used because they recur consistently across this document and several `06_registry_specs/*` documents, which reduces the risk of introducing new placeholder names. No document declares them normative; see `06_registry_specs/action_registry/action_registry.md` Sections 11–12 for the corresponding registry-level non-normative marking.
 
-The MVP must prove that LEDO’s end-to-end lifecycle works.
+This scope must not implement everything.
 
-MVP canonical flow:
+This scope must prove that LEDO's end-to-end lifecycle works.
+
+Canonical flow for the first formal reference implementation:
 
 Event  
 → State  
@@ -1450,14 +1452,14 @@ Event
 → Audit  
 → World State Update
 
-MVP must include two flows:
+This scope includes two reference flows:
 
-MVP Flow A: STOP\_WORK  
-MVP Flow B: DISPATCH\_ROBOT
+Reference Flow A: STOP\_WORK  
+Reference Flow B: DISPATCH\_ROBOT
 
 ---
 
-## **9.1 MVP Flow A: STOP\_WORK**
+## **9.1 Reference Flow A: STOP\_WORK**
 
 Purpose:
 
@@ -1512,7 +1514,7 @@ External System performs actual site control, notification, or work stop workflo
 
 ---
 
-## **9.2 MVP Flow B: DISPATCH\_ROBOT**
+## **9.2 Reference Flow B: DISPATCH\_ROBOT**
 
 Purpose:
 
@@ -1626,7 +1628,7 @@ Execution Request / External Control Integration
     ↓  
 Feedback / Audit / World State Update  
     ↓  
-MVP Runtime Flow
+First Formal Reference Flow
 
 ---
 
@@ -1655,8 +1657,8 @@ Before writing implementation code, the following checklist must pass.
 19\. Safety Gate pass ≠ Physical Execution preserved?  
 20\. ExecutionRequest ≠ PhysicalCommand preserved?  
 21\. Runtime Validation separated from Safety Gate?  
-22\. STOP\_WORK MVP flow defined?  
-23\. DISPATCH\_ROBOT MVP flow defined?  
+22\. STOP\_WORK reference flow defined?  
+23\. DISPATCH\_ROBOT reference flow defined?  
 24\. Audit required across all lifecycle steps?  
 25\. Feedback loop returns to World State Update?
 
@@ -1722,7 +1724,7 @@ Master Architecture
 → Registry Specifications  
 → Implementation Plan  
 → Runtime Validation  
-→ MVP Runtime Flow  
+→ First Formal Reference Flow  
 → Code
 
 The implementation plan must preserve the existing LEDO architecture exactly.

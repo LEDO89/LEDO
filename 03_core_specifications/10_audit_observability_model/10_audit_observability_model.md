@@ -919,7 +919,7 @@ trace\_id
 correlation\_id  
 causality\_ids
 
-DecisionTraceDTO must be included from MVP Phase 1\.
+DecisionTraceDTO must be included starting with Rollout Stage 1 (Section 29.1).
 
 Reasons:
 
@@ -1738,11 +1738,13 @@ Audit must record `execution_request_refs`, `external_control_request_refs`, and
 
 ---
 
-# **29\. MVP Scope**
+# **29\. Implementation Rollout Scope**
 
-## **29.1 MVP Phase 1**
+Note: the "Rollout Stage 1/2/3" labels below are internal to this document only. They are not the same numbering as `07_implementation_plan/implementation_plan.md`'s Phase 0–19, nor the same as `07_implementation_plan/implementation_slice_1/2/3`. `AuditRecordDTO` and the interface-stub `InMemoryAuditWriter`/`FileAuditWriter` are built as part of Implementation Slice 3 (Runtime and Execution); Rollout Stage 2 and 3 below describe later hardening work beyond the current implementation stage.
 
-MVP Phase 1 implements the following:
+## **29.1 Rollout Stage 1**
+
+Rollout Stage 1 implements the following:
 
 AuditRecordDTO  
 AuditContextSnapshotDTO  
@@ -1764,17 +1766,17 @@ BasicTraceContext
 basic content\_hash support  
 pytest unit tests
 
-In Phase 1, an external observability stack is not required.
+In Rollout Stage 1, an external observability stack is not required.
 
 InMemoryAuditWriter and FileAuditWriter are sufficient.
 
-DecisionTraceDTO must be included from Phase 1\.
+DecisionTraceDTO must be included starting with Rollout Stage 1.
 
 ---
 
-## **29.2 MVP Phase 2**
+## **29.2 Rollout Stage 2**
 
-MVP Phase 2 adds the following:
+Rollout Stage 2 adds the following:
 
 StructuredLogWriter  
 MetricCollector  
@@ -1791,9 +1793,9 @@ EdgeAuditConflictResolver
 
 ---
 
-## **29.3 MVP Phase 3**
+## **29.3 Rollout Stage 3**
 
-MVP Phase 3 adds the following:
+Rollout Stage 3 adds the following:
 
 OpenTelemetry-compatible trace exporter  
 Metrics dashboard  

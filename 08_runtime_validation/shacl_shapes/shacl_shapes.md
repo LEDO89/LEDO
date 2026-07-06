@@ -211,7 +211,7 @@ Safety Gate hot path
 
 ## **8\. Core Shape Categories**
 
-For the MVP, SHACL Shapes are divided into the following categories:
+For the initial implementation, SHACL Shapes are divided into the following categories:
 
 Action Shapes  
 Runtime Input Shapes  
@@ -718,9 +718,9 @@ SHACLValidationResult
 
 ---
 
-## **21\. MVP Scope**
+## **21\. Initial Implementation Scope**
 
-The MVP must prioritize the following SHACL Shapes:
+The initial implementation must prioritize the following SHACL Shapes:
 
 ApprovedActionShape  
 RuntimeValidationInputShape  
@@ -733,7 +733,7 @@ SafetyGatePassShape
 ExecutionRequestShape  
 SHACLValidationResultShape
 
-These MVP Shapes must support the STOP\_WORK and DISPATCH\_ROBOT runtime validation flows.
+These initial reference Shapes must support the STOP\_WORK and DISPATCH\_ROBOT runtime validation flows.
 
 ---
 

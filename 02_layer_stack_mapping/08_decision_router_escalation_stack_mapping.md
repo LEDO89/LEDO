@@ -700,7 +700,7 @@ Governance Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Routing Engine: Python rule-based decision table  
 └── Policy Check: OPA / Rego for escalation and approval requirement  
@@ -715,7 +715,7 @@ Governance Rule:
 └── UI Output: War Room Case, Approval Queue, Supervisor Notification  
 └── Observability: routing latency, queue delay, risk tier counts, routing failures
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with deterministic decision table \+ OPA policy call \+ explicit DecisionCase state machine  
 └── Add DMN/BPMN when routing logic needs business-readable governance  
 └── Add Kafka topic routing when event volume and multi-service routing require it  

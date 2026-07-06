@@ -311,7 +311,7 @@ Semantic Purpose:
 Alignment Rule:  
 └── BFO and standards should guide structure, not suffocate practical construction modeling  
 └── Use standards where they clarify meaning, interoperability, provenance, measurement, or spatial semantics  
-└── Do not force every domain class into excessive theoretical depth during MVP
+└── Do not force every domain class into excessive theoretical depth during initial implementation
 
 ---
 
@@ -773,7 +773,7 @@ Execution Boundary Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Ontology Language: OWL 2 \+ RDF / RDFS  
 └── Validation: SHACL  
@@ -794,7 +794,7 @@ Execution Boundary Rule:
 └── Migration: manual migration first, automated migration later  
 └── Compatibility Check: SHACL validation \+ SPARQL regression queries \+ reasoner consistency check
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with a small but strict ontology core  
 └── Define Object Types, Link Types, Attribute Types, Event Types, Action Types, Capability Types, and World State Binding first  
 └── Use SHACL for practical validation  

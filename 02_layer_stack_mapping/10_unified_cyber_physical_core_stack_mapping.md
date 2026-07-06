@@ -738,7 +738,7 @@ Security Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Core Language: Pydantic schemas for CoreEvent, ApprovedAction, ExecutionRequest, ExecutionResult, FeedbackEvent, AuditRecord  
 └── ID Strategy: UUID for all lifecycle objects  
@@ -756,7 +756,7 @@ Security Rule:
 └── UI Sync: WebSocket / SSE event through API Gateway  
 └── Observability: OpenTelemetry traces \+ structured logs
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with strict schemas, explicit state machine, PostgreSQL event store, transactional outbox, idempotency key, and feedback handling  
 └── Do not build complex Saga engine first  
 └── Do not connect directly to robot / PLC / SCADA protocols from this layer  

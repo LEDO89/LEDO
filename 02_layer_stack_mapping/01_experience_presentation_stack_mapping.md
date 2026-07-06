@@ -254,7 +254,7 @@ Technologies:
 └── D3.js optional
 
 Recommended Use:  
-└── Cytoscape.js as the main graph explorer for MVP  
+└── Cytoscape.js as the main graph explorer for the initial implementation  
 └── React Force Graph for interactive force-directed views  
 └── D3.js only when custom low-level visualization is required
 
@@ -613,7 +613,7 @@ UI Permission Examples:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Core Framework: Next.js \+ React \+ TypeScript  
 └── Styling: Tailwind CSS \+ shadcn/ui  
@@ -631,7 +631,7 @@ UI Permission Examples:
 └── Approval UI: DecisionCase \+ ApprovalRequest components  
 └── Audit UI: Timeline \+ Trace ID search
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with Web UI, dashboard, graph explorer, decision case review, alert center, and approval center  
 └── Add digital twin, 3D, advanced map overlays, embedded BI, AR / VR, and voice interface after core data contracts stabilize
 

@@ -801,7 +801,7 @@ Security Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Event Bus: Kafka or Redpanda  
 └── Edge / Sensor Messaging: MQTT  
@@ -818,7 +818,7 @@ Security Rule:
 └── Observability: Prometheus \+ Grafana metrics for freshness, lag, dropped events, and stale state  
 └── Audit: state change events sent to Layer 0 / Layer 5 when meaningful
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with MQTT → FastAPI ingestion → Redis World State → WebSocket/SSE UI updates  
 └── Add Kafka when event volume, replay, durability, or multi-consumer processing becomes necessary  
 └── Add TimescaleDB for telemetry history  

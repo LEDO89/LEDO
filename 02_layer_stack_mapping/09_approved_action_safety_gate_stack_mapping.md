@@ -53,7 +53,7 @@
 
 ## **Optional Technologies**
 
-└── pySHACL for MVP target validation  
+└── pySHACL for initial target validation  
 └── Apache Jena SHACL for shared validation  
 └── GraphDB / Stardog validation for production-scale RDF validation  
 └── DMN for approval requirement rules  
@@ -733,7 +733,7 @@ Audit Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Validation Engine: Python service  
 └── DTOs: Pydantic ApprovedActionDTO, RuntimeValidationResultDTO, SafetyGatePassDTO, SafetyGateBlockDTO  
@@ -749,7 +749,7 @@ Audit Rule:
 └── Interlock: hard-coded safety interlock table first, policy-backed later  
 └── Output: SafetyGatePass only when all required runtime validation passes; otherwise SafetyGateBlock
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with a strict ApprovedAction → RuntimeValidationInput → RuntimeValidationResult → Safety Gate → SafetyGatePass/SafetyGateBlock validation pipeline  
 └── Define 5 to 9 approved action types only  
 └── Validate action type, target node, state freshness, approval, policy, capability, and evidence  

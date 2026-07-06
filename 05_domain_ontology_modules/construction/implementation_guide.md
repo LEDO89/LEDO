@@ -13,7 +13,7 @@ last_updated: 2026-06-22
 
 Implement the module described by the specification files in this folder.
 
-The implementation must follow the architecture, DTO definitions, enum values, validation rules, registry boundaries, safety constraints, and MVP scope defined in the module specification.
+The implementation must follow the architecture, DTO definitions, enum values, validation rules, registry boundaries, safety constraints, and implementation scope defined in the module specification.
 
 ## Module Focus
 

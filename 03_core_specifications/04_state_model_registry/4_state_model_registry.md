@@ -55,7 +55,7 @@ Reconciliation rules
 Fail-safe rules  
 Ownership and authority arbitration  
 Registry governance  
-MVP state model set  
+Initial reference state model set  
 Core scenario flows
 
 ## **2.2 Appendix C: State Model Catalog**
@@ -643,6 +643,8 @@ Evaluate fail-safe if safety-critical
 
 ## **9.3 Temporal Grace Period Rule**
 
+Terminology Note: "Temporal Grace Period" in this section is a distinct concept from the "Grace Period" defined in `08_policy_governance_model/08_policy_governance_model.md` Section 15 ("Grace Period for Evidence / State"). This section's Temporal Grace Period tolerates a short lag between ontology inference and runtime world state; it is not a communication-loss or authority-limiting mechanism. Implementations must use the field name `temporal_grace_period` (never the bare name `grace_period`) to avoid collision with the Policy Governance Model's `GracePeriodPolicyDTO` / `grace_period_ref`.
+
 There may be a time lag between ontology inferred state and runtime world state.
 
 If this time lag is treated immediately as a conflict, false positives can explode.
@@ -670,7 +672,7 @@ First:
 
 reconciliation\_status \= IN\_TRANSIT  
 reason \= ontology inference pending  
-grace\_period \= 3 seconds
+temporal\_grace\_period \= 3 seconds
 
 If the mismatch still remains after 3 seconds:
 
@@ -1175,9 +1177,9 @@ Only meaningful changes are promoted to semantic events.
 
 ---
 
-# **16\. MVP State Model Set**
+# **16\. Initial Reference State Model Set**
 
-For the MVP, the following state models should be registered first.
+For the initial implementation, the following state models should be registered first.
 
 ## **16.1 Robot / Mission**
 
@@ -1285,7 +1287,7 @@ state\_registry/mappings/
 
 # **19\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 StateCategory enum  
 StateKind enum  
@@ -1297,7 +1299,7 @@ StateModelSpecDTO
 StateTransitionSpecDTO  
 StateRegistry  
 StateTransitionRegistry  
-MVP state value constants  
+Initial reference state value constants  
 Event-to-State Transition Mapping  
 Action-to-Expected-State Mapping  
 Feedback-to-Confirmed-State Mapping  

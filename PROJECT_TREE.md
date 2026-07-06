@@ -31,8 +31,7 @@ ledo_ontology_core/
 |   |-- 10_unified_cyber_physical_core_stack_mapping.md
 |   |-- 11_execution_request_external_control_integration_stack_mapping.md
 |   |-- 12_physical_world_stack_mapping.md
-|   |-- implementation_guide.md
-|   `-- ontology_semantic_reasoning_stack.md
+|   `-- implementation_guide.md
 |-- 03_core_specifications/
 |   |-- README.md
 |   |-- 00_canonical_object_lifecycle/
@@ -87,9 +86,9 @@ ledo_ontology_core/
 |-- 07_implementation_plan/
 |   |-- README.md
 |   |-- implementation_plan.md
-|   |-- mvp_phase_1/
-|   |-- mvp_phase_2/
-|   `-- mvp_phase_3/
+|   |-- implementation_slice_1/
+|   |-- implementation_slice_2/
+|   `-- implementation_slice_3/
 |-- 08_runtime_validation/
 |   |-- README.md
 |   |-- idempotency/
@@ -100,7 +99,6 @@ ledo_ontology_core/
 |   `-- validators/
 |-- 09_appendices/
 |   |-- README.md
-|   |-- PROJECT_TREE.md
 |   |-- appendix_a_stack_catalog/
 |   |-- appendix_b_event_catalog/
 |   |-- appendix_c_state_catalog/
@@ -212,31 +210,17 @@ ledo_ontology_core/
 |-- contracts/
 |   |-- README.md
 |   |-- pydantic_models/
-|   |   `-- README.md
 |   |-- json_schema/
-|   |   `-- README.md
 |   |-- examples/
-|   |   `-- README.md
 |   |-- openapi/
-|   |   `-- README.md
 |   |-- asyncapi/
-|   |   `-- README.md
 |   `-- protobuf/
-|       `-- README.md
 |-- infra/
 |   |-- README.md
 |   |-- docker/
-|   |   `-- README.md
 |   |-- k8s/
-|   |   `-- README.md
 |   |-- observability/
-|   |   `-- README.md
 |   `-- local_dev/
-|       `-- README.md
-|-- templates/
-|   |-- codex_task_prompt_template.md
-|   |-- implementation_guide_template.md
-|   `-- spec_metadata_template.md
 `-- tests/
     |-- fixtures/
     |   |-- sample_domain_packs/

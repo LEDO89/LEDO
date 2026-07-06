@@ -653,7 +653,7 @@ Safety Boundary Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Physical Entities: workers, zones, equipment, sensors, simple robot or mock robot  
 └── Sensor Input: MQTT-based IoT sensor events  
@@ -667,12 +667,12 @@ Safety Boundary Rule:
 └── Audit: all physical feedback linked to execution lifecycle  
 └── Digital Twin: display world state, not physical source of truth
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with simulated or mock physical systems  
 └── Then connect simple sensors and notification systems  
 └── Then connect one robot / fleet manager integration  
 └── Then connect equipment and industrial control systems only after strict testing  
-└── Do not connect directly to dangerous machinery in early MVP  
+└── Do not connect directly to dangerous machinery in early implementation stages  
 └── Always preserve human override and local safety mechanisms
 
 ---

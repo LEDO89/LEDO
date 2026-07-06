@@ -28,7 +28,7 @@ Define module ownership, SemVer versioning, and deprecation rules.
 Define governance based on Impact Level.  
 Define CI/CD-based module boundary validators.  
 Prevent ontology drift, domain pollution, vendor pollution, AI pollution, and property pollution.  
-Define the ontology module set to be implemented first in the MVP.
+Define the ontology module set to be implemented first.
 
 The full class/property catalog is managed in a separate document: Appendix E: Ontology Module Catalog.
 
@@ -69,7 +69,7 @@ Module Ownership
 SemVer Versioning / Deprecation Rule  
 Impact Level Governance  
 Runtime Validation / CI/CD Rule  
-MVP Ontology Module Set  
+Initial reference ontology module set  
 Core scenario flows
 
 ## **2.2 Appendix E: Ontology Module Catalog**
@@ -1305,7 +1305,7 @@ OWL reasoner is for static consistency.
 SHACL is the main runtime guardrail.  
 Runtime safety path must not depend on full OWL reasoning.
 
-From the MVP stage, the following items must be validated with SHACL:
+From the initial implementation stage, the following items must be validated with SHACL:
 
 ObjectProperty domain/range boundary  
 Core → Domain forbidden import  
@@ -2307,9 +2307,9 @@ Core has only the upper-level concept Evidence.
 
 ---
 
-# **37\. MVP Ontology Module Set**
+# **37\. Initial Reference Ontology Module Set**
 
-For the MVP, the following modules should be implemented first.
+For the initial implementation, the following modules should be implemented first.
 
 core-upper  
 core-crosscutting  
@@ -2430,7 +2430,7 @@ ontology\_validation/
 
 # **39\. Recommended Implementation Order**
 
-The MVP implementation order should be as follows.
+The implementation order should be as follows.
 
 OntologyModule enum  
 OntologyModuleCategory enum  
@@ -2468,7 +2468,7 @@ Mapping adapter compatibility test
 Registry compatibility test  
 CI/CD validation pipeline
 
-ObjectPropertyBoundarySpecDTO and ObjectPropertyBoundaryValidator must be implemented early in the MVP.
+ObjectPropertyBoundarySpecDTO and ObjectPropertyBoundaryValidator must be implemented early in the initial implementation.
 
 Reason:
 

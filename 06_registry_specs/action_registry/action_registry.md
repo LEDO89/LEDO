@@ -390,6 +390,8 @@ replacement\_action\_type\_id: string | null
 
 ## **11\. Example Registry Entry: DISPATCH\_ROBOT**
 
+> **Non-normative placeholder.** Every field value below (`risk_class`, `required_approval_level`, `timeout_policy_ref`, `required_policy_refs`, `owner_team`, dates, etc.) is illustrative scaffolding to show the entry shape, not an approved domain decision. Per `AGENTS.md` Domain Authority Rule and Domain No-Guessing Rule, real risk classifications, approval levels, and policy/timeout bindings must be authored and approved through the governance process in Section 22 ("Versioning and Migration") before this entry is treated as `active` in a real deployment.
+
 action\_type\_id: DISPATCH\_ROBOT  
 canonical\_name: dispatch\_robot  
 display\_name: Dispatch Robot  
@@ -475,6 +477,8 @@ replacement\_action\_type\_id: null
 ---
 
 ## **12\. Example Registry Entry: STOP\_WORK**
+
+> **Non-normative placeholder.** As with Section 11, every field value below is illustrative scaffolding, not an approved domain decision. See the note in Section 11 for the governance requirement before treating this as a real `active` entry.
 
 action\_type\_id: STOP\_WORK  
 canonical\_name: stop\_work  

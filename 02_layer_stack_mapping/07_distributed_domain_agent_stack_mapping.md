@@ -641,7 +641,7 @@ Security Rule:
 
 ---
 
-## **Recommended MVP Stack Mapping**
+## **Recommended Initial Stack Mapping**
 
 └── Agent Runtime: Python async services \+ LangGraph-style workflow where useful  
 └── Local LLM / SLM Serving: Ollama  
@@ -659,7 +659,7 @@ Security Rule:
 └── Output DTOs: AlertDTO, ActionCandidateDTO, EscalationCaseDTO, DecisionCaseDTO  
 └── Observability: OpenTelemetry \+ structured logs \+ agent metrics
 
-MVP Rule:  
+Initial Rollout Rule:  
 └── Start with 2 or 3 agents only: Safety Agent, Equipment Agent, Robot Agent  
 └── Use deterministic rules first where possible  
 └── Add SLM / LoRA only where language understanding, summarization, or candidate generation truly helps  

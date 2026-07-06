@@ -1,559 +1,608 @@
 # **README.md — 06 Registry Specs**
 
-## **1\. 목적**
+## **1. Purpose**
 
-`06_registry_specs`는 LEDO Ontology Core 전체에서 사용되는 통제된 어휘, 식별자, 버전, 상태, 참조 규칙을 정의하는 영역이다.
+`06_registry_specs` is the area that defines the controlled vocabulary, identifiers, versions, statuses, and reference rules used across the entire LEDO Ontology Core.
 
-Registry는 시스템이 임의의 이름, 임의의 상태, 임의의 Action, 임의의 Event, 임의의 Adapter, 임의의 Snapshot 구조를 생성하지 못하도록 통제한다.
+Registries prevent the system from creating arbitrary names, arbitrary statuses, arbitrary Actions, arbitrary Events, arbitrary Adapters, or arbitrary Snapshot structures.
 
-Registry는 의미를 직접 정의하지 않는다.  
-의미는 Ontology와 Specification이 정의한다.  
-Registry는 정의된 의미를 안정적으로 참조하고, 버전 관리하고, 검증 가능한 형태로 고정한다.
+Registries do not define meaning directly.
+Meaning is defined by Ontology and Specification.
+Registries stably reference the defined meaning, version it, and fix it into a verifiable form.
 
-핵심 원칙은 다음과 같다.
+The core principles are as follows.
 
-Ontology defines meaning.  
-Core Specifications define operational contracts.  
-Registry controls names, identifiers, versions, and allowed vocabularies.  
-Runtime Validation uses Registry for deterministic validation.  
+Ontology defines meaning.
+Core Specifications define operational contracts.
+Registry controls names, identifiers, versions, and allowed vocabularies.
+Runtime Validation uses Registry for deterministic validation.
 Implementation uses Registry to generate enums, schemas, validators, and tests.
 
 ---
 
-## **2\. Registry의 역할**
+## **2. The Role of Registry**
 
-Registry는 LEDO 전체에서 다음 역할을 수행한다.
+Registries perform the following roles across LEDO.
 
-고정 어휘 통제  
-식별자 통제  
-버전 관리  
-상태 관리  
-참조 무결성 유지  
-임의 생성 방지  
-검증 가능성 확보  
-코드와 문서의 일관성 유지  
-도메인 확장 값의 등록 절차 제공
+Controlling fixed vocabulary
+Controlling identifiers
+Version management
+Status management
+Maintaining referential integrity
+Preventing arbitrary creation
+Ensuring verifiability
+Maintaining consistency between code and documentation
+Providing a registration procedure for domain extension values
 
-Registry는 단순한 목록이 아니다.
+A Registry is not a simple list.
 
-Registry는 문서, Ontology, Runtime Validation, Implementation 사이를 연결하는 통제 장치다.
-
----
-
-## **3\. Registry가 아닌 것**
-
-Registry는 다음을 수행하지 않는다.
-
-도메인 의미를 직접 정의하지 않는다.  
-실제 산업 규칙을 임의로 만들지 않는다.  
-안전 기준이나 위험 임계값을 추정하지 않는다.  
-물리 실행 명령을 정의하지 않는다.  
-Ontology Foundation을 대체하지 않는다.  
-Policy Engine을 대체하지 않는다.  
-Safety Gate를 대체하지 않는다.
-
-Registry는 의미의 주인이 아니다.  
-Registry는 의미를 참조하는 식별자와 어휘의 통제자다.
+A Registry is a control mechanism that connects documentation, Ontology, Runtime Validation, and Implementation.
 
 ---
 
-## **4\. Registry의 전체 위치**
+## **3. What Registry Is Not**
 
-LEDO 구조에서 Registry는 모든 주요 계층과 연결된다.
+Registries do not perform the following.
 
-Ontology Foundation  
-→ 의미 정의
+They do not directly define domain meaning.
+They do not arbitrarily create real industrial rules.
+They do not estimate safety criteria or risk thresholds.
+They do not define physical execution commands.
+They do not replace the Ontology Foundation.
+They do not replace the Policy Engine.
+They do not replace the Safety Gate.
 
-Core Specifications  
-→ 운영 객체 계약 정의
-
-Registry Specs  
-→ 이름, 식별자, 어휘, 버전 통제
-
-Runtime Validation  
-→ Registry 기반 검증
-
-Implementation  
-→ Registry 기반 Enum, DTO, Validator, Test 생성
-
-Domain Modules  
-→ Domain-specific registry extension 제공
+Registry is not the owner of meaning.
+Registry is the controller of the identifiers and vocabulary that reference meaning.
 
 ---
 
-## **5\. 권장 폴더 구조**
+## **4. Overall Position of Registry**
 
-`06_registry_specs`는 다음 구조를 기준으로 한다.
+Within the LEDO structure, Registry connects to every major layer.
 
-06\_registry\_specs/  
+Ontology Foundation
+→ meaning definition
+
+Core Specifications
+→ operational object contract definition
+
+Registry Specs
+→ control of names, identifiers, vocabulary, and versions
+
+Runtime Validation
+→ Registry-based validation
+
+Implementation
+→ Registry-based generation of Enums, DTOs, Validators, and Tests
+
+Domain Modules
+→ provide domain-specific registry extensions
+
+---
+
+## **5. Recommended Folder Structure**
+
+`06_registry_specs` is based on the following structure.
+
+06_registry_specs/
   README.md
 
-  action\_registry/  
-  approval\_registry/  
-  decision\_registry/  
-  event\_registry/  
-  evidence\_registry/  
-  policy\_registry/  
-  state\_registry/
+  action_registry/
+  approval_registry/
+  decision_registry/
+  event_registry/
+  evidence_registry/
+  policy_registry/
+  state_registry/
 
-  adapter\_registry/  
-  external\_system\_registry/  
-  snapshot\_schema\_registry/  
-  identity\_registry/  
-  ontology\_registry/
+  adapter_registry/
+  external_system_registry/
+  snapshot_schema_registry/
+  identity_registry/
+  ontology_registry/
 
-향후 Agent와 SLM 구조가 안정된 뒤 다음 Registry를 추가할 수 있다.
+The following Registries may be added later, once the Agent and SLM structure has stabilized.
 
- agent\_vocabulary\_registry/  
-  model\_adapter\_registry/
+  agent_vocabulary_registry/
+  model_adapter_registry/
 
 ---
 
-## **6\. Registry 분류**
+## **6. Registry Classification**
 
-Registry는 크게 다섯 가지 범주로 나뉜다.
+Registries fall broadly into five categories.
 
-| 범주 | Registry | 역할 |
+| Category | Registry | Role |
 | ----- | ----- | ----- |
-| Operational Registry | `action_registry`, `event_registry`, `state_registry`, `decision_registry`, `approval_registry`, `evidence_registry`, `policy_registry` | 운영 객체와 판단 흐름에서 사용되는 고정 어휘 통제 |
-| Integration Registry | `adapter_registry`, `external_system_registry` | 외부 시스템 연결 방식과 실제 외부 대상 통제 |
-| Runtime Registry | `snapshot_schema_registry` | Safety Gate Snapshot 구조와 버전 통제 |
-| Semantic / Identity Registry | `ontology_registry`, `identity_registry` | Ontology 자원 식별자와 Canonical Identity 통제 |
-| AI / Agent Registry | `agent_vocabulary_registry`, `model_adapter_registry` | 향후 Agent / SLM vocabulary 및 adapter compatibility 통제 |
+| Operational Registry | `action_registry`, `event_registry`, `state_registry`, `decision_registry`, `approval_registry`, `evidence_registry`, `policy_registry` | Controls the fixed vocabulary used in operational objects and judgment flows |
+| Integration Registry | `adapter_registry`, `external_system_registry` | Controls external system connection methods and actual external targets |
+| Runtime Registry | `snapshot_schema_registry` | Controls the structure and version of the Safety Gate Snapshot |
+| Semantic / Identity Registry | `ontology_registry`, `identity_registry` | Controls Ontology resource identifiers and Canonical Identity |
+| AI / Agent Registry | `agent_vocabulary_registry`, `model_adapter_registry` | Controls future Agent / SLM vocabulary and adapter compatibility |
 
-초기 단계에서는 Operational, Integration, Runtime, Semantic / Identity Registry를 우선한다.
+At the initial stage, priority is given to the Operational, Integration, Runtime, and Semantic / Identity Registries.
 
 ---
 
-## **7\. Core Operational Registries**
+## **7. Core Operational Registries**
 
-Core Operational Registry는 LEDO의 판단 흐름에서 사용되는 고정 어휘를 관리한다.
+Core Operational Registries manage the fixed vocabulary used in LEDO's judgment flow.
 
 ### **7.1 Action Registry**
 
-`action_registry`는 시스템이 인식할 수 있는 Action Type을 통제한다.
+`action_registry` controls the Action Types the system can recognize.
 
-역할:
+Role:
 
-Action Type ID 관리  
-Action Type 이름 관리  
-ActionCandidate와 ApprovedAction에서 사용할 수 있는 Action 목록 관리  
-Action Type별 target constraint 연결  
-Action Type별 approval requirement 연결  
-Action Type별 policy reference 연결  
-Action Type별 runtime validation requirement 연결
+Manage Action Type ID
+Manage Action Type name
+Manage the list of Actions usable in ActionCandidate and ApprovedAction
+Connect target constraints per Action Type
+Connect approval requirements per Action Type
+Connect policy references per Action Type
+Connect runtime validation requirements per Action Type
 
-Action Registry는 실제 물리 명령을 정의하지 않는다.
+The Action Registry does not define actual physical commands.
 
 ---
 
 ### **7.2 Event Registry**
 
-`event_registry`는 시스템이 인식할 수 있는 Event Type을 통제한다.
+`event_registry` controls the Event Types the system can recognize.
 
-역할:
+Role:
 
-Event Type ID 관리  
-Event Type 이름 관리  
-Event severity 연결  
-Evidence requirement 연결  
-World State update rule 참조  
-Decision routing rule 참조  
-Audit trace 연결
+Manage Event Type ID
+Manage Event Type name
+Connect Event severity
+Connect Evidence requirement
+Reference World State update rules
+Reference Decision routing rules
+Connect Audit trace
 
-Event Registry는 실제 도메인 사건의 의미를 임의로 만들지 않는다.  
-도메인별 Event Type은 Domain Module에서 정의되고 Registry에 등록된다.
+The Event Registry does not arbitrarily create the meaning of actual domain events.
+Domain-specific Event Types are defined in Domain Modules and registered in the Registry.
 
 ---
 
 ### **7.3 State Registry**
 
-`state_registry`는 시스템에서 사용하는 State Type과 State Value를 통제한다.
+`state_registry` controls the State Types and State Values used in the system.
 
-역할:
+Role:
 
-State Type ID 관리  
-State Value 관리  
-State transition reference 관리  
-World State와 연결  
-Safety Gate validation flag와 연결  
-Runtime freshness requirement와 연결
+Manage State Type ID
+Manage State Value
+Manage State transition references
+Connect to World State
+Connect to Safety Gate validation flags
+Connect to Runtime freshness requirements
 
-State Registry는 현재 상태의 Source of Truth가 아니다.  
-현재 상태의 Source of Truth는 Real-Time World State다.
+The State Registry is not the Source of Truth for the current state.
+The Source of Truth for the current state is Real-Time World State.
+
+**Boundary with the Snapshot Schema Registry:** `state_registry` and `snapshot_schema_registry` (Section 9.1) each define freshness/staleness-related fields (`freshness_requirement`, `stale_policy_ref`, `conflict_policy_ref`, etc.) in nearly identical form. This is not duplication; the two registries govern different targets. `state_registry` covers the freshness of **mutable current state** (values that World State keeps updating), while `snapshot_schema_registry` covers the freshness of **immutable point-in-time snapshots** (values that the Safety Gate fixes at approval time and reads as-is). In implementation, share the freshness-validation logic between the two registries through a common utility (e.g. `framework/validation/freshness.py`), but do not merge the two registries' entry schemas.
 
 ---
 
 ### **7.4 Decision Registry**
 
-`decision_registry`는 DecisionCase, routing decision, escalation type을 통제한다.
+`decision_registry` controls DecisionCase, routing decisions, and escalation types.
 
-역할:
+Role:
 
-Decision Type ID 관리  
-Decision outcome 관리  
-Decision tier 관리  
-Escalation category 관리  
-Risk routing category 관리  
-Approval path reference 연결  
-Audit requirement 연결
+Manage Decision Type ID
+Manage Decision outcome
+Manage Decision tier
+Manage Escalation category
+Manage Risk routing category
+Connect Approval path references
+Connect Audit requirement
 
-Decision Registry는 최종 실행 권한을 부여하지 않는다.
+The Decision Registry does not grant final execution authority.
 
 ---
 
 ### **7.5 Approval Registry**
 
-`approval_registry`는 승인 유형과 승인 상태를 통제한다.
+`approval_registry` controls approval types and approval statuses.
 
-역할:
+Role:
 
-Approval Type 관리  
-Approval State 관리  
-Approval requirement reference 관리  
-Approver role reference 관리  
-Validity condition reference 관리  
-Expiration rule reference 관리  
-Audit requirement 연결
+Manage Approval Type
+Manage Approval State
+Manage Approval requirement references
+Manage Approver role references
+Manage Validity condition references
+Manage Expiration rule references
+Connect Audit requirement
 
-Approval Registry는 실제 승인 권한자를 임의로 결정하지 않는다.  
-도메인별 승인 권한은 Domain Module과 Governance / Policy 구조에서 정의된다.
+The Approval Registry does not arbitrarily decide the actual approval authority.
+Domain-specific approval authority is defined in the Domain Module and the Governance / Policy structure.
 
 ---
 
 ### **7.6 Evidence Registry**
 
-`evidence_registry`는 Evidence Type과 Evidence requirement를 통제한다.
+`evidence_registry` controls Evidence Types and Evidence requirements.
 
-역할:
+Role:
 
-Evidence Type ID 관리  
-Evidence source type 관리  
-Evidence trust requirement 연결  
-Timestamp requirement 연결  
-Provenance requirement 연결  
-Validation status 관리  
-EvidenceBundle 구성 기준 연결
+Manage Evidence Type ID
+Manage Evidence source type
+Connect Evidence trust requirement
+Connect Timestamp requirement
+Connect Provenance requirement
+Manage Validation status
+Connect EvidenceBundle composition criteria
 
-Evidence Registry는 Evidence 자체가 아니다.  
-Evidence는 source, timestamp, trust metadata, provenance, validation status를 가진 실제 판단 근거다.
+The Evidence Registry is not Evidence itself.
+Evidence is the actual basis for judgment, carrying source, timestamp, trust metadata, provenance, and validation status.
 
 ---
 
 ### **7.7 Policy Registry**
 
-`policy_registry`는 Policy Reference와 Policy Category를 통제한다.
+`policy_registry` controls Policy References and Policy Categories.
 
-역할:
+Role:
 
-Policy ID 관리  
-Policy category 관리  
-Policy version reference 관리  
-Policy engine reference 관리  
-Action Type과 Policy 연결  
-Approval requirement와 Policy 연결  
-Runtime validation requirement와 Policy 연결
+Manage Policy ID
+Manage Policy category
+Manage Policy version reference
+Manage Policy engine reference
+Connect Action Type to Policy
+Connect Approval requirement to Policy
+Connect Runtime validation requirement to Policy
 
-Policy Registry는 Policy Engine을 대체하지 않는다.  
-Policy Registry는 어떤 정책을 참조해야 하는지 통제한다.
+The Policy Registry does not replace the Policy Engine.
+The Policy Registry controls which policy must be referenced.
 
 ---
 
-## **8\. Integration Registries**
+## **8. Integration Registries**
 
-Integration Registry는 외부 시스템 연결 구조를 통제한다.
+Integration Registries control the structure of external system connections.
 
 ### **8.1 Adapter Registry**
 
-`adapter_registry`는 외부 시스템과 연결하는 Adapter의 종류, 모드, 프로토콜, 안전 경계를 관리한다.
+`adapter_registry` manages the type, mode, protocol, and safety boundary of Adapters that connect to external systems.
 
-역할:
+Role:
 
-Adapter ID 관리  
-Adapter Type 관리  
-Protocol 관리  
-Mock / Dry-run / Production mode 구분  
-Supported Action Type 관리  
-Supported External System Type 관리  
-Health Check Contract 관리  
-Feedback Contract 관리  
-Safety Boundary 관리  
-Version 관리
+Manage Adapter ID
+Manage Adapter Type
+Manage Protocol
+Distinguish Mock / Dry-run / Production mode
+Manage Supported Action Type
+Manage Supported External System Type
+Manage Health Check Contract
+Manage Feedback Contract
+Manage Safety Boundary
+Manage Version
 
-Adapter Registry는 실제 외부 시스템의 물리 실행 권한을 소유하지 않는다.
+The Adapter Registry does not own the actual physical execution authority of the external system.
 
-Adapter는 요청을 전달하는 경계다.
+An Adapter is the boundary that delivers requests.
 
 ---
 
 ### **8.2 External System Registry**
 
-`external_system_registry`는 실제 연결 대상이 되는 외부 시스템을 관리한다.
+`external_system_registry` manages the actual external systems that are connection targets.
 
-역할:
+Role:
 
-External System ID 관리  
-External System Type 관리  
-Authority Boundary 정의  
-Allowed Request Type 관리  
-Operational Mode 관리  
-Health Status Reference 관리  
-Safety Responsibility Owner 관리  
-Feedback Contract 관리  
-Adapter Reference 연결
+Manage External System ID
+Manage External System Type
+Define Authority Boundary
+Manage Allowed Request Type
+Manage Operational Mode
+Manage Health Status Reference
+Manage Safety Responsibility Owner
+Manage Feedback Contract
+Connect Adapter Reference
 
-External System은 실제 물리 실행 권한을 가진다.
+The External System holds the actual physical execution authority.
 
-LEDO는 ExecutionRequest를 만들 수 있지만, 실제 물리 실행은 External System이 수행한다.
+LEDO can create an ExecutionRequest, but the actual physical execution is performed by the External System.
 
 ---
 
-## **9\. Runtime Registry**
+## **9. Runtime Registry**
 
 ### **9.1 Snapshot Schema Registry**
 
-`snapshot_schema_registry`는 Safety Gate가 읽는 Materialized Safety Snapshot의 구조와 버전을 통제한다.
+`snapshot_schema_registry` controls the structure and version of the Materialized Safety Snapshot that the Safety Gate reads.
 
-역할:
+Role:
 
-Snapshot Schema ID 관리  
-Snapshot Schema Version 관리  
-Compatible Ontology Version 관리  
-Compatible Policy Version 관리  
-Compatible SHACL Shape Version 관리  
-Required Materialized Map 정의  
-Required Field 정의  
-Checksum Rule 정의  
-Expiration Rule 정의  
-Fail-closed Condition 정의  
-Hot-swap Compatibility 정의
+Manage Snapshot Schema ID
+Manage Snapshot Schema Version
+Manage Compatible Ontology Version
+Manage Compatible Policy Version
+Manage Compatible SHACL Shape Version
+Define Required Materialized Map
+Define Required Field
+Define Checksum Rule
+Define Expiration Rule
+Define Fail-closed Condition
+Define Hot-swap Compatibility
 
-Safety Gate는 runtime hot path에서 Snapshot Schema Registry를 기준으로 검증된 Snapshot만 읽어야 한다.
+In the runtime hot path, the Safety Gate must read only Snapshots validated against the Snapshot Schema Registry.
 
-Snapshot Schema가 맞지 않으면 Safety Gate는 fail-closed해야 한다.
+**Boundary with the State Registry:** see Section 7.3. `snapshot_schema_registry` controls the structure/version of immutable snapshots, while `state_registry` controls the type/transitions of mutable current state. Share the freshness-validation logic; keep the schemas separate.
+
+If the Snapshot Schema does not match, the Safety Gate must fail closed.
 
 ---
 
-## **10\. Semantic / Identity Registries**
+## **10. Semantic / Identity Registries**
 
 ### **10.1 Identity Registry**
 
-`identity_registry`는 외부 식별자와 내부 Canonical Identity의 연결을 통제한다.
+`identity_registry` controls the connection between external identifiers and internal Canonical Identity.
 
-역할:
+Role:
 
-Canonical ID 관리  
-External ID 관리  
-Source System 관리  
-Identifier Scheme 관리  
-Mapping Rule 관리  
-Resolution Evidence 관리  
-Confidence 관리  
-Validity Period 관리  
-Governance Status 관리
+Manage Canonical ID
+Manage External ID
+Manage Source System
+Manage Identifier Scheme
+Manage Mapping Rule
+Manage Resolution Evidence
+Manage Confidence
+Manage Validity Period
+Manage Governance Status
 
-Identity Registry는 다음을 연결한다.
+The Identity Registry connects the following.
 
-IFC GlobalId  
-OPC-UA NodeId  
-Robot ID  
-Sensor ID  
-Worker ID  
-Equipment ID  
-Zone ID  
+IFC GlobalId
+OPC-UA NodeId
+Robot ID
+Sensor ID
+Worker ID
+Equipment ID
+Zone ID
 Canonical Object ID
 
-Identity Registry는 `sameAs`를 임의로 선언하지 않는다.  
-동일성 판단은 Evidence와 Governance를 통해 관리되어야 한다.
+The Identity Registry does not arbitrarily declare `sameAs`.
+Identity judgments must be managed through Evidence and Governance.
 
 ---
 
 ### **10.2 Ontology Registry**
 
-`ontology_registry`는 Ontology 자원의 식별자, 버전, 상태를 통제한다.
+`ontology_registry` controls the identifiers, versions, and statuses of Ontology resources.
 
-역할:
+Role:
 
-Class IRI 관리  
-Property IRI 관리  
-Ontology Module 관리  
-Ontology Version 관리  
-Deprecation Status 관리  
-Replacement IRI 관리  
-SHACL Reference 연결  
-Policy Reference 연결  
-Runtime Materialization Reference 연결  
-Governance Status 관리
+Manage Class IRI
+Manage Property IRI
+Manage Ontology Module
+Manage Ontology Version
+Manage Deprecation Status
+Manage Replacement IRI
+Connect SHACL Reference
+Connect Policy Reference
+Connect Runtime Materialization Reference
+Manage Governance Status
 
-Ontology Registry는 의미를 직접 정의하지 않는다.
+The Ontology Registry does not directly define meaning.
 
-Ontology Foundation \= 의미 정의  
-Ontology Registry \= 의미 자원 식별자와 버전 통제
+Ontology Foundation = meaning definition
+Ontology Registry = control of identifiers and versions for meaning resources
 
 ---
 
-## **11\. Future AI / Agent Registries**
+## **11. Future AI / Agent Registries**
 
-Agent와 SLM 구조가 안정된 뒤 다음 Registry를 추가할 수 있다.
+The following Registries may be added once the Agent and SLM structure has stabilized.
+
+**Status note:** this README specifies both Registries as "to be added later," and `agent_vocabulary_registry/agent_vocabulary_registry.md` and `model_adapter_registry/model_adapter_registry.md` are already written as fully fleshed-out specification documents, including field schemas and example code. The existence of the spec documents does not mean these two Registries may be implemented now.
+
+This repository has adopted full deferral: no DTO, enum, loader, skeleton, or placeholder module is created for either registry until the Agent/SLM pipeline (Layer 7) is actually needed. This is recorded in `07_implementation_plan/implementation_slice_2/implementation_slice_2_plan.md` ("Out of Scope: Agent Vocabulary Registry and Model Adapter Registry"). Where another registry's schema references an agent or model concept (for example `decision_registry`'s `applicable_agent_type_refs` field), the reference is left as an explicit `TODO`-marked placeholder, not a resolved cross-reference and not a stub class. Revisiting this decision requires updating both this note and `implementation_slice_2_plan.md` together.
 
 ### **11.1 Agent Vocabulary Registry**
 
-`agent_vocabulary_registry`는 Agent / SLM이 사용하는 고정 어휘, action phrases, ontology labels, SKOS terms, prompt-safe vocabulary를 관리한다.
+`agent_vocabulary_registry` manages the fixed vocabulary, action phrases, ontology labels, SKOS terms, and prompt-safe vocabulary used by Agents / SLMs.
 
-역할:
+Role:
 
-Agent vocabulary version 관리  
-Ontology label reference 관리  
-SKOS term reference 관리  
-Allowed output vocabulary 관리  
-Forbidden output role 관리  
-Agent-specific terminology 관리
+Manage Agent vocabulary version
+Manage Ontology label reference
+Manage SKOS term reference
+Manage Allowed output vocabulary
+Manage Forbidden output role
+Manage Agent-specific terminology
 
 ---
 
 ### **11.2 Model Adapter Registry**
 
-`model_adapter_registry`는 LoRA, SFT, DAPT, agent-specific adapter compatibility를 관리한다.
+`model_adapter_registry` manages LoRA, SFT, DAPT, and agent-specific adapter compatibility.
 
-역할:
+Role:
 
-Model adapter ID 관리  
-Base model reference 관리  
-LoRA adapter version 관리  
-Compatible ontology version 관리  
-Compatible vocabulary version 관리  
-Evaluation status 관리  
-Promotion status 관리  
-Rollback target 관리
+Manage Model adapter ID
+Manage Base model reference
+Manage LoRA adapter version
+Manage Compatible ontology version
+Manage Compatible vocabulary version
+Manage Evaluation status
+Manage Promotion status
+Manage Rollback target
 
-이 Registry는 SLM / Agent 운영 구조가 본격화된 뒤 추가한다.
-
----
-
-## **12\. Registry Entry 공통 필드**
-
-모든 Registry는 가능한 경우 다음 공통 필드를 가진다.
-
-registry\_id  
-name  
-description  
-category  
-version  
-status  
-owner\_module  
-source\_document  
-validation\_reference  
-policy\_reference  
-ontology\_reference  
-runtime\_reference  
-governance\_status  
-created\_at  
-updated\_at  
-deprecated\_since  
-replacement\_id
-
-Registry별로 필요한 추가 필드는 각 하위 Registry 문서에서 정의한다.
+This Registry is added once the SLM / Agent operational structure becomes concrete.
 
 ---
 
-## **13\. Registry Status**
+## **12. Registry Entry Common Fields**
 
-Registry 항목은 다음 상태를 가질 수 있다.
+The list below is not a set of literal field names; it is the set of **conceptual categories** every Registry entry should conceptually include. Each Registry document maps these categories onto concrete field names suited to its own domain. Do not use this list directly as field names when implementing — always follow the actual field names in the corresponding Registry specification document (e.g. `action_registry/action_registry.md` Section 10, "Registry Entry Schema").
 
-draft  
-active  
-deprecated  
-migration\_required  
-retired  
+| Conceptual Category | Meaning | `action_registry` Mapping Example |
+| --- | --- | --- |
+| Identifier (registry_id role) | Uniquely identifies the entry within this Registry | `action_type_id` |
+| name / description | Human-readable name and description | `canonical_name`, `display_name`, `description` |
+| category | Broad classification of the item | `category` |
+| version | Version | `version` |
+| status | The status enum in Section 13 | `status` |
+| owner_module | Owning module/team | `owner_module`, `owner_team` |
+| source_document | The specification document of record | `source_document` |
+| validation_reference | Reference to validation logic | `runtime_validation_refs`, `precondition_refs`, `postcondition_refs`, `invariant_refs` |
+| policy_reference | Policy reference | `required_policy_refs`, `required_approval_level` |
+| ontology_reference | Ontology reference | `allowed_target_ontology_classes`, `semantic_iri` |
+| runtime_reference | Runtime integration reference | `supported_adapter_refs`, `external_system_type_refs` |
+| governance_status | Governance approval status | If not a separate field, falls back to `status` (add an explicit field in the sub-document if governance approval history is required) |
+| created_at / updated_at / deprecated_since / replacement_id | Lifecycle timestamps and replacement reference | `created_at`, `updated_at`, `deprecated_since`, `replacement_action_type_id` |
+
+Structural exception: `adapter_registry` does not follow the category structure above. `adapter_registry` uses an availability-oriented `AdapterHealthStatus` (healthy/degraded/unavailable/maintenance/disabled/unknown) instead of the lifecycle `status`, and uses an implementation-oriented model in the form of `AdapterMetadata` instead of a declarative "Registry Entry Schema" section. Code that loads/validates `adapter_registry` must not reuse the common loader shared by the other Registries, and must be handled through a separate path.
+
+Each Registry document defines any additional fields it needs.
+
+---
+
+## **12A. Boundary Fields (`decision_boundary` / `approval_boundary` / `execution_boundary` / `safety_boundary`)**
+
+Across `action_registry`, `evidence_registry`, `agent_vocabulary_registry`, and others, entries carry one or more `*_boundary` fields (e.g. `execution_boundary: must_not_create_execution_request`, `safety_boundary: safety_gate_must_revalidate_runtime_conditions`). These are intentionally **not** a small closed enum — each value is a specific, human-readable invariant statement, and there are dozens of distinct statements in use across the registries. Forcing them into a small enum would lose meaning; leaving them fully free-form risks silent typos in safety-relevant text.
+
+The resolution is a **controlled phrase pattern**, not a fixed value set. Every `*_boundary` value must start with one of the following sanctioned prefixes:
+
+- `must_not_...` — an absolute prohibition (e.g. `must_not_create_execution_request`)
+- `does_not_...` — a factual boundary statement about what this object does not do (e.g. `does_not_grant_approval`)
+- `may_...` — a permitted-but-limited capability, always paired with what it may *not* do when relevant (e.g. `may_support_decision_case_but_not_decide`)
+- `requires_...` — a precondition that must hold (e.g. `requires_additional_evidence`)
+- `cannot_...` — synonym for `must_not_...`, used interchangeably in existing entries; prefer `must_not_...` in new entries
+
+A registry loader/validator should reject any `*_boundary` value that does not start with one of these prefixes, rather than accepting arbitrary free text. This catches malformed or accidentally-weakened boundary statements (e.g. a typo that turns `must_not_create_execution_request` into `must_create_execution_request`) without constraining the actual invariant being expressed.
+
+---
+
+## **12B. Cross-Registry Reference Format**
+
+Fields such as `required_policy_refs`, `required_evidence_types`, `supported_adapter_refs`, `runtime_validation_refs`, `precondition_refs`, `timeout_policy_ref`, and similar `*_ref` / `*_refs` fields already follow an informal `<prefix>:<snake_case_id>` convention across the existing registry examples (for example `policy:robot_dispatch_policy`, `evidence:worker_location_snapshot`, `adapter:robot_fleet_adapter`, `validation:robot_available`, `external_system:robot_fleet_manager`). This convention is made explicit here because it was previously only implicit in examples, and no loader currently validates it.
+
+Recommended prefix-to-registry mapping:
+
+| Prefix | Target Registry |
+| --- | --- |
+| `action:` | `action_registry` |
+| `event:` | `event_registry` |
+| `state:` | `state_registry` |
+| `evidence:` | `evidence_registry` |
+| `policy:` | `policy_registry` |
+| `approval:` | `approval_registry` |
+| `decision:` | `decision_registry` |
+| `adapter:` | `adapter_registry` |
+| `external_system:` | `external_system_registry` |
+| `ontology:` | `ontology_registry` |
+| `identity:` | `identity_registry` |
+| `snapshot:` | `snapshot_schema_registry` |
+| `validation:`, `precondition:`, `postcondition:`, `invariant:`, `timeout:`, `fallback:` | validator/policy specification referenced from `08_runtime_validation/` (not a `06_registry_specs/` registry by itself) |
+
+Referential integrity rule: a registry loader must resolve every `*_ref` / `*_refs` value against its target registry (by prefix) and reject the entry if the target does not exist, or if the target's `status` is `retired` or `blocked` (see Section 13). No registry loader may treat an unresolved reference as a soft warning when the referencing entry's own `status` is `active`.
+
+---
+
+## **13. Registry Status**
+
+A Registry entry may have the following statuses.
+
+draft
+active
+deprecated
+migration_required
+retired
 blocked
 
-상태 의미는 다음과 같다.
+The meanings of the statuses are as follows.
 
-| Status | 의미 |
+| Status | Meaning |
 | ----- | ----- |
-| `draft` | 아직 확정되지 않은 항목 |
-| `active` | 현재 사용 가능한 항목 |
-| `deprecated` | 더 이상 권장되지 않지만 아직 제거되지 않은 항목 |
-| `migration_required` | 대체 항목으로 이전이 필요한 항목 |
-| `retired` | 사용 종료된 항목 |
-| `blocked` | 안전, 정책, 호환성 문제로 사용 금지된 항목 |
+| `draft` | Not yet finalized |
+| `active` | Currently usable |
+| `deprecated` | No longer recommended, but not yet removed |
+| `migration_required` | Migration to a replacement item is required |
+| `retired` | No longer in use |
+| `blocked` | Prohibited from use due to safety, policy, or compatibility issues |
 
 ---
 
-## **14\. Registry와 Domain Module의 관계**
+## **14. Relationship Between Registry and Domain Module**
 
-Domain Module은 새로운 domain-specific 값을 정의할 수 있다.
+A Domain Module may define new domain-specific values.
 
-그러나 그 값은 Registry에 등록되어야 한다.
+However, those values must be registered in the Registry.
 
-Domain Action Type  
+Domain Action Type
 → Action Registry
 
-Domain Event Type  
+Domain Event Type
 → Event Registry
 
-Domain State Type  
+Domain State Type
 → State Registry
 
-Domain Evidence Type  
+Domain Evidence Type
 → Evidence Registry
 
-Domain Policy Reference  
+Domain Policy Reference
 → Policy Registry
 
-Domain Adapter Requirement  
+Domain Adapter Requirement
 → Adapter Registry
 
-Domain External System  
+Domain External System
 → External System Registry
 
-Domain Snapshot Requirement  
+Domain Snapshot Requirement
 → Snapshot Schema Registry
 
-Domain Module은 Registry를 우회할 수 없다.
+A Domain Module cannot bypass the Registry.
 
 ---
 
-## **15\. Registry와 Implementation의 관계**
+## **15. Relationship Between Registry and Implementation**
 
-Implementation은 Registry를 기준으로 생성되어야 한다.
+Implementation must be generated based on the Registry.
 
-Registry는 다음 구현 산출물의 기준이 된다.
+The Registry is the basis for the following implementation artifacts.
 
-Enum  
-DTO field constraint  
-Validator  
-State transition table  
-Failure mode table  
-Safety Gate input contract  
-Snapshot schema  
-Adapter interface  
-Mock behavior  
-Test case  
+Enum
+DTO field constraint
+Validator
+State transition table
+Failure mode table
+Safety Gate input contract
+Snapshot schema
+Adapter interface
+Interface-stub adapter behavior (`MockAdapter` / `DryRunAdapter`, per `09_execution_adapter_model` Section 8)
+Test case
 Migration rule
 
-Registry가 없는 값은 구현에서 임의로 생성하지 않는다.
+A value that has no Registry entry must not be arbitrarily created in the implementation.
 
 ---
 
-## **16\. 최종 원칙**
+## **16. Final Principle**
 
-`06_registry_specs`는 LEDO 전체의 통제된 이름 체계다.
+`06_registry_specs` is the controlled naming system for the whole of LEDO.
 
-Registry는 의미를 정의하지 않지만, 의미를 참조하는 이름, 식별자, 버전, 상태를 통제한다.
+A Registry does not define meaning, but it controls the names, identifiers, versions, and statuses that reference meaning.
 
-Ontology defines meaning.  
-Registry controls references.  
-Validation enforces contracts.  
-Implementation follows Registry.  
+Ontology defines meaning.
+Registry controls references.
+Validation enforces contracts.
+Implementation follows Registry.
 Domain extensions must register.
 
-최종 원칙은 다음과 같다.
+The final principles are as follows.
 
-No uncontrolled names.  
-No uncontrolled identifiers.  
-No uncontrolled action types.  
-No uncontrolled external adapters.  
-No uncontrolled snapshots.  
+No uncontrolled names.
+No uncontrolled identifiers.
+No uncontrolled action types.
+No uncontrolled external adapters.
+No uncontrolled snapshots.
 No uncontrolled domain extensions.
-

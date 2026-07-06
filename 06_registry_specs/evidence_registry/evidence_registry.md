@@ -861,6 +861,8 @@ invalid
 
 ## **11\. Registry Entry Example: worker\_location\_snapshot**
 
+> **Non-normative placeholder.** This entry and the two that follow (Sections 12–13) are illustrative scaffolding only. Every concrete value — confidence thresholds, freshness windows (`max_age_seconds`), trust levels, and similar numeric or policy fields — is an example, not an approved domain decision. Per `AGENTS.md` Domain Authority Rule and Domain No-Guessing Rule, real freshness/confidence thresholds must be provided by a domain expert and approved through registry governance before this entry is treated as `active` in a real deployment.
+
 evidence\_type\_id: evidence:worker\_location\_snapshot
 
 canonical\_name: worker\_location\_snapshot
@@ -1014,6 +1016,8 @@ replacement\_evidence\_type\_id: null
 ---
 
 ## **12\. Registry Entry Example: hazard\_detection\_snapshot**
+
+> **Non-normative placeholder.** See the governance note in Section 11.
 
 evidence\_type\_id: evidence:hazard\_detection\_snapshot
 
@@ -1180,6 +1184,8 @@ replacement\_evidence\_type\_id: null
 ---
 
 ## **13\. Registry Entry Example: robot\_availability\_snapshot**
+
+> **Non-normative placeholder.** See the governance note in Section 11.
 
 evidence\_type\_id: evidence:robot\_availability\_snapshot
 
