@@ -17,46 +17,51 @@ def now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def test_safety_snapshot_requires_checksum_and_versions() -> None:
-    with pytest.raises(ValidationError):
-        SafetySnapshotDTO(
-            id="snap-1",
-            snapshot_version="1.0",
-            ontology_version="1.0",
-            policy_version="1.0",
-            registry_version="1.0",
-            status="ACTIVE",
-            created_at=now(),
-            expires_at=now() + timedelta(seconds=30),
-            trace_id="trace-1",
-        )
-
-    dto = SafetySnapshotDTO(
-        id="snap-1",
+def safety_snapshot_kwargs(**overrides: object) -> dict:
+    base = dict(
+        snapshot_id="snap-1",
         snapshot_version="1.0",
         ontology_version="1.0",
         policy_version="1.0",
         registry_version="1.0",
         status="ACTIVE",
         created_at=now(),
-        expires_at=now() + timedelta(seconds=30),
+        valid_until=now() + timedelta(seconds=30),
+        source_state_versions={"zone-1": "v1"},
+        target_scope="zone-1",
+        site_ref="site-1",
+        zone_ref="zone-1",
+        critical_state_refs=["state-1"],
+        schema_version="1.0",
         checksum="checksum-1",
         trace_id="trace-1",
     )
+    base.update(overrides)
+    return base
+
+
+def test_safety_snapshot_requires_checksum_and_versions() -> None:
+    with pytest.raises(ValidationError):
+        kwargs = safety_snapshot_kwargs()
+        del kwargs["checksum"]
+        SafetySnapshotDTO(**kwargs)
+
+    dto = SafetySnapshotDTO(**safety_snapshot_kwargs())
     assert dto.checksum == "checksum-1"
+    assert dto.source_state_versions == {"zone-1": "v1"}
 
 
 def test_safety_gate_input_references_snapshot_and_runtime_result() -> None:
     dto = SafetyGateInputDTO(
-        id="sgi-1",
+        safety_gate_input_id="sgi-1",
         approved_action_id="approved-1",
-        runtime_validation_result_id="rvr-1",
-        safety_snapshot_id="snap-1",
         action_type="fixture_action",
+        runtime_validation_result_ref="rvr-1",
+        safety_snapshot_ref="snap-1",
         trace_id="trace-1",
     )
 
-    assert dto.safety_snapshot_id == "snap-1"
+    assert dto.safety_snapshot_ref == "snap-1"
 
 
 def safety_gate_pass_kwargs(**overrides: object) -> dict:

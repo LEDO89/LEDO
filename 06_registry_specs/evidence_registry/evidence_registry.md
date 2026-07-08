@@ -945,7 +945,7 @@ applicable\_decision\_rule\_refs:
 
 applicable\_approval\_rule\_refs:
 
-  \- approval:stop\_work\_safety\_supervisor\_v1
+  \- approval:stop\_work\_safety\_manager\_v1
 
   \- approval:dispatch\_robot\_supervisor\_v1
 
@@ -1113,7 +1113,7 @@ applicable\_decision\_rule\_refs:
 
 applicable\_approval\_rule\_refs:
 
-  \- approval:stop\_work\_safety\_supervisor\_v1
+  \- approval:stop\_work\_safety\_manager\_v1
 
 applicable\_safety\_gate\_refs:
 

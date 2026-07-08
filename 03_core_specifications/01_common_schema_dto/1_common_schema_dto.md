@@ -1373,7 +1373,7 @@ These DTOs define architecture-level contracts only. They do not define domain t
 
 `SafetyGatePassDTO.terminal_status` uses the `SafetyGatePassTerminalStatus` enum (`schemas/enums.py`: ISSUED, DISPATCHING, CONSUMED_ACCEPTED, CONSUMED_REJECTED, CONSUMED_DROPPED, EXPIRED, REVOKED), sourced from `toctou.md` Section 21. `SafetyGateBlockDTO.block_reasons` uses the `BlockReason` enum (17 members), sourced from `safety_gate.md` Section 10's "Possible block reasons" list. `SafetyGateResultDTO.status` uses its own `SafetyGateResultStatus` enum (PASS, BLOCK, MANUAL_REVIEW_REQUIRED, HOLD, REQUIRES_REVALIDATION, REQUIRES_REAPPROVAL) — a distinct, smaller list from `ValidatorStatus`, per `safety_gate.md` Section 23's own "Possible status" list.
 
-`SafetySnapshotDTO.status` remains `str`: no closed value list was found for this field. `SafetyGateInputDTO` has not been reconciled against `safety_gate.md` Section 6's fuller input list (`ValidatorResultSummary`, `TOCTOUResult`, `SHACLValidationResult`, `NetworkHealthResult`, `IdempotencyResult`, `ApprovalValidityResult`, `PolicyRevalidationResult`, `EvidenceValidityResult`, `CapabilityAvailabilityResult`) — a known remaining gap.
+`SafetySnapshotDTO` and `SafetyGateInputDTO` were reconciled against `safety_gate.md` Section 6's fuller input list, `shacl_shapes.md` Section 11.1, and `validators.md` Section 10.2 (see the per-DTO field lists below). `SafetySnapshotDTO.status` remains `str`: no closed value list was found for this field anywhere.
 
 The Emergency Fast-Path mirrors of these DTOs (`EmergencyRuntimeValidationInputDTO`, `EmergencyRuntimeValidationResultDTO`, `EmergencySafetyGatePassDTO`, `EmergencySafetyGateBlockDTO`) live in `schemas/emergency.py`, not here, per Section 12 "Recommended Code Mapping" in `0_canonical_object_lifecycle.md`, and mirror the same corrected shapes.
 
@@ -1443,30 +1443,56 @@ EvidenceValidityResultDTO
 
 Minimum fields:
 
-id  
+snapshot_id  
 snapshot_version  
 ontology_version  
 policy_version  
 registry_version  
 status  
 created_at  
-expires_at  
+valid_until  
+source_state_versions  
+target_scope  
+site_ref  
+zone_ref  
+critical_state_refs  
+schema_version  
 checksum  
 trace_id  
 audit_ref
 
+`snapshot_id`, `valid_until`, `source_state_versions`, `target_scope`, `site_ref`,
+`zone_ref`, `critical_state_refs`, and `schema_version` are cross-confirmed by both
+`08_runtime_validation/shacl_shapes/shacl_shapes.md` Section 11.1
+(`SafetySnapshotShape`) and `08_runtime_validation/validators/validators.md`
+Section 10.2 (`snapshot_freshness_validator`). `status` remains plain `str`: no
+closed value list for this field was found anywhere.
+
 ### **SafetyGateInputDTO**
 
-Minimum fields:
+Canonical fields (`safety_gate.md` Section 6, "Recommended inputs"):
 
-id  
+safety_gate_input_id  
 approved_action_id  
-runtime_validation_result_id  
-safety_snapshot_id  
 action_type  
-input_refs  
+runtime_validation_result_ref  
+safety_snapshot_ref  
+validator_result_summary_ref  
+toctou_result_ref  
+shacl_validation_result_ref  
+network_health_result_ref  
+idempotency_result_ref  
+approval_validity_result_ref  
+policy_revalidation_result_ref  
+evidence_validity_result_ref  
+capability_availability_result_ref  
 trace_id  
 correlation_id
+
+Only `approved_action_id`, `action_type`, `runtime_validation_result_ref`, and
+`safety_snapshot_ref` are required; the remaining validator-category result refs are
+optional, since not every action type exercises every validator category. `input_refs`
+is kept as a generic overflow field for any additional references beyond this list.
 
 ### **SafetyGatePassDTO**
 

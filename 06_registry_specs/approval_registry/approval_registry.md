@@ -536,10 +536,10 @@ replacement\_approval\_rule\_id: string | null
 
 ## **12\. Example Registry Entry: STOP\_WORK Approval**
 
-approval\_rule\_id: approval:stop\_work\_safety\_supervisor\_v1  
-canonical\_name: stop\_work\_safety\_supervisor\_approval  
-display\_name: Stop Work Safety Supervisor Approval  
-description: Requires safety supervisor approval before a STOP\_WORK Action Type can be converted into an ApprovedAction.  
+approval\_rule\_id: approval:stop\_work\_safety\_manager\_v1  
+canonical\_name: stop\_work\_safety\_manager\_approval  
+display\_name: Stop Work Safety Manager Approval  
+description: Requires safety manager approval before a STOP\_WORK Action Type can be converted into an ApprovedAction.  
 semantic\_iri: ledo:StopWorkApprovalRule
 
 version: 1.0.0  
@@ -997,15 +997,15 @@ Every Approval Rule may have a semantic IRI.
 
 Example:
 
-approval\_rule\_id: approval:stop\_work\_safety\_supervisor\_v1  
-semantic\_iri: ledo:StopWorkSafetySupervisorApprovalRule
+approval\_rule\_id: approval:stop\_work\_safety\_manager\_v1  
+semantic\_iri: ledo:StopWorkSafetyManagerApprovalRule
 
 In the ontology, it may be defined as follows:
 
-ledo:StopWorkSafetySupervisorApprovalRule  
+ledo:StopWorkSafetyManagerApprovalRule  
     rdf:type ledo:ApprovalRule ;  
     ledo:appliesToAction ledo:StopWorkAction ;  
-    ledo:requiresAuthorityRole ledo:SafetySupervisor ;  
+    ledo:requiresAuthorityRole ledo:SafetyManager ;  
     ledo:requiresEvidence ledo:HazardDetectionSnapshot ;  
     ledo:hasApprovalLevel ledo:SafetyManagerApproval .
 

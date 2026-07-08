@@ -1066,7 +1066,7 @@ policy\_refs:
 
 approval\_authority\_refs:
 
-  \- approval:stop\_work\_safety\_supervisor\_v1
+  \- approval:stop\_work\_safety\_manager\_v1
 
   \- approval:lock\_zone\_safety\_supervisor\_v1
 

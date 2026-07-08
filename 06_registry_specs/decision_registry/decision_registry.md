@@ -769,7 +769,7 @@ priority\_classification\_rule\_ref: priority:safety\_priority\_classification
 
 escalation\_rule\_ref: escalation:safety\_escalation\_rule
 
-approval\_routing\_rule\_ref: approval\_route:stop\_work\_safety\_supervisor\_route
+approval\_routing\_rule\_ref: approval\_route:stop\_work\_safety\_manager\_route
 
 allowed\_decision\_outcomes:
 
@@ -1453,7 +1453,7 @@ ledo:StopWorkSafetyRiskDecisionRule
 
     ledo:requiresPolicy ledo:StopWorkPolicy ;
 
-    ledo:routesToApproval ledo:SafetySupervisorApproval .
+    ledo:routesToApproval ledo:SafetyManagerApproval .
 
 Ontology provides the semantic foundation of Decision Rules.
 

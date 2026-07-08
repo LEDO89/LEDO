@@ -1485,7 +1485,7 @@ DecisionCase: stop\_work\_safety\_risk\_v1
     ↓  
 PolicyEvaluation: stop\_work\_policy\_v1  
     ↓  
-ApprovalRequest: stop\_work\_safety\_supervisor\_v1  
+ApprovalRequest: stop\_work\_safety\_manager\_v1  
     ↓  
 ApprovedAction: STOP\_WORK  
     ↓  

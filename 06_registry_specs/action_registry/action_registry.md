@@ -308,7 +308,7 @@ Example:
 action\_type\_id: STOP\_WORK  
 risk\_class: HIGH\_RISK  
 criticality: safety\_critical  
-required\_approval\_level: SUPERVISOR\_APPROVAL
+required\_approval\_level: SAFETY\_MANAGER\_APPROVAL
 
 action\_type\_id: NOTIFY\_MANAGER  
 risk\_class: NOTICE  

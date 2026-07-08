@@ -9,13 +9,19 @@ field names (`safety_gate_pass_id`/`terminal_status`, `safety_gate_block_id`/
 `failure_reasons`). `SafetyGateResultDTO` is the Section 23 aggregate contract,
 previously undefined in code.
 
-`SafetySnapshotDTO.status` remains plain `str`: no closed value list for this specific
-field was found in 08_runtime_validation/ or 01_common_schema_dto.md.
-`SafetyGateInputDTO` has not been reconciled against safety_gate.md Section 6's fuller
-input list (ValidatorResultSummary, TOCTOUResult, SHACLValidationResult,
-NetworkHealthResult, IdempotencyResult, ApprovalValidityResult,
-PolicyRevalidationResult, EvidenceValidityResult, CapabilityAvailabilityResult) — this
-is a known remaining gap, not treated as resolved by this pass.
+`SafetySnapshotDTO` field names/additions (`snapshot_id`, `valid_until`,
+`source_state_versions`, `target_scope`, `site_ref`, `zone_ref`, `critical_state_refs`,
+`schema_version`) are cross-confirmed by both safety_gate.md Section 11.1 (via
+shacl_shapes.md) and validators.md Section 10.2's `snapshot_freshness_validator`
+input list. `status` remains plain `str`: no closed value list for this field was
+found anywhere.
+
+`SafetyGateInputDTO` is expanded to safety_gate.md Section 6's full "Recommended
+inputs" list. Per that section's own text ("For safety-critical actions, missing
+required input must result in block"), only `approved_action_id`, `action_type`,
+`runtime_validation_result_ref`, and `safety_snapshot_ref` are treated as always
+required; the remaining validator-category result refs are optional, since not
+every action type exercises every validator category.
 """
 
 from __future__ import annotations
@@ -35,25 +41,40 @@ from ledo_ontology_core.framework.schemas.enums import (
 
 
 class SafetySnapshotDTO(StrictDTO):
-    id: str
+    snapshot_id: str
     snapshot_version: str
     ontology_version: str
     policy_version: str
     registry_version: str
     status: str
     created_at: datetime
-    expires_at: datetime
+    valid_until: datetime
+    source_state_versions: dict[str, str] = Field(default_factory=dict)
+    target_scope: str
+    site_ref: str
+    zone_ref: str
+    critical_state_refs: list[str] = Field(default_factory=list)
+    schema_version: str
     checksum: str
     trace_id: str
     audit_ref: str | None = None
 
 
 class SafetyGateInputDTO(StrictDTO):
-    id: str
+    safety_gate_input_id: str
     approved_action_id: str
-    runtime_validation_result_id: str
-    safety_snapshot_id: str
     action_type: str
+    runtime_validation_result_ref: str
+    safety_snapshot_ref: str
+    validator_result_summary_ref: str | None = None
+    toctou_result_ref: str | None = None
+    shacl_validation_result_ref: str | None = None
+    network_health_result_ref: str | None = None
+    idempotency_result_ref: str | None = None
+    approval_validity_result_ref: str | None = None
+    policy_revalidation_result_ref: str | None = None
+    evidence_validity_result_ref: str | None = None
+    capability_availability_result_ref: str | None = None
     input_refs: list[str] = Field(default_factory=list)
     trace_id: str
     correlation_id: str | None = None
