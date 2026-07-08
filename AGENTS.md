@@ -51,7 +51,7 @@ External systems execute physical control.
 Audit records every meaningful decision path.
 Runtime hot path must be precomputed, bounded, deterministic, and fail-closed.
 
-If a generated artifact conflicts with these principles, prefer the safer interpretation and create a TODO instead of guessing.
+If a generated artifact conflicts with these principles, prefer the safer interpretation and record a domain-decision requirement instead of guessing.
 
 ---
 
@@ -84,7 +84,7 @@ PROJECT_TREE.md is not an architecture source-of-truth document.
 
 If there is a conflict, prefer the safer interpretation.
 
-If safety, execution, evidence, approval, policy, identity, or physical control is involved, Codex must fail closed or create a TODO instead of guessing.
+If safety, execution, evidence, approval, policy, identity, or physical control is involved, Codex must fail closed or record a domain-decision requirement instead of guessing.
 
 ---
 
@@ -101,7 +101,7 @@ For every implementation task, Codex must:
 5. Treat PROJECT_TREE.md only as a repository map.
 6. Create code only for concepts explicitly defined in the selected markdown file.
 7. Create tests for the implemented schema, registry, validator, interface, adapter, or service.
-8. Stop and create TODOs when the selected markdown file is ambiguous.
+8. Stop and record domain-decision requirements when the selected markdown file is ambiguous.
 9. Never expand the task into neighboring folders unless explicitly instructed.
 10. Never create UI, API, runtime behavior, or domain rules unless the selected markdown file explicitly requires them.
 
@@ -146,9 +146,9 @@ approval authority rules
 economic bottleneck assumptions
 field-specific ontology classes or properties beyond placeholders
 
-When domain knowledge is missing, Codex must create one of the following instead of guessing:
+When domain knowledge is missing, Codex must handle the gap with the applicable concrete mechanism or mechanisms below instead of guessing:
 
-TODO
+domain-decision marker
 placeholder
 interface
 mock
@@ -455,7 +455,7 @@ Safety Gate validator
 TOCTOU validator
 Idempotency validator
 PolicyEngineAdapter interface
-MockPDP
+DummyPDP (the name `08_policy_governance_model.md` defines for this class — use this name, not "MockPDP")
 Graph export utility
 Audit record builder
 Snapshot schema validator
@@ -550,6 +550,51 @@ policy materialization results
 
 ---
 
+## Ambiguity Resolution Mechanisms
+
+When a required rule, enum value, threshold, domain class, approval role, or external behavior is unclear, Codex must not guess. Codex must use the mechanisms below in the exact form specified. These terms are not interchangeable, informal synonyms for "not done yet" — each has one concrete, mechanical meaning in this repository, and no other mechanism may be substituted.
+
+### Domain-Decision Marker
+
+A domain-decision marker is a code comment in this exact form:
+
+`# DOMAIN_DECISION_REQUIRED: <one-line description of the missing decision> — see <path to the source markdown file/section that raised the question>`
+
+Every domain-decision marker must cite the specific document and section that could not be resolved without domain input. A domain-decision marker must never stand alone as the only evidence of a gap — pair it with a placeholder or a skipped/failing test as appropriate.
+
+### Placeholder
+
+"Placeholder" is not a separate code construct. It resolves to one of the following two existing mechanisms, depending on what is missing:
+
+- Missing registry content: a registry entry with `status: draft` (see the `RegistryStatus` enum in `06_registry_specs/README.md` Section 13), never `status: active`. Loaders must never treat a `draft` entry as available on a runtime path that requires `active` entries.
+- Missing executable behavior: a method or function that raises `NotImplementedError`, with a docstring citing the reason (domain input pending, or a permanent architectural boundary per the Safety Boundary Rule).
+
+Do not invent a third, ad hoc placeholder shape (empty dict, sentinel string, magic constant). If neither `status: draft` nor `NotImplementedError` fits the gap, stop and ask rather than inventing a new convention.
+
+### Mock / Non-Production Test Double
+
+"Mock" refers only to a named test double for an external system, using the exact name the specification defines for it (for example `MockAdapter` or `DryRunAdapter` in `09_execution_adapter_model.md`, or `DummyPDP` in `08_policy_governance_model.md`). See the Mock First Rule for the two categories this applies to.
+
+"Mock" must never be used as a reason to fabricate uncertain domain content. If domain meaning — not external system behavior — is missing, use a domain-decision marker or a placeholder, never a mock.
+
+### Skipped Test
+
+A skipped test uses this exact pytest form:
+
+`@pytest.mark.skip(reason="domain expert input required: <specific missing input> — see <source document/section>")`
+
+The `reason` argument is mandatory and must cite the same source document/section as any related domain-decision marker.
+
+### Failing Test
+
+A failing test uses this exact pytest form:
+
+`@pytest.mark.xfail(reason="<specific missing input or unresolved boundary> — see <source document/section>", strict=True)`
+
+`strict=True` is mandatory. If the test starts passing unexpectedly, the suite must fail loudly so the `xfail` marker is deliberately reviewed and removed, rather than the gap being silently forgotten.
+
+---
+
 ## Test Rule
 
 Every validator must have:
@@ -562,12 +607,7 @@ Every safety-critical module must have tests.
 
 Do not mark work complete unless tests pass.
 
-If a domain rule is missing, create:
-
-skipped test with reason
-failing test with TODO
-placeholder fixture
-domain expert input requirement
+If a domain rule is missing, create one or more of the mechanisms defined in Ambiguity Resolution Mechanisms above (skipped test, failing test, placeholder, domain-decision marker), always with a `reason`/citation back to the source document.
 
 ---
 
@@ -751,14 +791,7 @@ Codex must not invent real domain registry values beyond placeholders.
 
 If a required rule, enum value, threshold, domain class, approval role, or external behavior is unclear, Codex must not guess.
 
-Instead:
-
-create a TODO
-create a placeholder
-create an interface
-create a mock
-create a skipped test explaining what is missing
-ask for domain expert input if interactive
+Instead, use the applicable concrete mechanism or mechanisms defined in Ambiguity Resolution Mechanisms above: a domain-decision marker, a placeholder (`status: draft` registry entry or `NotImplementedError`), an interface with no production implementation, a named mock/non-production test double, or a skipped/failing test. Ask for domain expert input directly if the session is interactive.
 
 Do not invent field-specific facts.
 
@@ -824,7 +857,7 @@ the selected markdown file was implemented within scope
 no neighboring scope was expanded without instruction
 tests were added or explicitly marked as skipped with reason
 pytest passes for the affected test scope
-unsafe assumptions are documented as TODOs
+unsafe assumptions are documented as domain-decision requirements
 external behavior remains mocked or dry-run
 source-of-truth conflicts are resolved or documented
 

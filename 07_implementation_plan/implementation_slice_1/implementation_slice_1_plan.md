@@ -45,7 +45,7 @@ Deliverables (see `implementation_plan.md` Section 8, Phase 0–4 for sequencing
 
 - No event, state, snapshot, evidence, decision, policy, approval, adapter, or external system registry content (Implementation Slice 2 scope).
 - No Runtime Validation, Safety Gate, or Execution Adapter code (Implementation Slice 3 scope).
-- No real domain values, thresholds, or role/clearance assignments — placeholder registry entries and explicit `TODO` markers only, per `AGENTS.md` Domain Authority Rule.
+- No real domain values, thresholds, or role/clearance assignments — placeholder registry entries and explicit `DOMAIN_DECISION_REQUIRED` markers only, per `AGENTS.md` Domain Authority Rule.
 - No UI, no external system integration, no production infrastructure (database, message broker, or policy engine deployment).
 
 ## Acceptance Criteria

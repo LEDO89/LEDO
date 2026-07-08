@@ -303,13 +303,15 @@ source\_authenticated
 source\_authorized  
 validated\_at\_utc
 
-Examples of validation\_status:
+Enum (`ValidationStatus`, `schemas/enums.py`):
 
 PASSED  
 FAILED  
 PARTIALLY\_PASSED  
 QUARANTINED  
 REJECTED
+
+Also used by `ConfidenceDTO.validation_status`, `EvidenceDTO.validation_status`, and `GenericPayloadDTO.validation_status` — all four fields share this one enum.
 
 ---
 
@@ -553,6 +555,16 @@ Candidate / Decision / Approval DTO
 Approved Action / Execution DTO  
 Feedback / Audit DTO  
 Registry / Governance / Observability DTO
+
+---
+
+## **8.1 Shared Enum Types**
+
+Fields with a closed value set use a shared enum class from `src/ledo_ontology_core/framework/schemas/enums.py`, not a plain string. Each field's definition below states which enum it uses. The enum module is the single source of truth for member names; sections in this document state the canonical enum for each field but do not redefine membership independently.
+
+Enums defined there: `ValidationStatus`, `PathType`, `BindingStatus`, `PolicyDecisionResult`, `DecisionTier`, `PostAuditStatus`, `ReviewStatus`, `AggregationType`, `DispatchStatus`.
+
+One exception: `DispatchStatus` is sourced from `09_execution_adapter_model.md` Section 20, not from this document — see Section 18.3 below.
 
 ---
 
@@ -828,11 +840,13 @@ monitoring\_only\_allowed
 standard\_path\_required  
 classified\_at\_utc
 
-Examples of path\_type:
+Enum (`PathType`, `schemas/enums.py`):
 
 STANDARD  
 EMERGENCY\_FAST\_PATH  
 MONITORING\_ONLY
+
+Also used by `MonitoringOnlyEventDTO.path_type`, `EscalationTriggerDTO.from_path`/`to_path`, and `LifecycleMetricDTO.path_type`.
 
 ---
 
@@ -906,7 +920,7 @@ aggregation\_type
 statistics  
 trace\_context
 
-Examples of aggregation\_type:
+Enum (`AggregationType`, `schemas/enums.py`):
 
 RAW\_SAMPLES  
 AVERAGE  
@@ -997,7 +1011,7 @@ binding\_confidence
 binding\_status  
 binding\_errors
 
-Examples of binding\_status:
+Enum (`BindingStatus`, `schemas/enums.py`):
 
 BOUND  
 PARTIALLY\_BOUND  
@@ -1181,6 +1195,8 @@ trace\_context
 
 ## **16.3 DecisionCaseDTO**
 
+`decision_tier` uses the `DecisionTier` enum (`schemas/enums.py`: ROUTINE, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `0_canonical_object_lifecycle.md` Section 4.8 "Decision Tiers".
+
 Fields:
 
 decision\_case\_id  
@@ -1286,13 +1302,15 @@ post\_audit\_status
 trace\_context  
 created\_at\_utc
 
-Examples of post\_audit\_status:
+Enum (`PostAuditStatus`, `schemas/enums.py`):
 
 PENDING  
 REVIEWED  
 APPROVED  
 REJECTED  
 ESCALATED
+
+Also used by `AuditRecordDTO.post_audit_status`.
 
 ---
 
@@ -1571,21 +1589,7 @@ timeout\_at\_utc
 recovery\_required  
 trace\_context
 
-Examples of state:
-
-CREATED  
-DISPATCH\_PENDING  
-DISPATCHED  
-ACKNOWLEDGED  
-ACCEPTED  
-STARTED  
-IN\_PROGRESS  
-COMPLETED  
-FAILED  
-TIMEOUT  
-FEEDBACK\_MISSING  
-RECOVERY\_REQUIRED  
-CLOSED
+Canonical Reference: `state` is NOT a locally-defined value set. The single canonical, implementation-authoritative enum (`DispatchStatus`, `schemas/enums.py`) is defined in `03_core_specifications/09_execution_adapter_model/9_execution_adapter_model.md` Section 20 "Dispatch Lifecycle" (20 members: CREATED, READY_TO_DISPATCH, DISPATCHED, ACKNOWLEDGED, ACCEPTANCE_PENDING, ACCEPTED, REJECTED, IN_PROGRESS, PARTIAL_SUCCESS, COMPLETED, FAILED, TIMEOUT, ACK_TIMEOUT, ACCEPTANCE_TIMEOUT, FEEDBACK_TIMEOUT, CANCELLED, FEEDBACK_MISSING, RECOVERY_REQUIRED, MANUAL_OVERRIDE_REQUIRED, CLOSED). Do not implement `ExecutionStateDTO.state` against any shorter illustrative list, including a prior version of this section — this mirrors `0_canonical_object_lifecycle.md` Section 8.2's own "Command State Machine" canonical-reference note.
 
 ---
 
@@ -1604,7 +1608,7 @@ reviewed\_at\_utc
 required\_followup\_actions  
 trace\_context
 
-Examples of review\_status:
+Enum (`ReviewStatus`, `schemas/enums.py`):
 
 PENDING  
 REVIEWED  
@@ -1613,6 +1617,8 @@ REJECTED
 ESCALATED  
 REQUIRES\_POLICY\_UPDATE  
 REQUIRES\_ONTOLOGY\_UPDATE
+
+Also used by `MappingReviewDTO.review_status` (Section 19.8).
 
 ---
 
@@ -1760,13 +1766,15 @@ obligations
 denial\_reasons  
 evaluated\_at\_utc
 
-Examples of decision\_result:
+Enum (`PolicyDecisionResult`, `schemas/enums.py`):
 
 ALLOW  
 DENY  
 REQUIRE\_APPROVAL  
 ESCALATE  
 EMERGENCY\_ALLOW
+
+Also used by `PolicyRefDTO.decision_result` (Section 11.5).
 
 ---
 
@@ -1939,18 +1947,49 @@ parsed\_at\_utc
 
 schemas/  
 init.py  
+enums.py  
 base.py  
 context.py  
 validation.py  
 refs.py  
 payloads.py  
-input.py  
 high\_frequency.py  
 event.py  
 ontology.py  
 evidence.py  
 world\_state.py  
-intent.py  
+action.py (includes IntentDTO)  
+decision.py  
+approval.py  
+execution.py (includes TimeoutPolicyDTO/RetryPolicyDTO/RecoveryPolicyDTO/IdempotencyContextDTO)  
+feedback.py (includes WorldStateReconciliationDTO/ExecutionStateDTO)  
+audit.py  
+registry.py  
+governance.py  
+observability.py  
+emergency.py  
+runtime\_validation.py  
+safety\_gate.py  
+source\_inputs.py
+
+Note: `input.py` and `intent.py` from earlier drafts of this structure are consolidated into `event.py` and `action.py` respectively — see `07_implementation_plan/pre_code_generation_build_plan.md` Step 1 for the authoritative file list.
+
+---
+
+# **22\. Recommended Implementation Order**
+
+The implementation order should be as follows:
+
+enums.py  
+base.py  
+context.py  
+validation.py  
+refs.py  
+payloads.py  
+event.py  
+ontology.py  
+evidence.py  
+world\_state.py  
 action.py  
 decision.py  
 approval.py  
@@ -1960,87 +1999,29 @@ audit.py
 registry.py  
 governance.py  
 observability.py  
-source\_inputs.py
-
----
-
-# **22\. Recommended Implementation Order**
-
-The implementation order should be as follows:
-
-base.py  
-context.py  
-validation.py  
-refs.py  
-payloads.py  
-event.py  
-ontology.py  
-evidence.py  
-world\_state.py  
-action.py  
-decision.py  
-approval.py  
-execution.py  
-feedback.py  
-audit.py  
-registry.py  
+emergency.py  
 high\_frequency.py  
+runtime\_validation.py  
+safety\_gate.py  
 source\_inputs.py
 
 ---
 
 # **23\. Required DTOs for the Initial Implementation**
 
-The following DTOs are required in the initial implementation:
+Every DTO defined in this document (Sections 9 through 20, including the Emergency Fast-Path, Monitoring-Only, and Runtime Validation/Safety Gate groups) is built in the initial implementation pass, as structure only.
 
-BaseDTO  
-TraceContextDTO  
-VersionContextDTO  
-SourceMetadataDTO  
-ValidationResultDTO  
-SanitizedInputDTO  
-EntityRefDTO  
-OntologyRefDTO  
-EvidenceRefDTO  
-CanonicalEventEnvelopeDTO  
-PathClassificationDTO  
-CanonicalIdentityDTO  
-OntologyBindingDTO  
-OntologyBoundEventDTO  
-EvidenceDTO  
-WorldStateDTO  
-WorldStateUpdateDTO  
-ActionCandidateDTO  
-DecisionCaseDTO  
-ApprovalRequestDTO  
-ApprovedActionDTO  
-ExecutionRequestDTO  
-ExternalControlRequestDTO  
-FeedbackEventDTO  
-AuditRecordDTO
+**Structure vs. governed content.** Building a DTO class now means only that its field names and types exist and are importable — it does not mean the object is populated, registered, or used at runtime. In particular:
 
-If the Emergency reference flow is included, the following DTOs are additionally required:
+- Defining `EmergencyActionSpecDTO`/`EmergencyApprovedActionDTO`/`PostHocAuditDTO` now does not register any real emergency action. A real `emergency_action_type` entry still requires the full governance process in `0_canonical_object_lifecycle.md` Section 5 (Safety Committee, Ontology Steward, Policy Owner, Site Operations Owner, Control System Owner, Security Owner approval) before it is populated with real values and wired into the Emergency Action Registry.
+- Defining the Monitoring-Only DTOs (`TimeSeriesSampleDTO`, `MonitoringOnlyEventDTO`, etc.) now does not stand up any live monitoring pipeline — that remains a later implementation step's responsibility.
+- Defining the Runtime Validation / Safety Gate DTOs (Section 17.3A) now does not implement the Safety Gate decision logic — those are architecture-level contracts only, per that section's own note.
 
-EmergencyApprovedActionDTO  
-EmergencyActionSpecDTO  
-TimeoutPolicyDTO  
-RecoveryPolicyDTO  
-IdempotencyContextDTO  
-PostHocAuditDTO
-
-If the Monitoring reference flow is included, the following DTOs are additionally required:
-
-TimeSeriesSampleDTO  
-TimeSeriesBundleInputDTO  
-MonitoringPayloadDTO  
-MonitoringOnlyEventDTO  
-EscalationTriggerDTO  
-LifecycleMetricDTO  
-StateTypeSpecDTO  
-EventTypeSpecDTO
+This "structure now, content later" split is why building the whole DTO catalog up front does not weaken the platform's safety governance: nothing here grants authority, defines a real threshold, or creates an execution path. See `07_implementation_plan/pre_code_generation_build_plan.md` Step 1 for the concrete file layout and the per-step Required Objects list.
 
 Implementation can start from:
 
+schemas/enums.py  
 schemas/base.py  
 schemas/context.py  
 schemas/validation.py  

@@ -40,7 +40,7 @@ Per your explicit instruction, `agent_vocabulary_registry` and `model_adapter_re
 
 - No DTO, enum, loader, or test file is created for either registry.
 - No skeleton or placeholder module is created for either registry.
-- Where another registry's schema references an agent or model concept (see the Decision Registry note below), the reference is left as an untyped placeholder field with an explicit `TODO` comment, not a stub class or a resolved cross-reference.
+- Where another registry's schema references an agent or model concept (see the Decision Registry note below), the reference is left as an untyped placeholder field with an explicit `DOMAIN_DECISION_REQUIRED` comment, not a stub class or a resolved cross-reference.
 - `06_registry_specs/README.md` Section 11's status note is updated separately (see the corresponding fix to that file) to reflect that both registries are fully deferred, not skeleton-first.
 
 ## Scope
@@ -55,7 +55,7 @@ Deliverables (see `implementation_plan.md` Section 8, Phase 5–14 for sequencin
 - Evidence Registry: entries per `06_registry_specs/evidence_registry/evidence_registry.md`, using the reference fixtures in `09_appendices/appendix_d_evidence_catalog/evidence_catalog.md`, sufficient to construct an `EvidenceBundle`.
 - Adapter Registry: entries per `06_registry_specs/adapter_registry/adapter_registry.md` — registry contract only in this slice (adapter type, protocol, mode, capability declaration); the executable `ExecutionAdapter` interface is built in Implementation Slice 3.
 - External System Registry: entries per `06_registry_specs/external_system_registry/external_system_registry.md`.
-- Decision Registry: entries per `06_registry_specs/decision_registry/decision_registry.md`. Where an entry's `applicable_agent_type_refs` field would normally resolve against the (out-of-scope) Agent Vocabulary Registry, leave it as an empty list or an explicit `TODO`-commented placeholder; do not invent a resolution path.
+- Decision Registry: entries per `06_registry_specs/decision_registry/decision_registry.md`. Where an entry's `applicable_agent_type_refs` field would normally resolve against the (out-of-scope) Agent Vocabulary Registry, leave it as an empty list or an explicit `DOMAIN_DECISION_REQUIRED`-commented placeholder; do not invent a resolution path.
 - Policy Registry: entries per `06_registry_specs/policy_registry/policy_registry.md`; `PolicyEngineAdapter` interface with an interface-stub policy decision point implementing that interface (the source document `08_policy_governance_model.md` names this class `DummyPDP` — implemented under that name because the specification defines it, not as a throwaway placeholder).
 - Approval Registry: entries per `06_registry_specs/approval_registry/approval_registry.md`.
 

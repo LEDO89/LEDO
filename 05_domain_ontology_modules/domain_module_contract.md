@@ -70,7 +70,7 @@ A Domain Module folder satisfies this contract when it has:
 
 - [ ] A `<module_name>_ontology.md` file that states scope and (once governed) classes/properties, following `04_ontology_foundation` naming and modeling rules.
 - [ ] An `implementation_guide.md` file with the same structure as the existing per-module implementation guides already present across the repository (for example `05_domain_ontology_modules/action/implementation_guide.md` or `02_layer_stack_mapping/implementation_guide.md`): Goal, Module Focus, Source of Truth, Default Implementation Order, Explicit Non-Goals, Acceptance Criteria. (There is no separate `templates/` folder in this repository; use an existing `implementation_guide.md` instance as the reference shape.)
-- [ ] No concrete domain thresholds, safety rules, or legal interpretations authored directly in the module (see "What a Domain Module Must Not Define" above) — only placeholders, TODOs, or references to a governed Domain Pack.
+- [ ] No concrete domain thresholds, safety rules, or legal interpretations authored directly in the module (see "What a Domain Module Must Not Define" above) — only placeholders, domain-decision markers, or references to a governed Domain Pack.
 - [ ] Explicit mapping from any domain-specific vocabulary to the registries listed in "Registry relationship" above, once that vocabulary is proposed.
 - [ ] No direct references to physical control protocols, PLC ladder logic, or robot motion primitives — those remain owned by external systems per the Execution Boundary Rule.
 
