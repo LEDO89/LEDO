@@ -3,8 +3,12 @@
 These DTOs define architecture-level contracts only. They do not define domain
 thresholds, legal rules, robot behavior rules, PLC semantics, or SCADA write semantics.
 
-`result` fields use `ValidatorStatus`, sourced from
-08_runtime_validation/validators/validators.md Section 7 ("Validator Output Contract").
+`ValidatorResultDTO` (and its subclasses) match the canonical `ValidatorResult` field
+list in 08_runtime_validation/validators/validators.md Section 7 ("Validator Output
+Contract") exactly, including field names (`result_id`, `status`, not `id`, `result`).
+`RuntimeValidationResultDTO` has no separate canonical field-level contract of its own
+in 08_runtime_validation/ — it keeps its prior shape, only its `result` value type
+(`ValidatorStatus`) is canonical-sourced.
 """
 
 from __future__ import annotations
@@ -14,7 +18,7 @@ from datetime import datetime
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
-from ledo_ontology_core.framework.schemas.enums import ValidatorStatus
+from ledo_ontology_core.framework.schemas.enums import CriticalityTier, Severity, ValidatorStatus
 
 
 class RuntimeValidationInputDTO(StrictDTO):
@@ -42,13 +46,22 @@ class RuntimeValidationResultDTO(StrictDTO):
 
 
 class ValidatorResultDTO(StrictDTO):
-    id: str
+    result_id: str
     validator_id: str
+    validator_version: str
     approved_action_id: str
-    result: ValidatorStatus
+    action_type: str
+    status: ValidatorStatus
+    severity: Severity
+    tier: CriticalityTier
     checked_at: datetime
+    input_refs: list[str] = Field(default_factory=list)
     failure_reasons: list[str] = Field(default_factory=list)
+    warning_reasons: list[str] = Field(default_factory=list)
+    suggested_next_state: str | None = None
+    safety_gate_eligible: bool
     trace_id: str
+    correlation_id: str | None = None
     audit_ref: str | None = None
 
 

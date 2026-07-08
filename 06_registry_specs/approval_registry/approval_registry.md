@@ -115,28 +115,16 @@ The purpose of `approval_registry` is to ensure the following:
 
 Examples:
 
-STOP\_WORK → requires safety\_supervisor\_approval  
-DISPATCH\_ROBOT → requires supervisor\_approval  
-LOCK\_ZONE → requires safety\_manager\_approval  
-NOTIFY\_MANAGER → requires no approval or may use auto\_approval
+STOP\_WORK → requires SAFETY\_MANAGER\_APPROVAL  
+DISPATCH\_ROBOT → requires SUPERVISOR\_APPROVAL  
+LOCK\_ZONE → requires SAFETY\_MANAGER\_APPROVAL  
+NOTIFY\_MANAGER → requires NO\_APPROVAL
 
 ---
 
 ### **5.2 Approval Level**
 
-`Approval Level` means the required level of approval.
-
-Examples:
-
-none  
-auto\_approval  
-operator\_acknowledgement  
-supervisor\_approval  
-safety\_supervisor\_approval  
-site\_manager\_approval  
-compliance\_officer\_approval  
-multi\_party\_approval  
-emergency\_override\_approval
+`Approval Level` means the required level of approval. See Section 8 for the canonical `ApprovalAuthority` value set.
 
 The Approval Level may vary depending on Action Type, risk class, target scope, and current world state.
 
@@ -320,22 +308,21 @@ PLC / SCADA / robot middleware
 
 ## **8\. Approval Level Model**
 
-> **Non-normative list.** The values below are illustrative and do not match the canonical `ApprovalAuthority` value set. The canonical Approval Authority list is defined in `03_core_specifications/08_policy_governance_model/08_policy_governance_model.md` Section 13 ("Approval Authority Model") — `NO_APPROVAL`, `OPERATOR_ACK`, `SUPERVISOR_APPROVAL`, `SAFETY_MANAGER_APPROVAL`, `WAR_ROOM_APPROVAL`, `EXPERT_REVIEW`, `POLICY_OWNER_APPROVAL`, `EMERGENCY_POLICY_BYPASS`, `POST_HOC_AUDIT_ONLY` — independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`'s "Approval Level" list. Do not implement `required_approval_level` from the list below; use the canonical set.
+Approval levels are the canonical `ApprovalAuthority` set defined in `03_core_specifications/08_policy_governance_model/08_policy_governance_model.md` Section 13 ("Approval Authority Model"), independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`'s "Approval Level" list.
 
-Recommended approval levels are:
+Approval levels are:
 
-none  
-auto\_approval  
-operator\_acknowledgement  
-supervisor\_approval  
-safety\_supervisor\_approval  
-site\_manager\_approval  
-compliance\_officer\_approval  
-robot\_operations\_approval  
-multi\_party\_approval  
-emergency\_override\_approval
+NO\_APPROVAL  
+OPERATOR\_ACK  
+SUPERVISOR\_APPROVAL  
+SAFETY\_MANAGER\_APPROVAL  
+WAR\_ROOM\_APPROVAL  
+EXPERT\_REVIEW  
+POLICY\_OWNER\_APPROVAL  
+EMERGENCY\_POLICY\_BYPASS  
+POST\_HOC\_AUDIT\_ONLY
 
-### **8.1 none**
+### **8.1 NO\_APPROVAL**
 
 No approval is required.
 
@@ -345,17 +332,7 @@ Example: NOTIFY\_MANAGER
 
 ---
 
-### **8.2 auto\_approval**
-
-Approval is automatically granted if both policy and runtime validation pass.
-
-However, it must not be used for safety-critical actions.
-
-Example: low-risk workflow update
-
----
-
-### **8.3 operator\_acknowledgement**
+### **8.2 OPERATOR\_ACK**
 
 A worker or operator must acknowledge the action.
 
@@ -363,7 +340,7 @@ Example: low-risk alert acknowledgement
 
 ---
 
-### **8.4 supervisor\_approval**
+### **8.3 SUPERVISOR\_APPROVAL**
 
 Approval from a site supervisor or work supervisor is required.
 
@@ -371,43 +348,47 @@ Example: DISPATCH\_ROBOT
 
 ---
 
-### **8.5 safety\_supervisor\_approval**
+### **8.4 SAFETY\_MANAGER\_APPROVAL**
 
-Approval from a safety supervisor or safety authority is required.
+Approval from a safety manager or safety authority is required.
 
 Example: STOP\_WORK, LOCK\_ZONE
 
 ---
 
-### **8.6 site\_manager\_approval**
+### **8.5 WAR\_ROOM\_APPROVAL**
 
-Approval from the overall site manager is required.
+Approval from a cross-functional incident response War Room is required, for high-impact or multi-stakeholder situations that exceed a single approver's authority.
 
-Example: high-impact operation suspension
-
----
-
-### **8.7 compliance\_officer\_approval**
-
-Approval from a compliance or legal authority is required.
-
-Example: legal compliance exception
+Example: site-wide evacuation, multi-zone incident
 
 ---
 
-### **8.8 multi\_party\_approval**
+### **8.6 EXPERT\_REVIEW**
 
-Approval from multiple roles is required.
+A domain expert must review the case before it proceeds, for exceptional or unusual situations not covered by standard approval routes.
 
-Example: critical equipment restart
+Example: `EXCEPTIONAL` risk level per `07_decision_approval_matrix.md` Section 8
 
 ---
 
-### **8.9 emergency\_override\_approval**
+### **8.7 POLICY\_OWNER\_APPROVAL**
 
-This is a limited override approval allowed in emergency situations.
+Approval from the Policy Owner is required, typically for a policy exception (`08_policy_governance_model.md` Section 19) or a case not covered by an active policy.
 
-Even in this case, audit, post-review, and safety boundaries are mandatory.
+---
+
+### **8.8 EMERGENCY\_POLICY\_BYPASS**
+
+A limited override approval allowed in emergency situations under a pre-approved Emergency Policy (`08_policy_governance_model.md` Section 16, "Emergency Policy Bypass").
+
+Even in this case, audit, post-review, and safety boundaries are mandatory. Emergency Policy Bypass is not no-approval — it is a pre-approved emergency policy.
+
+---
+
+### **8.9 POST\_HOC\_AUDIT\_ONLY**
+
+No live approval gate applies before the action proceeds; the action is instead subject to mandatory audit review after the fact (`08_policy_governance_model.md` Section 16.6, "Post-Hoc Audit").
 
 ---
 
@@ -568,9 +549,9 @@ applicable\_action\_type\_refs:
   \- action:STOP\_WORK
 
 applicable\_risk\_classes:  
-  \- high\_risk  
-  \- critical  
-  \- emergency
+  \- HIGH\_RISK  
+  \- CRITICAL\_EMERGENCY  
+  \- EXCEPTIONAL
 
 applicable\_target\_types:  
   \- worker\_group  
@@ -578,7 +559,7 @@ applicable\_target\_types:
   \- task  
   \- operation
 
-required\_approval\_level: safety\_supervisor\_approval
+required\_approval\_level: SAFETY\_MANAGER\_APPROVAL
 
 required\_authority\_roles:  
   \- safety\_supervisor  
@@ -662,8 +643,8 @@ applicable\_action\_type\_refs:
   \- action:DISPATCH\_ROBOT
 
 applicable\_risk\_classes:  
-  \- warning  
-  \- high\_risk
+  \- WARNING  
+  \- HIGH\_RISK
 
 applicable\_target\_types:  
   \- robot  
@@ -671,7 +652,7 @@ applicable\_target\_types:
   \- task\_location  
   \- work\_zone
 
-required\_approval\_level: supervisor\_approval
+required\_approval\_level: SUPERVISOR\_APPROVAL
 
 required\_authority\_roles:  
   \- site\_supervisor  
@@ -918,7 +899,7 @@ approval\_registry:
 Example:
 
 Action Type: STOP\_WORK  
-required\_approval\_level: safety\_supervisor\_approval
+required\_approval\_level: SAFETY\_MANAGER\_APPROVAL
 
 Approval Registry defines:
 
@@ -1026,7 +1007,7 @@ ledo:StopWorkSafetySupervisorApprovalRule
     ledo:appliesToAction ledo:StopWorkAction ;  
     ledo:requiresAuthorityRole ledo:SafetySupervisor ;  
     ledo:requiresEvidence ledo:HazardDetectionSnapshot ;  
-    ledo:hasApprovalLevel ledo:SafetySupervisorApproval .
+    ledo:hasApprovalLevel ledo:SafetyManagerApproval .
 
 Ontology provides the semantic foundation of approval.
 
@@ -1137,16 +1118,15 @@ class ApprovalStatus(str, Enum):
     BLOCKED \= "blocked"
 
 class ApprovalLevel(str, Enum):  
-    NONE \= "none"  
-    AUTO\_APPROVAL \= "auto\_approval"  
-    OPERATOR\_ACKNOWLEDGEMENT \= "operator\_acknowledgement"  
-    SUPERVISOR\_APPROVAL \= "supervisor\_approval"  
-    SAFETY\_SUPERVISOR\_APPROVAL \= "safety\_supervisor\_approval"  
-    SITE\_MANAGER\_APPROVAL \= "site\_manager\_approval"  
-    COMPLIANCE\_OFFICER\_APPROVAL \= "compliance\_officer\_approval"  
-    ROBOT\_OPERATIONS\_APPROVAL \= "robot\_operations\_approval"  
-    MULTI\_PARTY\_APPROVAL \= "multi\_party\_approval"  
-    EMERGENCY\_OVERRIDE\_APPROVAL \= "emergency\_override\_approval"
+    NO\_APPROVAL \= "NO\_APPROVAL"  
+    OPERATOR\_ACK \= "OPERATOR\_ACK"  
+    SUPERVISOR\_APPROVAL \= "SUPERVISOR\_APPROVAL"  
+    SAFETY\_MANAGER\_APPROVAL \= "SAFETY\_MANAGER\_APPROVAL"  
+    WAR\_ROOM\_APPROVAL \= "WAR\_ROOM\_APPROVAL"  
+    EXPERT\_REVIEW \= "EXPERT\_REVIEW"  
+    POLICY\_OWNER\_APPROVAL \= "POLICY\_OWNER\_APPROVAL"  
+    EMERGENCY\_POLICY\_BYPASS \= "EMERGENCY\_POLICY\_BYPASS"  
+    POST\_HOC\_AUDIT\_ONLY \= "POST\_HOC\_AUDIT\_ONLY"
 
 class ApprovalDecisionStatus(str, Enum):  
     APPROVED \= "approved"  

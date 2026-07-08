@@ -284,20 +284,18 @@ Category is important because validation, approval, risk, audit, and adapter com
 
 ## **9\. Risk and Criticality Model**
 
-> **Non-normative list.** `risk_class` below is illustrative and does not match the canonical `RiskLevel` value set. The canonical Risk Level list is defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level") — `INFO`, `NOTICE`, `WARNING`, `HIGH_RISK`, `CRITICAL_EMERGENCY`, `EXCEPTIONAL` — cross-confirmed by usage in `08_policy_governance_model.md`. Do not implement `risk_class` from the list below; use the canonical set. `criticality` below has no confirmed canonical source and remains an open question, separate from this correction.
-
 Every Action Type must declare a risk class and criticality level.
 
-Recommended risk classes:
+Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`:
 
-routine  
-notice  
-warning  
-high\_risk  
-critical  
-emergency
+INFO  
+NOTICE  
+WARNING  
+HIGH\_RISK  
+CRITICAL\_EMERGENCY  
+EXCEPTIONAL
 
-Recommended criticality levels:
+Criticality levels (no closed canonical source confirmed; kept as illustrative, separate from the Risk Level correction above):
 
 low  
 medium  
@@ -308,14 +306,14 @@ mission\_critical
 Example:
 
 action\_type\_id: STOP\_WORK  
-risk\_class: high\_risk  
+risk\_class: HIGH\_RISK  
 criticality: safety\_critical  
-required\_approval\_level: supervisor\_approval
+required\_approval\_level: SUPERVISOR\_APPROVAL
 
 action\_type\_id: NOTIFY\_MANAGER  
-risk\_class: notice  
+risk\_class: NOTICE  
 criticality: medium  
-required\_approval\_level: none
+required\_approval\_level: NO\_APPROVAL
 
 Risk class affects whether human approval, runtime validation, escalation, and audit requirements are mandatory.
 
@@ -401,7 +399,7 @@ description: Requests an external robot fleet manager or robot middleware system
 semantic\_iri: ledo:DispatchRobotAction
 
 category: ROBOT\_ACTION  
-risk\_class: high\_risk  
+risk\_class: HIGH\_RISK  
 criticality: safety\_critical
 
 version: 1.0.0  
@@ -430,7 +428,7 @@ required\_policy\_refs:
   \- policy:worker\_proximity\_policy  
   \- policy:zone\_access\_policy
 
-required\_approval\_level: supervisor\_approval
+required\_approval\_level: SUPERVISOR\_APPROVAL
 
 runtime\_validation\_refs:  
   \- validation:robot\_available  
@@ -489,7 +487,7 @@ description: Requests that work activity in a specific scope be stopped due to s
 semantic\_iri: ledo:StopWorkAction
 
 category: SAFETY\_ACTION  
-risk\_class: critical  
+risk\_class: CRITICAL\_EMERGENCY  
 criticality: safety\_critical
 
 version: 1.0.0  
@@ -516,7 +514,7 @@ required\_policy\_refs:
   \- policy:stop\_work\_policy  
   \- policy:safety\_escalation\_policy
 
-required\_approval\_level: safety\_supervisor\_approval
+required\_approval\_level: SAFETY\_MANAGER\_APPROVAL
 
 runtime\_validation\_refs:  
   \- validation:hazard\_still\_present  
@@ -1008,6 +1006,27 @@ class IdempotencyRequirement(str, Enum):
     RECOMMENDED \= "recommended"  
     NOT\_REQUIRED \= "not\_required"
 
+class RiskLevel(str, Enum):  
+    \# Canonical source: 07\_decision\_approval\_matrix.md Section 8\.  
+    INFO \= "INFO"  
+    NOTICE \= "NOTICE"  
+    WARNING \= "WARNING"  
+    HIGH\_RISK \= "HIGH\_RISK"  
+    CRITICAL\_EMERGENCY \= "CRITICAL\_EMERGENCY"  
+    EXCEPTIONAL \= "EXCEPTIONAL"
+
+class ApprovalLevel(str, Enum):  
+    \# Canonical source: 08\_policy\_governance\_model.md Section 13\.  
+    NO\_APPROVAL \= "NO\_APPROVAL"  
+    OPERATOR\_ACK \= "OPERATOR\_ACK"  
+    SUPERVISOR\_APPROVAL \= "SUPERVISOR\_APPROVAL"  
+    SAFETY\_MANAGER\_APPROVAL \= "SAFETY\_MANAGER\_APPROVAL"  
+    WAR\_ROOM\_APPROVAL \= "WAR\_ROOM\_APPROVAL"  
+    EXPERT\_REVIEW \= "EXPERT\_REVIEW"  
+    POLICY\_OWNER\_APPROVAL \= "POLICY\_OWNER\_APPROVAL"  
+    EMERGENCY\_POLICY\_BYPASS \= "EMERGENCY\_POLICY\_BYPASS"  
+    POST\_HOC\_AUDIT\_ONLY \= "POST\_HOC\_AUDIT\_ONLY"
+
 class ActionRegistryEntry(BaseModel):  
     action\_type\_id: str  
     canonical\_name: str  
@@ -1016,7 +1035,7 @@ class ActionRegistryEntry(BaseModel):
     semantic\_iri: str
 
     category: ActionCategory  
-    risk\_class: str  
+    risk\_class: RiskLevel  
     criticality: str
 
     version: str  
@@ -1027,7 +1046,7 @@ class ActionRegistryEntry(BaseModel):
 
     required\_evidence\_types: list\[str\] \= Field(default\_factory=list)  
     required\_policy\_refs: list\[str\] \= Field(default\_factory=list)  
-    required\_approval\_level: str
+    required\_approval\_level: ApprovalLevel
 
     runtime\_validation\_refs: list\[str\] \= Field(default\_factory=list)  
     precondition\_refs: list\[str\] \= Field(default\_factory=list)  

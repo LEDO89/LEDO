@@ -8,6 +8,7 @@ from ledo_ontology_core.framework.schemas import (
     SafetyGateInputDTO,
     SafetyGatePassDTO,
     SafetyGatePassTerminalStatus,
+    SafetyGateResultDTO,
     SafetySnapshotDTO,
 )
 
@@ -58,48 +59,81 @@ def test_safety_gate_input_references_snapshot_and_runtime_result() -> None:
     assert dto.safety_snapshot_id == "snap-1"
 
 
-def test_safety_gate_pass_is_a_short_lived_lease() -> None:
-    dto = SafetyGatePassDTO(
-        id="sgp-1",
+def safety_gate_pass_kwargs(**overrides: object) -> dict:
+    base = dict(
+        safety_gate_pass_id="sgp-1",
         approved_action_id="approved-1",
-        runtime_validation_result_id="rvr-1",
         action_type="fixture_action",
-        status="ISSUED",
         issued_at=now(),
         expires_at=now() + timedelta(seconds=30),
+        lease_duration_ms=500,
+        lease_started_monotonic_ms=1000,
+        lease_expires_monotonic_ms=1500,
+        target_external_system="mock_fleet_manager",
+        execution_request_scope="fixture_scope",
         idempotency_key="idem-1",
+        safety_snapshot_ref="snap-1",
+        runtime_validation_result_ref="rvr-1",
         trace_id="trace-1",
+        terminal_status="ISSUED",
     )
+    base.update(overrides)
+    return base
+
+
+def test_safety_gate_pass_is_a_short_lived_lease() -> None:
+    dto = SafetyGatePassDTO(**safety_gate_pass_kwargs())
 
     assert dto.expires_at > dto.issued_at
+    assert dto.lease_duration_ms == 500
 
 
 def test_safety_gate_block_carries_failure_reasons() -> None:
     dto = SafetyGateBlockDTO(
-        id="sgb-1",
+        safety_gate_block_id="sgb-1",
         approved_action_id="approved-1",
-        runtime_validation_result_id="rvr-1",
         action_type="fixture_action",
-        status="BLOCKED",
-        checked_at=now(),
-        failure_reasons=["stale_state"],
+        blocked_at=now(),
+        block_reasons=["STALE_STATE"],
+        safety_snapshot_ref="snap-1",
+        severity="CRITICAL",
+        tier="TIER_1_SAFETY_CRITICAL",
+        manual_review_required=False,
         trace_id="trace-1",
     )
 
-    assert dto.failure_reasons == ["stale_state"]
+    assert dto.block_reasons == ["STALE_STATE"]
 
 
 def test_safety_gate_pass_rejects_invalid_terminal_status() -> None:
     with pytest.raises(ValidationError):
-        SafetyGatePassDTO(
-            id="sgp-1",
+        SafetyGatePassDTO(**safety_gate_pass_kwargs(terminal_status="NOT_A_REAL_STATUS"))
+
+
+def test_safety_gate_result_rejects_invalid_status() -> None:
+    dto = SafetyGateResultDTO(
+        result_id="sgr-1",
+        approved_action_id="approved-1",
+        action_type="fixture_action",
+        status="PASS",
+        issued_pass_ref="sgp-1",
+        checked_at=now(),
+        runtime_validation_result_ref="rvr-1",
+        safety_snapshot_ref="snap-1",
+        trace_id="trace-1",
+    )
+
+    assert dto.status == "PASS"
+
+    with pytest.raises(ValidationError):
+        SafetyGateResultDTO(
+            result_id="sgr-1",
             approved_action_id="approved-1",
-            runtime_validation_result_id="rvr-1",
             action_type="fixture_action",
             status="NOT_A_REAL_STATUS",
-            issued_at=now(),
-            expires_at=now() + timedelta(seconds=30),
-            idempotency_key="idem-1",
+            checked_at=now(),
+            runtime_validation_result_ref="rvr-1",
+            safety_snapshot_ref="snap-1",
             trace_id="trace-1",
         )
 

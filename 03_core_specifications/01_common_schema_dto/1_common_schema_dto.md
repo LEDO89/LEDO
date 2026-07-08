@@ -1192,6 +1192,8 @@ trace\_context
 
 ## **16.2 ActionCandidateDTO**
 
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+
 Fields:
 
 candidate\_id  
@@ -1213,7 +1215,7 @@ trace\_context
 
 ## **16.3 DecisionCaseDTO**
 
-`decision_tier` uses the `DecisionTier` enum (`schemas/enums.py`: ROUTINE, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `0_canonical_object_lifecycle.md` Section 4.8 "Decision Tiers".
+`decision_tier` uses the `DecisionTier` enum (`schemas/enums.py`: ROUTINE, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `0_canonical_object_lifecycle.md` Section 4.8 "Decision Tiers". `risk_level` is a separate field using the `RiskLevel` enum (INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 — the two enums share 5 of 6 members but are not the same field. `urgency` remains `str` (`DOMAIN_DECISION_REQUIRED`, no closed value list found).
 
 Fields:
 
@@ -1276,6 +1278,8 @@ ApprovedActionDTO is created after the required policy, decision, and approval p
 It is not created by the Safety Gate.
 
 It is not a SafetyGatePass and cannot create an ExecutionRequest without Runtime Validation and a valid SafetyGatePass.
+
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
 
 Fields:
 
@@ -1363,6 +1367,16 @@ created\_at\_utc
 
 These DTOs define architecture-level contracts only. They do not define domain thresholds, legal rules, robot behavior rules, PLC semantics, or SCADA write semantics.
 
+`ValidatorResultDTO` (inherited by all Specialized Runtime Result DTOs below) and `SafetyGatePassDTO`/`SafetyGateBlockDTO`/`SafetyGateResultDTO` match the canonical field lists in `08_runtime_validation/validators/validators.md` Section 7 and `08_runtime_validation/safety_gate/safety_gate.md` Sections 8, 10, and 23 exactly — field names included, not just value types. `RuntimeValidationResultDTO` and `RuntimeValidationInputDTO` have no separate canonical field-level contract of their own in `08_runtime_validation/` and keep their prior shape.
+
+`ValidatorResultDTO.status` and `RuntimeValidationResultDTO.result` use the `ValidatorStatus` enum (`schemas/enums.py`: PASS, FAIL, WARNING, HOLD, RETRY, REQUIRES_REVALIDATION, REQUIRES_REAPPROVAL, MANUAL_REVIEW_REQUIRED, BLOCK), sourced from `validators.md` Section 7. `ValidatorResultDTO.severity` uses `Severity` (INFO, WARNING, ERROR, CRITICAL). `ValidatorResultDTO.tier` and `SafetyGateBlockDTO.tier` use `CriticalityTier` (TIER_1_SAFETY_CRITICAL, TIER_2_OPERATIONAL_CRITICAL, TIER_3_INFORMATIONAL), sourced from `safety_gate.md` Section 14, cross-confirmed by `toctou.md` Section 16.
+
+`SafetyGatePassDTO.terminal_status` uses the `SafetyGatePassTerminalStatus` enum (`schemas/enums.py`: ISSUED, DISPATCHING, CONSUMED_ACCEPTED, CONSUMED_REJECTED, CONSUMED_DROPPED, EXPIRED, REVOKED), sourced from `toctou.md` Section 21. `SafetyGateBlockDTO.block_reasons` uses the `BlockReason` enum (17 members), sourced from `safety_gate.md` Section 10's "Possible block reasons" list. `SafetyGateResultDTO.status` uses its own `SafetyGateResultStatus` enum (PASS, BLOCK, MANUAL_REVIEW_REQUIRED, HOLD, REQUIRES_REVALIDATION, REQUIRES_REAPPROVAL) — a distinct, smaller list from `ValidatorStatus`, per `safety_gate.md` Section 23's own "Possible status" list.
+
+`SafetySnapshotDTO.status` remains `str`: no closed value list was found for this field. `SafetyGateInputDTO` has not been reconciled against `safety_gate.md` Section 6's fuller input list (`ValidatorResultSummary`, `TOCTOUResult`, `SHACLValidationResult`, `NetworkHealthResult`, `IdempotencyResult`, `ApprovalValidityResult`, `PolicyRevalidationResult`, `EvidenceValidityResult`, `CapabilityAvailabilityResult`) — a known remaining gap.
+
+The Emergency Fast-Path mirrors of these DTOs (`EmergencyRuntimeValidationInputDTO`, `EmergencyRuntimeValidationResultDTO`, `EmergencySafetyGatePassDTO`, `EmergencySafetyGateBlockDTO`) live in `schemas/emergency.py`, not here, per Section 12 "Recommended Code Mapping" in `0_canonical_object_lifecycle.md`, and mirror the same corrected shapes.
+
 ### **RuntimeValidationInputDTO**
 
 Minimum fields:
@@ -1393,15 +1407,24 @@ audit_ref
 
 ### **ValidatorResultDTO**
 
-Minimum fields:
+Canonical fields (`validators.md` Section 7):
 
-id  
+result_id  
 validator_id  
+validator_version  
 approved_action_id  
-result  
+action_type  
+status  
+severity  
+tier  
 checked_at  
+input_refs  
 failure_reasons  
+warning_reasons  
+suggested_next_state  
+safety_gate_eligible  
 trace_id  
+correlation_id  
 audit_ref
 
 ### **Specialized Runtime Result DTOs**
@@ -1447,31 +1470,63 @@ correlation_id
 
 ### **SafetyGatePassDTO**
 
-Minimum fields:
+Canonical fields (`safety_gate.md` Section 8):
 
-id  
+safety_gate_pass_id  
 approved_action_id  
-runtime_validation_result_id  
 action_type  
-status  
 issued_at  
 expires_at  
+lease_duration_ms  
+lease_started_monotonic_ms  
+lease_expires_monotonic_ms  
+target_external_system  
+execution_request_scope  
 idempotency_key  
+safety_snapshot_ref  
+runtime_validation_result_ref  
+trace_id  
+correlation_id  
+terminal_status
+
+### **SafetyGateBlockDTO**
+
+Canonical fields (`safety_gate.md` Section 10):
+
+safety_gate_block_id  
+approved_action_id  
+action_type  
+blocked_at  
+block_reasons  
+failed_validator_refs  
+failed_runtime_validation_ref  
+safety_snapshot_ref  
+severity  
+tier  
+suggested_next_state  
+manual_review_required  
 trace_id  
 correlation_id  
 audit_ref
 
-### **SafetyGateBlockDTO**
+### **SafetyGateResultDTO**
 
-Minimum fields:
+Canonical fields (`safety_gate.md` Section 23):
 
-id  
+result_id  
 approved_action_id  
-runtime_validation_result_id  
 action_type  
 status  
+issued_pass_ref  
+block_ref  
 checked_at  
+runtime_validation_result_ref  
+safety_snapshot_ref  
+validator_summary_ref  
+decision_reasons  
 failure_reasons  
+warning_reasons  
+suggested_next_state  
 trace_id  
 correlation_id  
 audit_ref
@@ -1670,6 +1725,8 @@ post\_hoc\_audit\_ref
 
 ## **19.1 ActionTypeSpecDTO**
 
+`default_risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+
 Fields:
 
 action\_type  
@@ -1743,6 +1800,8 @@ requires\_idempotent\_update
 
 ## **19.5 CapabilitySpecDTO**
 
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+
 Fields:
 
 capability\_id  
@@ -1784,13 +1843,16 @@ obligations
 denial\_reasons  
 evaluated\_at\_utc
 
-Enum (`PolicyDecisionResult`, `schemas/enums.py`):
+Enum (`PolicyDecisionResult`, `schemas/enums.py`; canonical source: `08_policy_governance_model.md` Section 7):
 
 ALLOW  
 DENY  
 REQUIRE\_APPROVAL  
-ESCALATE  
-EMERGENCY\_ALLOW
+REQUIRE\_EVIDENCE  
+REQUIRE\_REVALIDATION  
+REQUIRE\_FAIL\_SAFE  
+REQUIRE\_MANUAL\_OVERRIDE  
+REQUIRE\_POLICY\_EXCEPTION\_REVIEW
 
 Also used by `PolicyRefDTO.decision_result` (Section 11.5).
 

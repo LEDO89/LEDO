@@ -705,13 +705,13 @@ applicable\_agent\_type\_refs:
 
 applicable\_risk\_classes:
 
-  \- warning
+  \- WARNING
 
-  \- high\_risk
+  \- HIGH\_RISK
 
-  \- critical
+  \- CRITICAL\_EMERGENCY
 
-  \- emergency
+  \- EXCEPTIONAL
 
 applicable\_target\_types:
 
@@ -863,11 +863,11 @@ applicable\_agent\_type\_refs:
 
 applicable\_risk\_classes:
 
-  \- notice
+  \- NOTICE
 
-  \- warning
+  \- WARNING
 
-  \- high\_risk
+  \- HIGH\_RISK
 
 applicable\_target\_types:
 
@@ -1195,19 +1195,19 @@ historical incident pattern
 
 runtime uncertainty
 
-Recommended risk classes:
+Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level"):
 
-routine
+INFO
 
-notice
+NOTICE
 
-warning
+WARNING
 
-high\_risk
+HIGH\_RISK
 
-critical
+CRITICAL\_EMERGENCY
 
-emergency
+EXCEPTIONAL
 
 Decision Registry references which risk classification rule should be used.
 
@@ -1253,7 +1253,7 @@ Decision Registry defines when escalation is required.
 
 Example escalation conditions:
 
-risk\_class \>= critical
+risk\_class \>= CRITICAL\_EMERGENCY
 
 evidence conflict detected
 
@@ -1639,6 +1639,22 @@ class DecisionOutcome(str, Enum):
 
     BLOCKED \= "blocked"
 
+class RiskLevel(str, Enum):
+
+    \# Canonical source: 07\_decision\_approval\_matrix.md Section 8\.
+
+    INFO \= "INFO"
+
+    NOTICE \= "NOTICE"
+
+    WARNING \= "WARNING"
+
+    HIGH\_RISK \= "HIGH\_RISK"
+
+    CRITICAL\_EMERGENCY \= "CRITICAL\_EMERGENCY"
+
+    EXCEPTIONAL \= "EXCEPTIONAL"
+
 class DecisionRegistryEntry(BaseModel):
 
     decision\_rule\_id: str
@@ -1663,7 +1679,7 @@ class DecisionRegistryEntry(BaseModel):
 
     applicable\_agent\_type\_refs: list\[str\] \= Field(default\_factory=list)
 
-    applicable\_risk\_classes: list\[str\] \= Field(default\_factory=list)
+    applicable\_risk\_classes: list\[RiskLevel\] \= Field(default\_factory=list)
 
     applicable\_target\_types: list\[str\] \= Field(default\_factory=list)
 

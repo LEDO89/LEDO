@@ -57,15 +57,20 @@ def test_runtime_validation_result_carries_validator_refs() -> None:
 
 def test_validator_result_base_fields() -> None:
     dto = ValidatorResultDTO(
-        id="vr-1",
+        result_id="vr-1",
         validator_id="validator-1",
+        validator_version="1.0.0",
         approved_action_id="approved-1",
-        result="PASS",
+        action_type="fixture_action",
+        status="PASS",
+        severity="INFO",
+        tier="TIER_1_SAFETY_CRITICAL",
         checked_at=now(),
+        safety_gate_eligible=True,
         trace_id="trace-1",
     )
 
-    assert dto.result == "PASS"
+    assert dto.status == "PASS"
 
 
 @pytest.mark.parametrize(
@@ -82,26 +87,36 @@ def test_validator_result_base_fields() -> None:
 )
 def test_specialized_validator_results_follow_validator_result_pattern(dto_cls) -> None:
     dto = dto_cls(
-        id="vr-1",
+        result_id="vr-1",
         validator_id="validator-1",
+        validator_version="1.0.0",
         approved_action_id="approved-1",
-        result="PASS",
+        action_type="fixture_action",
+        status="PASS",
+        severity="INFO",
+        tier="TIER_1_SAFETY_CRITICAL",
         checked_at=now(),
+        safety_gate_eligible=True,
         trace_id="trace-1",
     )
 
-    assert dto.result == "PASS"
+    assert dto.status == "PASS"
     assert isinstance(dto, ValidatorResultDTO)
 
 
 def test_validator_result_rejects_invalid_status() -> None:
     with pytest.raises(ValidationError):
         ValidatorResultDTO(
-            id="vr-1",
+            result_id="vr-1",
             validator_id="validator-1",
+            validator_version="1.0.0",
             approved_action_id="approved-1",
-            result="NOT_A_REAL_STATUS",
+            action_type="fixture_action",
+            status="NOT_A_REAL_STATUS",
+            severity="INFO",
+            tier="TIER_1_SAFETY_CRITICAL",
             checked_at=now(),
+            safety_gate_eligible=True,
             trace_id="trace-1",
         )
 

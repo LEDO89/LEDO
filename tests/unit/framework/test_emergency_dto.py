@@ -175,46 +175,52 @@ def test_emergency_runtime_validation_result_rejects_invalid_status() -> None:
     assert dto.result == "PASS"
 
 
+def emergency_safety_gate_pass_kwargs(**overrides: object) -> dict:
+    base = dict(
+        emergency_safety_gate_pass_id="esgp-1",
+        emergency_approved_action_id="eaa-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        issued_at=now(),
+        expires_at=now() + timedelta(seconds=5),
+        lease_duration_ms=500,
+        lease_started_monotonic_ms=1000,
+        lease_expires_monotonic_ms=1500,
+        target_external_system="mock_emergency_system",
+        execution_request_scope="fixture_scope",
+        idempotency_key="idem-1",
+        safety_snapshot_ref="snap-1",
+        emergency_runtime_validation_result_ref="ervr-1",
+        trace_id="trace-1",
+        terminal_status="ISSUED",
+    )
+    base.update(overrides)
+    return base
+
+
 def test_emergency_safety_gate_pass_rejects_invalid_terminal_status() -> None:
     with pytest.raises(ValidationError):
         EmergencySafetyGatePassDTO(
-            id="esgp-1",
-            emergency_approved_action_id="eaa-1",
-            emergency_runtime_validation_result_id="ervr-1",
-            action_type="ACTION_EMERGENCY_STOP",
-            status="NOT_A_REAL_STATUS",
-            issued_at=now(),
-            expires_at=now() + timedelta(seconds=5),
-            idempotency_key="idem-1",
-            trace_id="trace-1",
+            **emergency_safety_gate_pass_kwargs(terminal_status="NOT_A_REAL_STATUS")
         )
 
-    dto = EmergencySafetyGatePassDTO(
-        id="esgp-1",
-        emergency_approved_action_id="eaa-1",
-        emergency_runtime_validation_result_id="ervr-1",
-        action_type="ACTION_EMERGENCY_STOP",
-        status="ISSUED",
-        issued_at=now(),
-        expires_at=now() + timedelta(seconds=5),
-        idempotency_key="idem-1",
-        trace_id="trace-1",
-    )
-    assert dto.status == "ISSUED"
+    dto = EmergencySafetyGatePassDTO(**emergency_safety_gate_pass_kwargs())
+    assert dto.terminal_status == "ISSUED"
 
 
 def test_emergency_safety_gate_block_carries_failure_reasons() -> None:
     dto = EmergencySafetyGateBlockDTO(
-        id="esgb-1",
+        emergency_safety_gate_block_id="esgb-1",
         emergency_approved_action_id="eaa-1",
-        emergency_runtime_validation_result_id="ervr-1",
         action_type="ACTION_EMERGENCY_STOP",
-        status="BLOCKED",
-        checked_at=now(),
-        failure_reasons=["stale_state"],
+        blocked_at=now(),
+        block_reasons=["STALE_STATE"],
+        safety_snapshot_ref="snap-1",
+        severity="CRITICAL",
+        tier="TIER_1_SAFETY_CRITICAL",
+        manual_review_required=True,
         trace_id="trace-1",
     )
-    assert dto.failure_reasons == ["stale_state"]
+    assert dto.block_reasons == ["STALE_STATE"]
 
 
 def test_emergency_execution_request_requires_emergency_safety_gate_pass_lease() -> None:

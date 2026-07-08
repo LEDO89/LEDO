@@ -33,9 +33,12 @@ from pydantic import Field, model_validator
 from ledo_ontology_core.framework.schemas.base import StrictDTO
 from ledo_ontology_core.framework.schemas.context import TraceContextDTO
 from ledo_ontology_core.framework.schemas.enums import (
+    BlockReason,
+    CriticalityTier,
     PostAuditStatus,
     ReviewStatus,
     SafetyGatePassTerminalStatus,
+    Severity,
     ValidatorStatus,
 )
 from ledo_ontology_core.framework.schemas.execution import RecoveryPolicyDTO, TimeoutPolicyDTO
@@ -105,29 +108,37 @@ class EmergencyRuntimeValidationResultDTO(StrictDTO):
 
 
 class EmergencySafetyGatePassDTO(StrictDTO):
-    id: str
+    emergency_safety_gate_pass_id: str
     emergency_approved_action_id: str
-    emergency_runtime_validation_result_id: str
     action_type: str
-    status: SafetyGatePassTerminalStatus
     issued_at: datetime
     expires_at: datetime
+    lease_duration_ms: int = Field(ge=0)
+    lease_started_monotonic_ms: int = Field(ge=0)
+    lease_expires_monotonic_ms: int = Field(ge=0)
+    target_external_system: str
+    execution_request_scope: str
     idempotency_key: str
+    safety_snapshot_ref: str
+    emergency_runtime_validation_result_ref: str
     trace_id: str
     correlation_id: str | None = None
-    audit_ref: str | None = None
+    terminal_status: SafetyGatePassTerminalStatus
 
 
 class EmergencySafetyGateBlockDTO(StrictDTO):
-    id: str
+    emergency_safety_gate_block_id: str
     emergency_approved_action_id: str
-    emergency_runtime_validation_result_id: str
     action_type: str
-    # Mirrors SafetyGateBlockDTO.status: no closed value list confirmed for this
-    # field either (see safety_gate.py docstring) — kept as str, not invented.
-    status: str
-    checked_at: datetime
-    failure_reasons: list[str] = Field(default_factory=list)
+    blocked_at: datetime
+    block_reasons: list[BlockReason] = Field(default_factory=list)
+    failed_validator_refs: list[str] = Field(default_factory=list)
+    failed_emergency_runtime_validation_ref: str | None = None
+    safety_snapshot_ref: str
+    severity: Severity
+    tier: CriticalityTier
+    suggested_next_state: str | None = None
+    manual_review_required: bool
     trace_id: str
     correlation_id: str | None = None
     audit_ref: str | None = None

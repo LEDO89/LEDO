@@ -190,6 +190,70 @@ class SafetyGatePassTerminalStatus(str, Enum):
     REVOKED = "REVOKED"
 
 
+class Severity(str, Enum):
+    """Canonical source: 08_runtime_validation/validators/validators.md Section 7
+    ("Validator Output Contract"), the `severity` field.
+    """
+
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class CriticalityTier(str, Enum):
+    """Canonical source: 08_runtime_validation/safety_gate/safety_gate.md Section 14
+    ("Criticality Tier Handling"), cross-confirmed by
+    08_runtime_validation/toctou/toctou.md Section 16 ("Validation Criticality Tier").
+    Neither document gives a separate short-form enum string — these values encode the
+    section heading text directly (e.g. "Tier 1. Safety-Critical") rather than
+    inventing new terminology.
+    """
+
+    TIER_1_SAFETY_CRITICAL = "TIER_1_SAFETY_CRITICAL"
+    TIER_2_OPERATIONAL_CRITICAL = "TIER_2_OPERATIONAL_CRITICAL"
+    TIER_3_INFORMATIONAL = "TIER_3_INFORMATIONAL"
+
+
+class SafetyGateResultStatus(str, Enum):
+    """Canonical source: 08_runtime_validation/safety_gate/safety_gate.md Section 23
+    ("SafetyGateResult Contract"), the `status` field. This is a distinct, smaller
+    (6-member) list from `ValidatorStatus` (9 members) — the source document gives it
+    as its own "Possible status" list, not as a cross-reference to Section 7.
+    """
+
+    PASS = "PASS"
+    BLOCK = "BLOCK"
+    MANUAL_REVIEW_REQUIRED = "MANUAL_REVIEW_REQUIRED"
+    HOLD = "HOLD"
+    REQUIRES_REVALIDATION = "REQUIRES_REVALIDATION"
+    REQUIRES_REAPPROVAL = "REQUIRES_REAPPROVAL"
+
+
+class BlockReason(str, Enum):
+    """Canonical source: 08_runtime_validation/safety_gate/safety_gate.md Section 10
+    ("SafetyGateBlock Contract"), "Possible block reasons" list.
+    """
+
+    MISSING_REQUIRED_VALIDATION = "MISSING_REQUIRED_VALIDATION"
+    INVALID_RUNTIME_VALIDATION_RESULT = "INVALID_RUNTIME_VALIDATION_RESULT"
+    STALE_STATE = "STALE_STATE"
+    STALE_SNAPSHOT = "STALE_SNAPSHOT"
+    TOCTOU_CONFLICT = "TOCTOU_CONFLICT"
+    CRITICAL_CONDITION_CHANGED = "CRITICAL_CONDITION_CHANGED"
+    INVALID_APPROVAL = "INVALID_APPROVAL"
+    EXPIRED_APPROVAL = "EXPIRED_APPROVAL"
+    POLICY_FAILED = "POLICY_FAILED"
+    EXTERNAL_SYSTEM_UNREACHABLE = "EXTERNAL_SYSTEM_UNREACHABLE"
+    ADAPTER_UNHEALTHY = "ADAPTER_UNHEALTHY"
+    FEEDBACK_CHANNEL_UNAVAILABLE = "FEEDBACK_CHANNEL_UNAVAILABLE"
+    IDEMPOTENCY_FAILURE = "IDEMPOTENCY_FAILURE"
+    TERMINAL_SAFETY_GATE_PASS_REPLAY = "TERMINAL_SAFETY_GATE_PASS_REPLAY"
+    SHACL_VALIDATION_FAILED = "SHACL_VALIDATION_FAILED"
+    CLOCK_SKEW_EXCEEDED = "CLOCK_SKEW_EXCEEDED"
+    UNKNOWN_REQUIRED_CONDITION = "UNKNOWN_REQUIRED_CONDITION"
+
+
 class DispatchStatus(str, Enum):
     """Canonical dispatch/execution state enum.
 
