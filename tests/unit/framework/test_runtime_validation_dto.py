@@ -14,6 +14,7 @@ from ledo_ontology_core.framework.schemas import (
     SHACLValidationResultDTO,
     TOCTOUResultDTO,
     ValidatorResultDTO,
+    ValidatorStatus,
 )
 
 
@@ -91,3 +92,30 @@ def test_specialized_validator_results_follow_validator_result_pattern(dto_cls) 
 
     assert dto.result == "PASS"
     assert isinstance(dto, ValidatorResultDTO)
+
+
+def test_validator_result_rejects_invalid_status() -> None:
+    with pytest.raises(ValidationError):
+        ValidatorResultDTO(
+            id="vr-1",
+            validator_id="validator-1",
+            approved_action_id="approved-1",
+            result="NOT_A_REAL_STATUS",
+            checked_at=now(),
+            trace_id="trace-1",
+        )
+
+
+def test_validator_status_has_exactly_the_nine_canonical_members() -> None:
+    # Canonical source: 08_runtime_validation/validators/validators.md Section 7.
+    assert {member.value for member in ValidatorStatus} == {
+        "PASS",
+        "FAIL",
+        "WARNING",
+        "HOLD",
+        "RETRY",
+        "REQUIRES_REVALIDATION",
+        "REQUIRES_REAPPROVAL",
+        "MANUAL_REVIEW_REQUIRED",
+        "BLOCK",
+    }

@@ -6,6 +6,11 @@ from pydantic import ValidationError
 from ledo_ontology_core.framework.schemas import (
     EmergencyActionSpecDTO,
     EmergencyApprovedActionDTO,
+    EmergencyExecutionRequestDTO,
+    EmergencyRuntimeValidationInputDTO,
+    EmergencyRuntimeValidationResultDTO,
+    EmergencySafetyGateBlockDTO,
+    EmergencySafetyGatePassDTO,
     EntityRefDTO,
     PostHocAuditDTO,
     RecoveryPolicyDTO,
@@ -127,3 +132,126 @@ def test_post_hoc_audit_constructs_with_valid_review_status() -> None:
     )
 
     assert dto.review_status == "REVIEWED"
+
+
+def test_emergency_runtime_validation_input_requires_trace_id() -> None:
+    with pytest.raises(ValidationError):
+        EmergencyRuntimeValidationInputDTO(
+            id="ervi-1",
+            emergency_approved_action_id="eaa-1",
+            action_type="ACTION_EMERGENCY_STOP",
+            created_at_utc=now(),
+        )
+
+    dto = EmergencyRuntimeValidationInputDTO(
+        id="ervi-1",
+        emergency_approved_action_id="eaa-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        trace_id="trace-1",
+        created_at_utc=now(),
+    )
+    assert dto.emergency_approved_action_id == "eaa-1"
+
+
+def test_emergency_runtime_validation_result_rejects_invalid_status() -> None:
+    with pytest.raises(ValidationError):
+        EmergencyRuntimeValidationResultDTO(
+            id="ervr-1",
+            emergency_approved_action_id="eaa-1",
+            action_type="ACTION_EMERGENCY_STOP",
+            result="NOT_A_REAL_STATUS",
+            checked_at=now(),
+            trace_id="trace-1",
+        )
+
+    dto = EmergencyRuntimeValidationResultDTO(
+        id="ervr-1",
+        emergency_approved_action_id="eaa-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        result="PASS",
+        checked_at=now(),
+        trace_id="trace-1",
+    )
+    assert dto.result == "PASS"
+
+
+def test_emergency_safety_gate_pass_rejects_invalid_terminal_status() -> None:
+    with pytest.raises(ValidationError):
+        EmergencySafetyGatePassDTO(
+            id="esgp-1",
+            emergency_approved_action_id="eaa-1",
+            emergency_runtime_validation_result_id="ervr-1",
+            action_type="ACTION_EMERGENCY_STOP",
+            status="NOT_A_REAL_STATUS",
+            issued_at=now(),
+            expires_at=now() + timedelta(seconds=5),
+            idempotency_key="idem-1",
+            trace_id="trace-1",
+        )
+
+    dto = EmergencySafetyGatePassDTO(
+        id="esgp-1",
+        emergency_approved_action_id="eaa-1",
+        emergency_runtime_validation_result_id="ervr-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        status="ISSUED",
+        issued_at=now(),
+        expires_at=now() + timedelta(seconds=5),
+        idempotency_key="idem-1",
+        trace_id="trace-1",
+    )
+    assert dto.status == "ISSUED"
+
+
+def test_emergency_safety_gate_block_carries_failure_reasons() -> None:
+    dto = EmergencySafetyGateBlockDTO(
+        id="esgb-1",
+        emergency_approved_action_id="eaa-1",
+        emergency_runtime_validation_result_id="ervr-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        status="BLOCKED",
+        checked_at=now(),
+        failure_reasons=["stale_state"],
+        trace_id="trace-1",
+    )
+    assert dto.failure_reasons == ["stale_state"]
+
+
+def test_emergency_execution_request_requires_emergency_safety_gate_pass_lease() -> None:
+    with pytest.raises(ValidationError, match="EmergencySafetyGatePass"):
+        EmergencyExecutionRequestDTO(
+            execution_request_id="eer-1",
+            emergency_approved_action_ref="eaa-1",
+            action_type="ACTION_EMERGENCY_STOP",
+            target_ref=EntityRefDTO(entity_id="zone-1", entity_type="zone"),
+            external_system_type="mock",
+            external_system_id="mock-1",
+            execution_constraints={},
+            expected_feedback={"status": "ack"},
+            timeout_policy={"timeout_ms": 1000},
+            retry_policy={"max_retries": 0},
+            recovery_policy={"mode": "manual"},
+            idempotency_key="idem-1",
+            execution_lease={},
+            trace_context=trace(),
+            created_at_utc=now(),
+        )
+
+    dto = EmergencyExecutionRequestDTO(
+        execution_request_id="eer-1",
+        emergency_approved_action_ref="eaa-1",
+        action_type="ACTION_EMERGENCY_STOP",
+        target_ref=EntityRefDTO(entity_id="zone-1", entity_type="zone"),
+        external_system_type="mock",
+        external_system_id="mock-1",
+        execution_constraints={},
+        expected_feedback={"status": "ack"},
+        timeout_policy={"timeout_ms": 1000},
+        retry_policy={"max_retries": 0},
+        recovery_policy={"mode": "manual"},
+        idempotency_key="idem-1",
+        execution_lease={"emergency_safety_gate_pass_id": "esgp-1"},
+        trace_context=trace(),
+        created_at_utc=now(),
+    )
+    assert dto.execution_lease["emergency_safety_gate_pass_id"] == "esgp-1"

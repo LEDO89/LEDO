@@ -320,6 +320,8 @@ PLC / SCADA / robot middleware
 
 ## **8\. Approval Level Model**
 
+> **Non-normative list.** The values below are illustrative and do not match the canonical `ApprovalAuthority` value set. The canonical Approval Authority list is defined in `03_core_specifications/08_policy_governance_model/08_policy_governance_model.md` Section 13 ("Approval Authority Model") — `NO_APPROVAL`, `OPERATOR_ACK`, `SUPERVISOR_APPROVAL`, `SAFETY_MANAGER_APPROVAL`, `WAR_ROOM_APPROVAL`, `EXPERT_REVIEW`, `POLICY_OWNER_APPROVAL`, `EMERGENCY_POLICY_BYPASS`, `POST_HOC_AUDIT_ONLY` — independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`'s "Approval Level" list. Do not implement `required_approval_level` from the list below; use the canonical set.
+
 Recommended approval levels are:
 
 none  

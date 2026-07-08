@@ -7,6 +7,7 @@ from ledo_ontology_core.framework.schemas import (
     SafetyGateBlockDTO,
     SafetyGateInputDTO,
     SafetyGatePassDTO,
+    SafetyGatePassTerminalStatus,
     SafetySnapshotDTO,
 )
 
@@ -63,7 +64,7 @@ def test_safety_gate_pass_is_a_short_lived_lease() -> None:
         approved_action_id="approved-1",
         runtime_validation_result_id="rvr-1",
         action_type="fixture_action",
-        status="PASS",
+        status="ISSUED",
         issued_at=now(),
         expires_at=now() + timedelta(seconds=30),
         idempotency_key="idem-1",
@@ -86,3 +87,32 @@ def test_safety_gate_block_carries_failure_reasons() -> None:
     )
 
     assert dto.failure_reasons == ["stale_state"]
+
+
+def test_safety_gate_pass_rejects_invalid_terminal_status() -> None:
+    with pytest.raises(ValidationError):
+        SafetyGatePassDTO(
+            id="sgp-1",
+            approved_action_id="approved-1",
+            runtime_validation_result_id="rvr-1",
+            action_type="fixture_action",
+            status="NOT_A_REAL_STATUS",
+            issued_at=now(),
+            expires_at=now() + timedelta(seconds=30),
+            idempotency_key="idem-1",
+            trace_id="trace-1",
+        )
+
+
+def test_safety_gate_pass_terminal_status_has_exactly_the_seven_canonical_members() -> None:
+    # Canonical source: 08_runtime_validation/toctou/toctou.md Section 21, cross-confirmed
+    # by 08_runtime_validation/idempotency/idempotency_control.md Section 9.
+    assert {member.value for member in SafetyGatePassTerminalStatus} == {
+        "ISSUED",
+        "DISPATCHING",
+        "CONSUMED_ACCEPTED",
+        "CONSUMED_REJECTED",
+        "CONSUMED_DROPPED",
+        "EXPIRED",
+        "REVOKED",
+    }

@@ -4,6 +4,19 @@ Source: 01_common_schema_dto.md Section 17.2 (EmergencyApprovedActionDTO), Secti
 (EmergencyActionSpecDTO), Section 18.4 (PostHocAuditDTO). File name matches the lifecycle
 doc's own Section 12 "Recommended Code Mapping" (`schemas/emergency.py`).
 
+`EmergencyRuntimeValidationInputDTO`, `EmergencyRuntimeValidationResultDTO`,
+`EmergencySafetyGatePassDTO`, `EmergencySafetyGateBlockDTO`, and
+`EmergencyExecutionRequestDTO` are required by the emergency lifecycle named in
+0_canonical_object_lifecycle.md Section 4.11, 03_core_specifications/07_decision_approval_matrix.md
+(e.g. Sections 4, 18, 33), and 08_policy_governance_model.md Section 16, but none of those
+documents give a dedicated field-level schema for the Emergency-prefixed variants — they
+only appear as flow-step object names. Each is therefore modeled as a structural mirror
+of its standard (non-emergency) counterpart in `runtime_validation.py`, `safety_gate.py`,
+and `execution.py`, substituting `emergency_approved_action_id`/`_ref` for
+`approved_action_id`/`_ref`. This is not new domain content — it applies the same shape
+the standard objects already use, per the architecture's explicit requirement that the
+emergency path run through the same validation stages as the standard path.
+
 These are structural contracts only. Populating real Emergency Action Registry content
 (an actual `emergency_action_type` entry, a real `local_rule_id`, etc.) requires the
 governance process described in 0_canonical_object_lifecycle.md Section 5 (Safety
@@ -13,12 +26,18 @@ Committee, Ontology Steward, Policy Owner approval) and is out of scope for sche
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
 from ledo_ontology_core.framework.schemas.context import TraceContextDTO
-from ledo_ontology_core.framework.schemas.enums import PostAuditStatus, ReviewStatus
+from ledo_ontology_core.framework.schemas.enums import (
+    PostAuditStatus,
+    ReviewStatus,
+    SafetyGatePassTerminalStatus,
+    ValidatorStatus,
+)
 from ledo_ontology_core.framework.schemas.execution import RecoveryPolicyDTO, TimeoutPolicyDTO
 from ledo_ontology_core.framework.schemas.refs import EntityRefDTO
 
@@ -59,6 +78,88 @@ class EmergencyApprovedActionDTO(StrictDTO):
     post_audit_status: PostAuditStatus
     trace_context: TraceContextDTO
     created_at_utc: datetime
+
+
+class EmergencyRuntimeValidationInputDTO(StrictDTO):
+    id: str
+    emergency_approved_action_id: str
+    action_type: str
+    input_refs: list[str] = Field(default_factory=list)
+    trace_id: str
+    correlation_id: str | None = None
+    created_at_utc: datetime
+
+
+class EmergencyRuntimeValidationResultDTO(StrictDTO):
+    id: str
+    emergency_approved_action_id: str
+    action_type: str
+    result: ValidatorStatus
+    checked_at: datetime
+    input_refs: list[str] = Field(default_factory=list)
+    validator_result_refs: list[str] = Field(default_factory=list)
+    failure_reasons: list[str] = Field(default_factory=list)
+    trace_id: str
+    correlation_id: str | None = None
+    audit_ref: str | None = None
+
+
+class EmergencySafetyGatePassDTO(StrictDTO):
+    id: str
+    emergency_approved_action_id: str
+    emergency_runtime_validation_result_id: str
+    action_type: str
+    status: SafetyGatePassTerminalStatus
+    issued_at: datetime
+    expires_at: datetime
+    idempotency_key: str
+    trace_id: str
+    correlation_id: str | None = None
+    audit_ref: str | None = None
+
+
+class EmergencySafetyGateBlockDTO(StrictDTO):
+    id: str
+    emergency_approved_action_id: str
+    emergency_runtime_validation_result_id: str
+    action_type: str
+    # Mirrors SafetyGateBlockDTO.status: no closed value list confirmed for this
+    # field either (see safety_gate.py docstring) — kept as str, not invented.
+    status: str
+    checked_at: datetime
+    failure_reasons: list[str] = Field(default_factory=list)
+    trace_id: str
+    correlation_id: str | None = None
+    audit_ref: str | None = None
+
+
+class EmergencyExecutionRequestDTO(StrictDTO):
+    execution_request_id: str
+    emergency_approved_action_ref: str
+    action_type: str
+    target_ref: EntityRefDTO
+    external_system_type: str
+    external_system_id: str
+    execution_constraints: dict[str, Any] = Field(default_factory=dict)
+    expected_feedback: dict[str, Any]
+    timeout_policy: dict[str, Any]
+    retry_policy: dict[str, Any]
+    recovery_policy: dict[str, Any]
+    idempotency_key: str
+    execution_lease: dict[str, Any]
+    trace_context: TraceContextDTO
+    created_at_utc: datetime
+
+    @model_validator(mode="after")
+    def require_emergency_safety_gate_lease(self) -> "EmergencyExecutionRequestDTO":
+        # 07_decision_approval_matrix.md: "EmergencyExecutionRequest MUST NOT be
+        # created unless an EmergencySafetyGatePass has been issued from a valid
+        # EmergencyRuntimeValidationResult."
+        if not self.execution_lease.get("emergency_safety_gate_pass_id"):
+            raise ValueError(
+                "EmergencyExecutionRequestDTO requires an EmergencySafetyGatePass lease reference"
+            )
+        return self
 
 
 class PostHocAuditDTO(StrictDTO):

@@ -18,6 +18,11 @@ from ledo_ontology_core.framework.schemas.decision import DecisionCaseDTO, Polic
 from ledo_ontology_core.framework.schemas.emergency import (
     EmergencyActionSpecDTO,
     EmergencyApprovedActionDTO,
+    EmergencyExecutionRequestDTO,
+    EmergencyRuntimeValidationInputDTO,
+    EmergencyRuntimeValidationResultDTO,
+    EmergencySafetyGateBlockDTO,
+    EmergencySafetyGatePassDTO,
     PostHocAuditDTO,
 )
 from ledo_ontology_core.framework.schemas.enums import (
@@ -31,7 +36,9 @@ from ledo_ontology_core.framework.schemas.enums import (
     PostAuditStatus,
     ReviewStatus,
     RiskLevel,
+    SafetyGatePassTerminalStatus,
     ValidationStatus,
+    ValidatorStatus,
 )
 from ledo_ontology_core.framework.schemas.event import (
     CanonicalEventEnvelopeDTO,
@@ -141,6 +148,11 @@ __all__ = [
     "DispatchStatus",
     "EmergencyActionSpecDTO",
     "EmergencyApprovedActionDTO",
+    "EmergencyExecutionRequestDTO",
+    "EmergencyRuntimeValidationInputDTO",
+    "EmergencyRuntimeValidationResultDTO",
+    "EmergencySafetyGateBlockDTO",
+    "EmergencySafetyGatePassDTO",
     "EntityRefDTO",
     "EscalationTriggerDTO",
     "EventTypeDTO",
@@ -187,6 +199,7 @@ __all__ = [
     "SafetyGateBlockDTO",
     "SafetyGateInputDTO",
     "SafetyGatePassDTO",
+    "SafetyGatePassTerminalStatus",
     "SafetySnapshotDTO",
     "SanitizedInputDTO",
     "SourceMetadataDTO",
@@ -200,6 +213,7 @@ __all__ = [
     "ValidationResultDTO",
     "ValidationStatus",
     "ValidatorResultDTO",
+    "ValidatorStatus",
     "VersionContextDTO",
     "WindowedInputDTO",
     "WorldStateDTO",

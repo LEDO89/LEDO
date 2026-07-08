@@ -1,8 +1,17 @@
 """Safety Gate DTO contracts from 01_common_schema_dto Section 17.3A.
 
-Architecture-level contracts only — no Safety Gate decision logic lives here. `status`
-fields are kept as plain `str`: the spec does not give an explicit closed value list for
-them here (unlike `validation_status`, `path_type`, etc.).
+Architecture-level contracts only — no Safety Gate decision logic lives here.
+
+`SafetyGatePassDTO.status` uses `SafetyGatePassTerminalStatus`, sourced from
+08_runtime_validation/toctou/toctou.md Section 21 and cross-confirmed by
+08_runtime_validation/idempotency/idempotency_control.md Section 9; it corresponds to
+the canonical `terminal_status` field named in safety_gate.md Section 8.
+
+`SafetySnapshotDTO.status` and `SafetyGateBlockDTO.status` remain plain `str`: no
+closed value list for either specific field was found in 08_runtime_validation/ or
+01_common_schema_dto.md. `SafetyGateBlockDTO`'s canonical field list
+(safety_gate.md Section 10) does not include a `status` field at all — the field
+present here has no confirmed canonical source and should not be treated as resolved.
 """
 
 from __future__ import annotations
@@ -12,6 +21,7 @@ from datetime import datetime
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
+from ledo_ontology_core.framework.schemas.enums import SafetyGatePassTerminalStatus
 
 
 class SafetySnapshotDTO(StrictDTO):
@@ -44,7 +54,7 @@ class SafetyGatePassDTO(StrictDTO):
     approved_action_id: str
     runtime_validation_result_id: str
     action_type: str
-    status: str
+    status: SafetyGatePassTerminalStatus
     issued_at: datetime
     expires_at: datetime
     idempotency_key: str

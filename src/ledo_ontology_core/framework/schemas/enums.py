@@ -82,6 +82,20 @@ class ApprovalAuthority(str, Enum):
     ("Approval Level" list, itself sourced from 07_decision_approval_matrix.md).
     06_registry_specs/approval_registry/approval_registry.md Section 8 defines a
     different, non-matching 10-member set and must not be treated as canonical.
+
+    Not yet applied to any DTO field: 1_common_schema_dto.md Section 16.4's
+    ApprovalRequestDTO field list (approval_request_id, decision_case_ref,
+    action_type, target_ref, required_role, required_clearance, approver_ref,
+    approval_status, approval_reason, expires_at_utc, created_at_utc,
+    approved_at_utc, trace_context) has no approval-level/approval-authority field
+    to attach this to. Adding one would be new schema content beyond what
+    01_common_schema_dto.md specifies, not a value-list fix — do not add a field to
+    ApprovalRequestDTO to force this enum's use. This enum's home is more likely
+    06_registry_specs/approval_registry's `required_approval_level` once that
+    registry is actually implemented (out of scope per
+    07_implementation_plan/implementation_slice_2_plan.md, which defers registries
+    generally, though approval_registry itself is in Slice 2 scope — the enum is
+    prepared here so that work does not have to re-derive the canonical value set).
     """
 
     NO_APPROVAL = "NO_APPROVAL"
@@ -137,6 +151,43 @@ class AggregationType(str, Enum):
     COUNT = "COUNT"
     LAST_VALUE = "LAST_VALUE"
     THRESHOLD_CROSSING = "THRESHOLD_CROSSING"
+
+
+class ValidatorStatus(str, Enum):
+    """Canonical source: 08_runtime_validation/validators/validators.md Section 7
+    ("Validator Output Contract"), the `status` field. Also applied to
+    RuntimeValidationResultDTO.result, which aggregates ValidatorResult outputs and
+    uses the same status vocabulary per that document's Section 3
+    ("Validator results are aggregated by Runtime Validation").
+    """
+
+    PASS = "PASS"
+    FAIL = "FAIL"
+    WARNING = "WARNING"
+    HOLD = "HOLD"
+    RETRY = "RETRY"
+    REQUIRES_REVALIDATION = "REQUIRES_REVALIDATION"
+    REQUIRES_REAPPROVAL = "REQUIRES_REAPPROVAL"
+    MANUAL_REVIEW_REQUIRED = "MANUAL_REVIEW_REQUIRED"
+    BLOCK = "BLOCK"
+
+
+class SafetyGatePassTerminalStatus(str, Enum):
+    """Canonical source: 08_runtime_validation/toctou/toctou.md Section 21
+    ("Lease Consumption Rule"), cross-confirmed by
+    08_runtime_validation/idempotency/idempotency_control.md Section 9
+    ("SafetyGatePass Terminal Token Rule"). Applied to SafetyGatePassDTO.status,
+    which corresponds to the canonical `terminal_status` field named in
+    safety_gate.md Section 8 ("SafetyGatePass Contract").
+    """
+
+    ISSUED = "ISSUED"
+    DISPATCHING = "DISPATCHING"
+    CONSUMED_ACCEPTED = "CONSUMED_ACCEPTED"
+    CONSUMED_REJECTED = "CONSUMED_REJECTED"
+    CONSUMED_DROPPED = "CONSUMED_DROPPED"
+    EXPIRED = "EXPIRED"
+    REVOKED = "REVOKED"
 
 
 class DispatchStatus(str, Enum):

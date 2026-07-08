@@ -3,9 +3,8 @@
 These DTOs define architecture-level contracts only. They do not define domain
 thresholds, legal rules, robot behavior rules, PLC semantics, or SCADA write semantics.
 
-`result` fields are kept as plain `str` rather than an enum: the spec does not give an
-explicit closed value list for them (unlike `validation_status`, `path_type`, etc.), and
-per the plan's ambiguity standard, enum values are not invented without a source list.
+`result` fields use `ValidatorStatus`, sourced from
+08_runtime_validation/validators/validators.md Section 7 ("Validator Output Contract").
 """
 
 from __future__ import annotations
@@ -15,6 +14,7 @@ from datetime import datetime
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
+from ledo_ontology_core.framework.schemas.enums import ValidatorStatus
 
 
 class RuntimeValidationInputDTO(StrictDTO):
@@ -31,7 +31,7 @@ class RuntimeValidationResultDTO(StrictDTO):
     id: str
     approved_action_id: str
     action_type: str
-    result: str
+    result: ValidatorStatus
     checked_at: datetime
     input_refs: list[str] = Field(default_factory=list)
     validator_result_refs: list[str] = Field(default_factory=list)
@@ -45,7 +45,7 @@ class ValidatorResultDTO(StrictDTO):
     id: str
     validator_id: str
     approved_action_id: str
-    result: str
+    result: ValidatorStatus
     checked_at: datetime
     failure_reasons: list[str] = Field(default_factory=list)
     trace_id: str

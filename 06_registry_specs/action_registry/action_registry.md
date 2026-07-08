@@ -284,6 +284,8 @@ Category is important because validation, approval, risk, audit, and adapter com
 
 ## **9\. Risk and Criticality Model**
 
+> **Non-normative list.** `risk_class` below is illustrative and does not match the canonical `RiskLevel` value set. The canonical Risk Level list is defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level") — `INFO`, `NOTICE`, `WARNING`, `HIGH_RISK`, `CRITICAL_EMERGENCY`, `EXCEPTIONAL` — cross-confirmed by usage in `08_policy_governance_model.md`. Do not implement `risk_class` from the list below; use the canonical set. `criticality` below has no confirmed canonical source and remains an open question, separate from this correction.
+
 Every Action Type must declare a risk class and criticality level.
 
 Recommended risk classes:
