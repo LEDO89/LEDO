@@ -29,6 +29,8 @@ class VersionContextDTO(StrictDTO):
 
 
 class SourceMetadataDTO(StrictDTO):
+    # DOMAIN_DECISION_REQUIRED: source_type has no closed value list in
+    # 01_common_schema_dto.md Section 9.4 — kept as str, not an enum.
     source_type: str
     source_id: str
     source_name: str | None = None
@@ -49,6 +51,8 @@ class FreshnessDTO(StrictDTO):
 
 class ConfidenceDTO(StrictDTO):
     confidence_score: float = Field(ge=0.0, le=1.0)
+    # DOMAIN_DECISION_REQUIRED: confidence_level has no closed value list in
+    # 01_common_schema_dto.md Section 9.6 — kept as str, not an enum.
     confidence_level: str
     confidence_reason: str | None = None
     source_quality: str | None = None

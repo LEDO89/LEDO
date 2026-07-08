@@ -185,7 +185,7 @@ def test_execution_request_requires_safety_gate_lease_reference() -> None:
         approval_context={"approval_decision_ref": "approval-1"},
         policy_result={"decision": "allow_for_test"},
         evidence_refs=["ev-1"],
-        risk_level="test",
+        risk_level="HIGH_RISK",
         valid_until=now() + timedelta(minutes=5),
         idempotency_key="idem-1",
         trace_context=trace(),

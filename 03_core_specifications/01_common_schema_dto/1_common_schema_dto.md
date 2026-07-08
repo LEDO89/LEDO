@@ -562,9 +562,27 @@ Registry / Governance / Observability DTO
 
 Fields with a closed value set use a shared enum class from `src/ledo_ontology_core/framework/schemas/enums.py`, not a plain string. Each field's definition below states which enum it uses. The enum module is the single source of truth for member names; sections in this document state the canonical enum for each field but do not redefine membership independently.
 
-Enums defined there: `ValidationStatus`, `PathType`, `BindingStatus`, `PolicyDecisionResult`, `DecisionTier`, `PostAuditStatus`, `ReviewStatus`, `AggregationType`, `DispatchStatus`.
+Enums defined there: `ValidationStatus`, `PathType`, `BindingStatus`, `PolicyDecisionResult`, `RiskLevel`, `ApprovalAuthority`, `DecisionTier`, `PostAuditStatus`, `ReviewStatus`, `AggregationType`, `DispatchStatus`.
 
-One exception: `DispatchStatus` is sourced from `09_execution_adapter_model.md` Section 20, not from this document — see Section 18.3 below.
+Three exceptions are sourced from a different document than this one, not from this document's own field-level "Examples of X" lists:
+
+- `DispatchStatus` is sourced from `09_execution_adapter_model.md` Section 20 — see Section 18.3 below.
+- `PolicyDecisionResult` is sourced from `08_policy_governance_model.md` Section 7 ("Policy Decision Result"), not from this document's Section 19.7, which lists an illustrative and now-superseded 5-member subset.
+- `RiskLevel` is sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`. `ApprovalAuthority` is sourced from `08_policy_governance_model.md` Section 13 ("Approval Authority Model"), independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`.
+
+In all three cases, do not add members from this document's own shorter illustrative lists, or from a registry document's illustrative Pydantic model (e.g. `06_registry_specs/approval_registry/approval_registry.md` Section 8's non-matching 10-member set), without updating the actual canonical source document first.
+
+---
+
+## **8.2 Fields That Intentionally Stay `str`**
+
+Not every categorical-looking field is an enum. Two different reasons keep a field as plain `str` instead of a `schemas/enums.py` member, and they are not the same thing — conflating them is what made this ambiguous before, so this section makes the distinction explicit.
+
+**Registry-managed vocabulary.** `action_type`, `event_type`, `entity_type`, `state_type`, and `evidence_type` are governed by their own registries (`06_registry_specs/action_registry`, `event_registry`, `state_registry`, `evidence_registry`, and ontology/domain-module entity typing respectively), loaded at runtime with `draft`/`active`/`deprecated` lifecycle status per `06_registry_specs/README.md`. New domain packs add new values by adding registry entries, not by editing a Python enum and redeploying. Hardcoding these into `enums.py` would defeat the extensibility the registry layer (Steps 5/7/8/9/11) exists to provide. This is a deliberate architecture choice, not an oversight.
+
+**Genuinely undecided fields.** `urgency`, `confidence_level`, and `source_type` have no closed value list anywhere in this document or its supporting specs — unlike `validation_status`, `path_type`, etc., there is no "Examples of X" list to draw an enum from. Per Section 4 of `07_implementation_plan/pre_code_generation_build_plan.md` ("모호함 처리 표준"), enum membership is not invented without a source. These fields are marked `# DOMAIN_DECISION_REQUIRED` at their declaration sites in `schemas/`. A future step that pins down the actual value set should convert these to enums and remove the marker at that point — not before.
+
+`risk_level` was previously listed here as genuinely undecided. That was incorrect: a full read of `03_core_specifications/07_decision_approval_matrix.md` and `08_policy_governance_model.md` found a closed 6-member value set (see Section 8.1 above). `risk_level` is now `RiskLevel` at every declaration site in `schemas/` and is no longer `DOMAIN_DECISION_REQUIRED`.
 
 ---
 

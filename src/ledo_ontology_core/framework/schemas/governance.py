@@ -9,6 +9,7 @@ from __future__ import annotations
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
+from ledo_ontology_core.framework.schemas.enums import RiskLevel
 
 
 class CapabilitySpecDTO(StrictDTO):
@@ -17,7 +18,7 @@ class CapabilitySpecDTO(StrictDTO):
     owner_entity_type: str
     constraints: dict
     required_conditions: list[str] = Field(default_factory=list)
-    risk_level: str
+    risk_level: RiskLevel
     ontology_iri: str | None = None
 
 

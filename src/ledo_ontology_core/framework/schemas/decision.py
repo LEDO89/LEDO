@@ -8,14 +8,16 @@ from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
 from ledo_ontology_core.framework.schemas.context import TraceContextDTO
-from ledo_ontology_core.framework.schemas.enums import DecisionTier, PolicyDecisionResult
+from ledo_ontology_core.framework.schemas.enums import DecisionTier, PolicyDecisionResult, RiskLevel
 
 
 class DecisionCaseDTO(StrictDTO):
     decision_case_id: str
     candidate_ref: str
     decision_tier: DecisionTier
-    risk_level: str
+    risk_level: RiskLevel
+    # DOMAIN_DECISION_REQUIRED: urgency has no closed value list in
+    # 01_common_schema_dto.md Section 16.3 — kept as str, not an enum.
     urgency: str
     routing_result: str
     required_approval: bool

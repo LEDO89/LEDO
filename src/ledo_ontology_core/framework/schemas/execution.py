@@ -9,6 +9,7 @@ from pydantic import Field, model_validator
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
 from ledo_ontology_core.framework.schemas.context import TraceContextDTO
+from ledo_ontology_core.framework.schemas.enums import RiskLevel
 from ledo_ontology_core.framework.schemas.refs import EntityRefDTO
 
 
@@ -16,13 +17,15 @@ class ApprovedActionDTO(StrictDTO):
     approved_action_id: str
     candidate_ref: str
     decision_case_ref: str
+    # action_type is a registry-managed vocabulary (06_registry_specs/action_registry),
+    # not a fixed enum. Same applies to action_type on ExecutionRequestDTO below.
     action_type: str
     target_ref: EntityRefDTO
     constraints: dict[str, Any] = Field(default_factory=dict)
     approval_context: dict[str, Any]
     policy_result: dict[str, Any]
     evidence_refs: list[str] = Field(default_factory=list)
-    risk_level: str
+    risk_level: RiskLevel
     valid_until: datetime
     idempotency_key: str
     trace_context: TraceContextDTO

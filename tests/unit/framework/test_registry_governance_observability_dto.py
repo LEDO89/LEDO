@@ -30,7 +30,7 @@ def test_action_type_spec_constructs() -> None:
     dto = ActionTypeSpecDTO(
         action_type="ACTION_NOTIFY",
         description="fixture",
-        default_risk_level="low",
+        default_risk_level="INFO",
         requires_approval=False,
     )
     assert dto.action_type == "ACTION_NOTIFY"
@@ -69,7 +69,7 @@ def test_capability_and_adapter_spec_construct() -> None:
         capability_type="fixture",
         owner_entity_type="robot",
         constraints={},
-        risk_level="low",
+        risk_level="INFO",
     )
     adapter = AdapterSpecDTO(
         adapter_id="adapter-1",
@@ -80,7 +80,7 @@ def test_capability_and_adapter_spec_construct() -> None:
         retry_policy={"max_retries": 0},
         health_status="healthy",
     )
-    assert capability.risk_level == "low"
+    assert capability.risk_level == "INFO"
     assert adapter.health_status == "healthy"
 
 

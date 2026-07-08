@@ -1,10 +1,16 @@
-"""Registry and governance DTO contracts from 01_common_schema_dto Section 19."""
+"""Registry and governance DTO contracts from 01_common_schema_dto Section 19.
+
+These DTOs *are* the registry entry shapes — their key vocabulary fields
+(`action_type`, `event_type`, `state_type`) are the registry-managed values
+themselves (06_registry_specs/), so they stay `str` by design, not by omission.
+"""
 
 from __future__ import annotations
 
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
+from ledo_ontology_core.framework.schemas.enums import RiskLevel
 
 
 class ActionTypeSpecDTO(StrictDTO):
@@ -13,7 +19,7 @@ class ActionTypeSpecDTO(StrictDTO):
     allowed_target_types: list[str] = Field(default_factory=list)
     required_evidence_types: list[str] = Field(default_factory=list)
     required_roles: list[str] = Field(default_factory=list)
-    default_risk_level: str
+    default_risk_level: RiskLevel
     requires_approval: bool
     allowed_external_systems: list[str] = Field(default_factory=list)
     expected_feedback_types: list[str] = Field(default_factory=list)

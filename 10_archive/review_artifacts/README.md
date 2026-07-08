@@ -21,3 +21,4 @@ Archived files:
 - `11th_architecture_v1_final_hygiene_verification.md` - eleventh Architecture v1 final hygiene verification artifact.
 - `12th_encoding_mojibake_cleanup.md` - twelfth encoding and mojibake cleanup report artifact.
 - `13th_project_tree_readme_alignment.md` - thirteenth project tree and README navigation alignment report artifact.
+- `14th_policy_risk_approval_enum_canonicalization.md` - fourteenth patch report artifact correcting `PolicyDecisionResult`, `risk_level`, and approval authority to their canonical values found via a full direct re-read of the repository.

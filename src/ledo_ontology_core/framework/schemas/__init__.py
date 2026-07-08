@@ -22,6 +22,7 @@ from ledo_ontology_core.framework.schemas.emergency import (
 )
 from ledo_ontology_core.framework.schemas.enums import (
     AggregationType,
+    ApprovalAuthority,
     BindingStatus,
     DecisionTier,
     DispatchStatus,
@@ -29,6 +30,7 @@ from ledo_ontology_core.framework.schemas.enums import (
     PolicyDecisionResult,
     PostAuditStatus,
     ReviewStatus,
+    RiskLevel,
     ValidationStatus,
 )
 from ledo_ontology_core.framework.schemas.event import (
@@ -122,6 +124,7 @@ __all__ = [
     "ActorRefDTO",
     "AdapterSpecDTO",
     "AggregationType",
+    "ApprovalAuthority",
     "ApprovalDecisionDTO",
     "ApprovalRequestDTO",
     "ApprovalValidityResultDTO",
@@ -177,6 +180,7 @@ __all__ = [
     "RecoveryPolicyDTO",
     "RetryPolicyDTO",
     "ReviewStatus",
+    "RiskLevel",
     "RuntimeValidationInputDTO",
     "RuntimeValidationResultDTO",
     "SHACLValidationResultDTO",
