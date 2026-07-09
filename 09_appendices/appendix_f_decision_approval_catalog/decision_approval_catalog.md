@@ -13,11 +13,11 @@ last_updated: 2026-07-06
 
 Catalog reference items and examples. Do not treat this appendix as executable runtime code.
 
-This is the Decision / Approval Matrix Catalog referenced by `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` (Appendix F). The enum values below are copied from that document's Sections 8–10; the document itself remains the source of truth if they ever diverge.
+This is the non-authoritative Decision / Approval Matrix Catalog referenced by `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` (Appendix F). The enum values below are copied from that document's Sections 8–10 for convenience. If this appendix diverges from the governing specification or registry, the governing specification or registry wins.
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source.
+This document is intentionally written in English so that Codex and other coding agents can use it as a non-authoritative index.
 
 ## Decision Route Values
 

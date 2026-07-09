@@ -6,7 +6,7 @@ The LEDO Industrial Ontology Foundation is not an ontology for describing one sp
 
 The purpose of this report is to define the semantic structure on which industrial objects, relationships, attributes, states, events, tasks, risks, evidence, policies, approvals, execution, feedback, and audit should be modeled. This Foundation is not a warehouse that directly contains all domain knowledge. Instead, it defines the minimal upper structure, axiom system, relationship design principles, identifier strategy, standards alignment method, SKOS-based vocabulary system, and role separation between reasoning and validation so that all domain knowledge can be safely added later.
 
-If the LEDO Core Specifications are the operational constitution for platform decision-making, approval, execution, and audit, then the LEDO Industrial Ontology Foundation is the ontological constitution for semantically describing the industrial world. The Core Specifications define how the system makes decisions and controls execution. The Ontology Foundation defines what the targets of those decisions and executions are, and what relationships, attributes, and semantic rules those targets have.
+If the LEDO Core Specifications are the operational constitution for platform decision-making, approval, execution requests, and audit, then the LEDO Industrial Ontology Foundation is the ontological constitution for semantically describing the industrial world. The Core Specifications define how the system governs decisions, approvals, execution readiness, requests, and audit. The Ontology Foundation defines what the targets of those decisions and requests are, and what relationships, attributes, and semantic rules those targets have.
 
 The final goal of this Foundation is not merely to build a knowledge graph. The goal is to build a reusable semantic foundation for a world-class industrial Physical AI operating environment. Therefore, this Foundation must consider international standards, identifier strategy, ontology axioms, data validation, time synchronization, safety, security, agent interoperability, and SKOS-based trainability from the beginning. Reworking standards, IRIs, axioms, relationships, and attribute structures later would shake the entire graph, codebase, and domain module system. Therefore, the Foundation must be defined with maximum care at the beginning.
 
@@ -51,21 +51,15 @@ Among these, the most important pillar is the axiom. If there are only class nam
 
 ---
 
-# **4\. Single `ot:` Namespace Strategy**
+# **4\. Foundation Namespace Strategy**
 
-The LEDO Industrial Ontology Foundation uses a single primary namespace. The default prefix is `ot:`.
+The LEDO Industrial Ontology Foundation uses controlled namespace governance.
 
-ot:  
-→ the default namespace prefix of the LEDO Industrial Ontology
+The `ot:` prefix is the historical root or family prefix for the Foundation examples in this report.
 
-The reason for using a single namespace is to keep the entire Foundation inside one semantic world. Splitting prefixes Single `ot:` Namespace Strategy
+The authoritative module namespace strategy is defined by `03_core_specifications/06_ontology_module_boundary/6_ontology_module_boundary.md`. Foundation, cross-domain, domain, mapping, and external-standard modules may use distinct governed prefixes when that document requires them.
 
-The LEDO Industrial Ontology Foundation uses a single primary namespace. The default prefix is `ot:`.
-
-ot:  
-→ the default namespace prefix of the LEDO Industrial Ontology
-
-The reason for using a single namespace is carelessly by domain may look convenient at first, but over time it can create concept duplication, relationship duplication, mapping conflicts, SKOS label duplication, and external system identifier conflicts. Therefore, the official TBox of the Foundation is controlled around `ot:`.
+The reason for controlled namespace governance is to keep the Foundation in one governed semantic system while avoiding careless domain-by-domain prefix sprawl. Uncontrolled prefixes can create concept duplication, relationship duplication, mapping conflicts, SKOS label duplication, and external system identifier conflicts. Therefore, all official TBox namespaces and prefixes must be reviewed and governed, whether they use the historical `ot:` examples or module-specific prefixes.
 
 However, TBox and ABox are designed differently. The TBox contains structures that humans must read and govern, such as classes, properties, axioms, schemas, and vocabulary systems. Therefore, TBox IRIs follow a controlled vertical structure that humans can understand.
 
@@ -104,6 +98,7 @@ ABox uses 128-bit hash-based real-world object IRIs.
 ABox identity must not depend on mutable human labels.  
 Every external identifier must be mapped, not blindly trusted.  
 Canonical identity precedes ontology binding.
+Module-specific namespace rules override the example `ot:` prefix wherever the Ontology Module Boundary specification defines a more specific contract.
 
 ---
 
@@ -924,4 +919,3 @@ Axiom changes must be impact-assessed.
 The LEDO Industrial Ontology Foundation is not merely an ontology explanation document. It is the semantic foundation that allows industrial Physical AI to be explainable, extensible, standards-aligned, and safely operable in the global market. If this Foundation is solid, the system will not collapse no matter how many lower-level domains are added.
 
 # **Ontology Industrial Foundation Report**
-

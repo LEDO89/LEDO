@@ -27,4 +27,4 @@ Index the eleven core specifications (`00`–`10`).
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source.
+This document is intentionally written in English so that Codex and other coding agents can use it as an index. It is not a field-level implementation source; the numbered specification documents are authoritative within the source-of-truth order defined by `AGENTS.md`.

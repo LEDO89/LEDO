@@ -317,10 +317,10 @@ Capability Rule:
 └── Revocation Check
 
 Approval Rule:  
-└── If human approval is required and missing, the candidate cannot become ApprovedAction  
+└── If human approval is required and missing, governance must not create an ApprovedAction  
 └── Approval must match required role, scope, site, risk tier, and action type  
 └── Expired or revoked approval is invalid  
-└── Approval UI submission alone is not enough; Safety Gate must validate the approval record
+└── Approval UI submission alone is not enough; Safety Gate must validate the approval record before SafetyGatePass
 
 ---
 
@@ -457,7 +457,7 @@ SHACL Rule:
 └── External System Unavailable Interlock
 
 Safety Interlock Rule:  
-└── If a hard interlock is active, the candidate cannot become ApprovedAction  
+└── If a hard interlock is active, Safety Gate must block SafetyGatePass and ExecutionRequest readiness  
 └── Interlock release must be explicit, authorized, and audited  
 └── Safety interlocks should fail secure
 
@@ -665,7 +665,7 @@ ApprovedActionDTO Fields:
 └── Emergency Fast Path Count  
 └── Interlock Activation Count  
 └── Validation Error Count  
-└── ApprovedAction Creation Count
+└── SafetyGatePass Issued Count
 
 Observability Rule:  
 └── Every validation outcome must be measurable and traceable  

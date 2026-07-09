@@ -877,7 +877,7 @@ evidence\_category: SENSOR\_EVIDENCE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 
@@ -1033,7 +1033,7 @@ evidence\_category: SENSOR\_EVIDENCE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 
@@ -1201,7 +1201,7 @@ evidence\_category: WORLD\_STATE\_EVIDENCE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 

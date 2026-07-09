@@ -110,9 +110,7 @@ class NetworkHealthResultDTO(ValidatorResultDTO):
     external_system_id: str | None = None
     adapter_id: str | None = None
     health_status: NetworkHealthStatus | None = None
-    # heartbeat_status/feedback_channel_status have no dedicated closed value list
-    # in network_health.md (only condition names like "heartbeat_stale").
-    # DOMAIN_DECISION_REQUIRED before they become enums.
+    # DOMAIN_DECISION_REQUIRED: heartbeat_status and feedback_channel_status have no closed value list; kept as str, not enums — see 08_runtime_validation/network_health/network_health.md Section 16
     heartbeat_status: str | None = None
     latency_ms: float | None = None
     error_rate: float | None = None
@@ -131,8 +129,7 @@ class IdempotencyResultDTO(ValidatorResultDTO):
     ledger_status: IdempotencyLedgerStatus | None = None
     previous_result_ref: str | None = None
     terminal_token_ref: str | None = None
-    # terminal_token_status has no dedicated closed value list in
-    # idempotency_control.md. DOMAIN_DECISION_REQUIRED before it becomes an enum.
+    # DOMAIN_DECISION_REQUIRED: terminal_token_status has no closed value list; kept as str, not an enum — see 08_runtime_validation/idempotency/idempotency_control.md Section 19
     terminal_token_status: str | None = None
 
 

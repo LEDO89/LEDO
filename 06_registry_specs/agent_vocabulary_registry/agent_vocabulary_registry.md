@@ -767,7 +767,7 @@ agent\_roles:
 
 version: 1.0.0
 
-status: active
+status: draft
 
 authority\_level: propose\_action
 
@@ -941,7 +941,7 @@ agent\_roles:
 
 version: 1.0.0
 
-status: active
+status: draft
 
 authority\_level: propose\_action
 

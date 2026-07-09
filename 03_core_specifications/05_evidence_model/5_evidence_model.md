@@ -24,7 +24,7 @@ Restrict the scope in which LLM/RAG output may be used as evidence.
 Define the append-only audit principle together with personal data de-identification / crypto-shredding policies.  
 Define the operating policy of the Evidence Model Registry.
 
-The full list of evidence types is managed in a separate document: Appendix D: Evidence Type Catalog.
+The initial reference list of evidence types is summarized in Appendix D: Evidence Type Catalog. Governed runtime evidence types and registry entries are controlled by `06_registry_specs/evidence_registry/evidence_registry.md`.
 
 ---
 
@@ -780,6 +780,8 @@ version
 
 ## **11.3 Evidence Requirement Example**
 
+The following is a non-normative shape example. Concrete action names, evidence types, trust levels, freshness windows, and audit requirements are governed by the action, evidence, and policy registries. Codex must not convert these example values into runtime rules without domain authority.
+
 ACTION\_EMERGENCY\_EVACUATE\_ZONE:
 
 required\_evidence\_types:  
@@ -791,7 +793,7 @@ minimum\_source\_trust\_level:
   VERIFIED\_DEVICE
 
 freshness\_requirement:  
-  within 5 seconds
+  domain-defined freshness window
 
 time\_trust\_requirement:  
   MEDIUM\_TIME\_TRUST or higher
@@ -1727,7 +1729,7 @@ PRIVACY\_LIFECYCLE\_EVIDENCE
 
 Detailed evidence type lists are not included in the main body.
 
-The following items are managed in Appendix D:
+The following non-authoritative reference items are summarized in Appendix D:
 
 sensor evidence catalog  
 robot telemetry evidence catalog  
@@ -1896,4 +1898,3 @@ Different provenance paths, one evidence graph.
 Different evidence, one semantic backbone.
 
 # **Ontology Centric Evidence Mode**
-

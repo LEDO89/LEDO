@@ -543,7 +543,7 @@ description: Requires safety manager approval before a STOP\_WORK Action Type ca
 semantic\_iri: ledo:StopWorkApprovalRule
 
 version: 1.0.0  
-status: active
+status: draft
 
 applicable\_action\_type\_refs:  
   \- action:STOP\_WORK
@@ -637,7 +637,7 @@ description: Requires supervisor approval before a DISPATCH\_ROBOT Action Type c
 semantic\_iri: ledo:DispatchRobotApprovalRule
 
 version: 1.0.0  
-status: active
+status: draft
 
 applicable\_action\_type\_refs:  
   \- action:DISPATCH\_ROBOT

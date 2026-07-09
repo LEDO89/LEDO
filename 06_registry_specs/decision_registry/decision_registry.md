@@ -691,7 +691,7 @@ decision\_category: SAFETY\_DECISION
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_action\_type\_refs:
 
@@ -849,7 +849,7 @@ decision\_category: ROBOT\_DECISION
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_action\_type\_refs:
 

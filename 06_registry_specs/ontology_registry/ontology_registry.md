@@ -954,7 +954,7 @@ ontology\_domain: construction
 
 version: 1.0.0
 
-status: active
+status: draft
 
 namespace\_refs:
 
@@ -1154,7 +1154,7 @@ ontology\_domain: construction\_safety
 
 version: 1.0.0
 
-status: active
+status: draft
 
 namespace\_refs:
 
@@ -1376,7 +1376,7 @@ ontology\_domain: robotics\_in\_construction
 
 version: 1.0.0
 
-status: active
+status: draft
 
 namespace\_refs:
 

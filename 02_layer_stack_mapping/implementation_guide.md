@@ -22,10 +22,12 @@ Create stack-to-module mappings, dependency boundaries, and implementation seque
 ## Source of Truth
 
 1. Root-level `AGENTS.md`
-2. This `implementation_guide.md`
-3. The module specification markdown file in this folder
-4. Existing source code
-5. Existing tests
+2. `00_master_architecture/00_first_construction.md`
+3. `00_master_architecture/01_master_architecture.md`
+4. The module specification markdown file in this folder
+5. This `implementation_guide.md`
+6. Existing source code
+7. Existing tests
 
 ## Default Implementation Order
 

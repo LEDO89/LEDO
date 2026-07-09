@@ -140,7 +140,7 @@ ActionCandidateDTO
 → created by an agent or rule engine
 
 ApprovedActionDTO  
-→ created by safety\_gate
+→ created by the approval or governance workflow after a valid ApprovalDecision
 
 ExecutionRequestDTO  
 → created by execution\_core
@@ -2341,4 +2341,3 @@ Different frequencies, one lifecycle discipline.
 Different domains, one semantic backbone.  
 Different actions, one execution boundary.  
 Different feedback, one audit trail.
-

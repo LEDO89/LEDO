@@ -39,8 +39,7 @@ class FeedbackEventDTO(StrictDTO):
     recovery_required: bool
     is_emergency_bypass: bool = False
     post_audit_required: bool = False
-    # feedback_status/result_status have no closed value list in either source
-    # document. DOMAIN_DECISION_REQUIRED before they become enums.
+    # DOMAIN_DECISION_REQUIRED: feedback_status and result_status have no closed value list; kept as str, not enums — see 03_core_specifications/09_execution_adapter_model/9_execution_adapter_model.md Section 17
     feedback_status: str | None = None
     result_status: str | None = None
     result_message: str | None = None

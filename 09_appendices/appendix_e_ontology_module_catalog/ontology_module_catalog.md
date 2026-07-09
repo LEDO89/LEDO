@@ -13,11 +13,11 @@ last_updated: 2026-07-06
 
 Catalog reference items and examples. Do not treat this appendix as executable runtime code.
 
-This is the Ontology Module Catalog referenced by `03_core_specifications/06_ontology_module_boundary/6_ontology_module_boundary.md` (Appendix E). The module list below reflects that document's Sections 6, 8–13 and the `05_domain_ontology_modules/` folder set; the source documents remain authoritative if they ever diverge.
+This is the non-authoritative Ontology Module Catalog referenced by `03_core_specifications/06_ontology_module_boundary/6_ontology_module_boundary.md` (Appendix E). The module list below reflects that document's Sections 6, 8–13 and the `05_domain_ontology_modules/` folder set for convenience. If this appendix diverges from the governing specification or module contract, the governing specification or module contract wins.
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source. No module listed here has concrete classes or properties defined yet — see `05_domain_ontology_modules/README.md`: domain meaning must be governed by human domain experts, not invented by Codex.
+This document is intentionally written in English so that Codex and other coding agents can use it as a non-authoritative index. No module listed here has concrete classes or properties defined yet — see `05_domain_ontology_modules/README.md`: domain meaning must be governed by human domain experts, not invented by Codex.
 
 ## Core Ontology Layers
 

@@ -830,7 +830,7 @@ snapshot\_category: WORKER\_STATE\_SNAPSHOT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_entity\_type\_refs:
 
@@ -1012,7 +1012,7 @@ snapshot\_category: ROBOT\_STATE\_SNAPSHOT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_entity\_type\_refs:
 
@@ -1196,7 +1196,7 @@ snapshot\_category: EXTERNAL\_SYSTEM\_STATE\_SNAPSHOT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_entity\_type\_refs:
 

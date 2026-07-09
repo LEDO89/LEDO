@@ -873,7 +873,7 @@ system\_category: ROBOTICS\_SYSTEM
 
 version: 1.0.0
 
-status: active
+status: draft
 
 site\_scope:
 
@@ -1035,7 +1035,7 @@ system\_category: INDUSTRIAL\_CONTROL\_SYSTEM
 
 version: 1.0.0
 
-status: active
+status: draft
 
 site\_scope:
 
@@ -1189,7 +1189,7 @@ system\_category: CONSTRUCTION\_INFORMATION\_SYSTEM
 
 version: 1.0.0
 
-status: active
+status: draft
 
 site\_scope:
 
@@ -1347,7 +1347,7 @@ system\_category: COMMUNICATION\_SYSTEM
 
 version: 1.0.0
 
-status: active
+status: draft
 
 site\_scope:
 

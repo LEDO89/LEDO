@@ -80,8 +80,7 @@ class TimeTrustDTO(StrictDTO):
     capture_receive_delta_ms: float | None = None
     max_allowed_time_delta_ms: float | None = None
     time_trust_level: TimeTrustLevel
-    # No closed value list found for time_validation_status anywhere in
-    # 05_evidence_model.md. DOMAIN_DECISION_REQUIRED before this becomes an enum.
+    # DOMAIN_DECISION_REQUIRED: time_validation_status has no closed value list; kept as str, not an enum — see 03_core_specifications/05_evidence_model/5_evidence_model.md Section 7.1
     time_validation_status: str | None = None
     offline_clock_trust_policy_ref: str | None = None
 
@@ -96,9 +95,7 @@ class SpatialValidityDTO(StrictDTO):
 class DeviceHealthDTO(StrictDTO):
     device_health_snapshot: dict[str, Any] | None = None
     device_health_snapshot_version: str | None = None
-    # No closed value list found for calibration_status anywhere in
-    # 05_evidence_model.md (only an inline example value "VALID").
-    # DOMAIN_DECISION_REQUIRED before this becomes an enum.
+    # DOMAIN_DECISION_REQUIRED: calibration_status has no closed value list; kept as str, not an enum — see 03_core_specifications/05_evidence_model/5_evidence_model.md Section 8.4
     calibration_status: str | None = None
     historical_reliability_score: float | None = None
 
@@ -112,8 +109,7 @@ class AttestationDTO(StrictDTO):
     attested_by: str | None = None
     attested_at: datetime | None = None
     trust_upgrade_status: TrustUpgradeStatus | None = None
-    # No closed value list found for these three fields anywhere in
-    # 05_evidence_model.md. DOMAIN_DECISION_REQUIRED before they become enums.
+    # DOMAIN_DECISION_REQUIRED: parser_validation_status, human_attestation_status, and cross_check_status have no closed value list; kept as str, not enums — see 03_core_specifications/05_evidence_model/5_evidence_model.md Section 18.1
     parser_validation_status: str | None = None
     human_attestation_status: str | None = None
     cross_check_status: str | None = None
@@ -121,8 +117,7 @@ class AttestationDTO(StrictDTO):
 
 class AIExtractionMetadataDTO(StrictDTO):
     is_extracted_evidence: bool = False
-    # No closed value list found for extraction_method anywhere in
-    # 05_evidence_model.md. DOMAIN_DECISION_REQUIRED before this becomes an enum.
+    # DOMAIN_DECISION_REQUIRED: extraction_method has no closed value list; kept as str, not an enum — see 03_core_specifications/05_evidence_model/5_evidence_model.md Section 10.4
     extraction_method: str | None = None
     extracted_from_evidence_id: str | None = None
     source_document_ref: str | None = None
@@ -190,10 +185,7 @@ class EvidenceDTO(StrictDTO):
     related_action_refs: list[str] = Field(default_factory=list)
     payload_hash: str | None = None
     validity_status: EvidenceValidityStatus | None = None
-    # No closed value list found for freshness_status specifically (Section 7.7 only
-    # says it "cannot be set to VALID" under drift, implying overlap with
-    # validity_status's values but never giving its own list).
-    # DOMAIN_DECISION_REQUIRED before this becomes an enum.
+    # DOMAIN_DECISION_REQUIRED: freshness_status has no closed value list; kept as str, not an enum — see 03_core_specifications/05_evidence_model/5_evidence_model.md Section 7.7
     freshness_status: str | None = None
     ontology_binding_ref: str | None = None
     prov_entity_ref: str | None = None

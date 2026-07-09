@@ -16,7 +16,7 @@ The core principle is:
 
 network reachable  
     →
-safe to execute
+eligible as one validation input
 
 A reachable network does not mean execution is safe.
 
@@ -709,4 +709,3 @@ Network Health is not Safety Gate pass.
 Network Health is runtime validation input consumed by the Safety Gate.
 
 # **Network Health**
-

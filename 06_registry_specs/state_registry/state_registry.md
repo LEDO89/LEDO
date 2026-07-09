@@ -947,7 +947,7 @@ state\_category: WORKER\_STATE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 entity\_type\_refs:
 
@@ -1137,7 +1137,7 @@ state\_category: ROBOT\_STATE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 entity\_type\_refs:
 
@@ -1329,7 +1329,7 @@ state\_category: ZONE\_STATE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 entity\_type\_refs:
 
@@ -1535,7 +1535,7 @@ state\_category: EXTERNAL\_SYSTEM\_STATE
 
 version: 1.0.0
 
-status: active
+status: draft
 
 entity\_type\_refs:
 

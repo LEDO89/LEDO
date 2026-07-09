@@ -53,9 +53,9 @@ This document is directly connected to the following documents.
   09\_execution\_adapter\_model  
   10\_audit\_observability\_model
 
-06\_runtime\_validation/  
+08\_runtime\_validation/  
   safety\_gate/  
-    safety\_gate\_validation\_rules.md
+    safety\_gate.md
 
 This document is especially connected to the Safety Gate Runtime Snapshot design.
 
@@ -633,4 +633,3 @@ Snapshot materializes runtime-ready facts.
 Safety Gate only reads and decides.
 
 # **Reasoning and Constraint Model**
-

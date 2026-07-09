@@ -403,7 +403,7 @@ risk\_class: HIGH\_RISK
 criticality: safety\_critical
 
 version: 1.0.0  
-status: active
+status: draft
 
 allowed\_target\_types:  
   \- robot  
@@ -491,7 +491,7 @@ risk\_class: CRITICAL\_EMERGENCY
 criticality: safety\_critical
 
 version: 1.0.0  
-status: active
+status: draft
 
 allowed\_target\_types:  
   \- worker\_group  

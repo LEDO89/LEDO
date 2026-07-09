@@ -17,7 +17,7 @@ This catalog consolidates the "Recommended Initial Stack Mapping" sections alrea
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source.
+This document is intentionally written in English so that Codex and other coding agents can use it as a non-authoritative index.
 
 ## Initial Technology Stack by Layer
 

@@ -348,7 +348,8 @@ ActionCandidate Rule:
 DecisionCase Rule:  
 └── Agents may create draft decision cases  
 └── Decision Router classifies routing tier  
-└── Safety Gate determines whether candidate actions can become approved actions
+└── Governance and approval determine whether candidate actions can become ApprovedAction records  
+└── Safety Gate later determines whether an ApprovedAction can receive SafetyGatePass for execution readiness
 
 ---
 
@@ -720,5 +721,4 @@ Initial Rollout Rule:
 24. Agents Must Degrade Safely  
     └── If model inference, evidence retrieval, ontology grounding, or policy precheck fails, the agent must block, downgrade, or escalate.  
 25. Execution Authority Belongs Outside the Agent  
-    └── Execution authority belongs to Safety Gate and the approved cyber-physical command lifecycle.
-
+    └── Execution readiness belongs to Runtime Validation and Safety Gate; actual physical execution remains outside LEDO in external control systems.

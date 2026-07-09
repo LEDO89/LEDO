@@ -970,7 +970,7 @@ identity\_type: HUMAN\_IDENTITY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 auth\_provider\_ref: idp:company\_oidc
 
@@ -1128,7 +1128,7 @@ identity\_type: AGENT\_IDENTITY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 auth\_provider\_ref: service\_identity\_provider
 
@@ -1280,7 +1280,7 @@ identity\_type: SERVICE\_IDENTITY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 auth\_provider\_ref: service\_identity\_provider
 
@@ -1424,7 +1424,7 @@ identity\_type: EXTERNAL\_SYSTEM\_IDENTITY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 auth\_provider\_ref: external\_system\_trust\_store
 

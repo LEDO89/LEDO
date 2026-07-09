@@ -27,7 +27,7 @@ Define the temporal grace period between runtime world state and ontology inferr
 Define deterministic fail-safe transition rules when reconciliation fails.  
 Define the operating policy of the State Model Registry.
 
-The full list of state values is managed in a separate document: Appendix C: State Model Catalog.
+The initial reference list of state values is summarized in Appendix C: State Model Catalog. Governed runtime state values and registry entries are controlled by `06_registry_specs/state_registry/state_registry.md`.
 
 ---
 
@@ -767,8 +767,10 @@ ZoneAccessState.preemptive\_authorities \= EmergencyPolicyEngine, SafetyManageme
 Emergency situation:
 
 gas leak detected  
-→ SafetyManagementSystem preempts ZoneAccessState  
-→ ZoneAccessState \= EVACUATION\_REQUESTED or RESTRICTED
+→ SafetyManagementSystem issues a preemptive state assertion or restriction request  
+→ ZoneAccessState may move to EVACUATION\_REQUESTED or RESTRICTED only through the governed state-update path
+
+This example is not a domain rule. The concrete authority, state values, and transition conditions must be defined by the applicable domain registry and policy documents.
 
 ---
 
@@ -1225,7 +1227,7 @@ ReconciliationStatus
 
 Detailed state value lists are not included in the main body.
 
-The following items are managed in Appendix C:
+The following non-authoritative reference items are summarized in Appendix C:
 
 robot state catalog  
 mission state catalog  
@@ -1355,4 +1357,3 @@ Different failures, one fail-safe discipline.
 Different states, one semantic backbone.
 
 # **Ontology centric State Model Registry**
-

@@ -13,11 +13,11 @@ last_updated: 2026-07-06
 
 Catalog reference items and examples. Do not treat this appendix as executable runtime code.
 
-This is the State Model Catalog referenced by `03_core_specifications/04_state_model_registry/4_state_model_registry.md` (Appendix C). The list below is copied from that document's Section 16; the document itself remains the source of truth if they ever diverge.
+This is the non-authoritative State Model Catalog referenced by `03_core_specifications/04_state_model_registry/4_state_model_registry.md` (Appendix C). The list below is copied from that document's Section 16 for convenience. If this appendix diverges from the governing specification or registry, the governing specification or registry wins.
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source. State model names below are scaffolding identifiers; concrete allowed state values, transitions, and thresholds must come from the governed registry process, not be invented here.
+This document is intentionally written in English so that Codex and other coding agents can use it as a non-authoritative index. State model names below are scaffolding identifiers; concrete allowed state values, transitions, and thresholds must come from the governed registry process, not be invented here.
 
 ## Initial Reference State Model Set
 

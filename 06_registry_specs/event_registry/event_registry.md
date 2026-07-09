@@ -877,7 +877,7 @@ event\_category: SENSOR\_EVENT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 
@@ -1005,7 +1005,7 @@ event\_category: SENSOR\_EVENT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 
@@ -1149,7 +1149,7 @@ event\_category: ACTION\_EVENT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 
@@ -1287,7 +1287,7 @@ event\_category: FEEDBACK\_EVENT
 
 version: 1.0.0
 
-status: active
+status: draft
 
 allowed\_producer\_refs:
 

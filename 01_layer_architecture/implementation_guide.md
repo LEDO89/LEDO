@@ -22,8 +22,8 @@ Translate the architectural specification into implementation-ready module bound
 ## Source of Truth
 
 1. Root-level `AGENTS.md`
-2. This `implementation_guide.md`
-3. The module specification markdown file in this folder
+2. The module specification markdown file in this folder
+3. This `implementation_guide.md`
 4. Existing source code
 5. Existing tests
 

@@ -148,7 +148,9 @@ LLM/RAG output must not directly become ApprovedAction, ExecutionRequest, or Ext
 
 ActionCandidate is not an execution command.
 
-ActionCandidate must pass through the Decision Router and Safety Gate.
+ActionCandidate must pass through the Decision Router, policy evaluation, and approval workflow before it can become an ApprovedAction.
+
+Only an ApprovedAction may enter Runtime Validation and Safety Gate evaluation for execution readiness.
 
 ## **Rule 6\. ApprovedAction Is the Execution Boundary**
 
@@ -1090,13 +1092,17 @@ RAW\_RECEIVED
 → DECISION\_ROUTED  
 → APPROVAL\_PENDING  
 → APPROVAL\_GRANTED  
-→ SAFETY\_VALIDATED  
 → APPROVED\_ACTION\_CREATED  
+→ RUNTIME\_VALIDATION\_INPUT\_CREATED  
+→ RUNTIME\_VALIDATION\_RESULT\_CREATED  
+→ SAFETY\_GATE\_PASSED  
 → EXECUTION\_REQUEST\_CREATED  
 → EXTERNAL\_REQUEST\_DISPATCHED  
 → FEEDBACK\_RECEIVED  
 → WORLD\_STATE\_RECONCILED  
 → AUDIT\_CLOSED
+
+`APPROVED_ACTION_CREATED` must precede `RUNTIME_VALIDATION_INPUT_CREATED`: per Section 4.10, "ApprovedAction is not eligible to create an ExecutionRequest until Runtime Validation has produced a valid RuntimeValidationResult and the Safety Gate has issued a valid SafetyGatePass."
 
 ## **10.2 Emergency Fast-Path State Machine**
 
@@ -1106,12 +1112,17 @@ RAW\_RECEIVED
 → MINIMAL\_TARGET\_BOUND  
 → LOCAL\_EMERGENCY\_POLICY\_PASSED  
 → EMERGENCY\_APPROVED\_ACTION\_CREATED  
+→ EMERGENCY\_RUNTIME\_VALIDATION\_INPUT\_CREATED  
+→ EMERGENCY\_RUNTIME\_VALIDATION\_RESULT\_CREATED  
+→ EMERGENCY\_SAFETY\_GATE\_PASSED  
 → EMERGENCY\_EXECUTION\_REQUEST\_CREATED  
 → EXTERNAL\_REQUEST\_DISPATCHED  
 → FEEDBACK\_RECEIVED  
 → POST\_HOC\_ONTOLOGY\_BINDING  
 → WORLD\_STATE\_RECONCILED  
 → AUDIT\_CLOSED
+
+Per Section 4.11, "EmergencyApprovedAction is not a SafetyGatePass and must not create an EmergencyExecutionRequest unless deterministic emergency Runtime Validation and an emergency Safety Gate decision produce a valid pass."
 
 ## **10.3 Monitoring-Only Path State Machine**
 
@@ -1354,8 +1365,8 @@ Meaning becomes evidence.
 Evidence updates state.  
 State may generate candidate.  
 Candidate becomes decision case.  
-Decision case becomes approved action only after policy, evidence, approval, and safety validation.  
-Approved action becomes execution request.  
+Decision case may become approved action only after policy, evidence, and approval requirements are satisfied.  
+Approved action becomes execution request only after Runtime Validation and SafetyGatePass.  
 Execution request becomes external control request.  
 External control returns feedback.  
 Feedback updates world state.  
@@ -1386,4 +1397,3 @@ One monitoring path.
 One decision pipeline.  
 One recovery model.  
 One audit trail.
-

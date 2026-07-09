@@ -505,7 +505,7 @@ Does approval\_state\_map change?
 
 Is fallback possible if snapshot hot-swap fails?
 
-Detailed Safety Gate runtime principles are handled in `safety_gate_validation_rules.md`.  
+Detailed Safety Gate runtime principles are handled in `08_runtime_validation/safety_gate/safety_gate.md`.  
 This document determines whether a change affects Safety Gate snapshots, schemas, materialized maps, or rollback packages.
 
 The core principle is as follows.
@@ -1312,4 +1312,3 @@ Rollback protects operational continuity.
 Audit protects accountability.
 
 # **Ontology Governance and Versioning**
-

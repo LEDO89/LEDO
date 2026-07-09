@@ -15,4 +15,4 @@ Define construction domain placeholders. Human domain expert must provide real f
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source.
+This document is intentionally written in English so that Codex and other coding agents can use it as a scaffolding source only; it does not authorize invented domain meaning.

@@ -893,7 +893,7 @@ policy\_category: ACTION\_POLICY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_identity\_type\_refs:
 
@@ -1087,7 +1087,7 @@ policy\_category: EXECUTION\_POLICY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_identity\_type\_refs:
 
@@ -1305,7 +1305,7 @@ policy\_category: DATA\_POLICY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_identity\_type\_refs:
 
@@ -1493,7 +1493,7 @@ policy\_category: SAFETY\_POLICY
 
 version: 1.0.0
 
-status: active
+status: draft
 
 applicable\_identity\_type\_refs:
 

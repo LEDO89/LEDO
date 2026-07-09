@@ -36,8 +36,7 @@ class DecisionCaseDTO(StrictDTO):
     candidate_ref: str
     decision_tier: DecisionTier
     risk_level: RiskLevel
-    # DOMAIN_DECISION_REQUIRED: urgency has no closed value list in
-    # 01_common_schema_dto.md Section 16.3 — kept as str, not an enum.
+    # DOMAIN_DECISION_REQUIRED: urgency has no closed value list; kept as str, not an enum — see 03_core_specifications/01_common_schema_dto/1_common_schema_dto.md Section 16.3
     urgency: str
     routing_result: str
     required_approval: bool

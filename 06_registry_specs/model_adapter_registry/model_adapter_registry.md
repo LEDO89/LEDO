@@ -929,7 +929,7 @@ model\_provider\_type: local\_site\_server
 
 version: 1.0.0
 
-status: active
+status: draft
 
 model\_refs:
 
@@ -1127,7 +1127,7 @@ model\_provider\_type: edge\_gpu\_runtime
 
 version: 1.0.0
 
-status: active
+status: draft
 
 model\_refs:
 
@@ -1307,7 +1307,7 @@ model\_provider\_type: local\_site\_server
 
 version: 1.0.0
 
-status: active
+status: draft
 
 model\_refs:
 

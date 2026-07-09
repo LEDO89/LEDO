@@ -122,7 +122,7 @@ Input Rule:
 Output Rule:  
 └── Outputs determine the next processing path  
 └── Outputs are not execution commands  
-└── Execution readiness requires SafetyGatePass from the Safety Gate and the approved cyber-physical command lifecycle
+└── Execution readiness requires ApprovedAction, RuntimeValidationResult, and SafetyGatePass before an ExecutionRequest can be created
 
 ---
 

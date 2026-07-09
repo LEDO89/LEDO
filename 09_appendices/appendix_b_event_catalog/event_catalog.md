@@ -13,11 +13,11 @@ last_updated: 2026-07-06
 
 Catalog reference items and examples. Do not treat this appendix as executable runtime code.
 
-This is the Event Type Catalog referenced by `03_core_specifications/02_event_type_taxonomy/2_event_type_taxonomy.md` (its Section 13 previously mislabeled this as "Appendix A"; this folder is Appendix A only for the Stack Catalog — this event catalog is Appendix B, and the source document has been corrected accordingly). The list below is copied from that document's Section 12; the document itself remains the source of truth if they ever diverge.
+This is the non-authoritative Event Type Catalog referenced by `03_core_specifications/02_event_type_taxonomy/2_event_type_taxonomy.md` (its Section 13 previously mislabeled this as "Appendix A"; this folder is Appendix A only for the Stack Catalog — this event catalog is Appendix B, and the source document has been corrected accordingly). The list below is copied from that document's Section 12 for convenience. If this appendix diverges from the governing specification or registry, the governing specification or registry wins.
 
 ## Notes
 
-This document is intentionally written in English so that Codex and other coding agents can use it as an implementation source. All event names below are non-normative reference fixtures, not a claim about real field conditions or thresholds.
+This document is intentionally written in English so that Codex and other coding agents can use it as a non-authoritative index. All event names below are non-normative reference fixtures, not a claim about real field conditions or thresholds.
 
 ## Initial Reference Event Type Set
 
