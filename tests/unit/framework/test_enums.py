@@ -6,6 +6,7 @@ from pydantic import ValidationError
 from ledo_ontology_core.framework.schemas import (
     ApprovalAuthority,
     AuditRecordDTO,
+    ClockSyncStatus,
     ConfidenceDTO,
     DecisionCaseDTO,
     DispatchStatus,
@@ -13,6 +14,7 @@ from ledo_ontology_core.framework.schemas import (
     PathClassificationDTO,
     PolicyDecisionResult,
     RiskLevel,
+    TimeTrustLevel,
     TraceContextDTO,
 )
 from ledo_ontology_core.framework.schemas.execution import ApprovedActionDTO
@@ -29,6 +31,29 @@ def test_dispatch_status_has_exactly_the_20_canonical_members() -> None:
     # the canonical 09_execution_adapter_model.md Section 20 enum must not leak in.
     non_canonical = {"STARTED", "BLOCKED", "RECOVERY_STARTED", "RECOVERY_COMPLETED"}
     assert non_canonical.isdisjoint({member.value for member in DispatchStatus})
+
+
+def test_time_trust_level_has_exactly_the_five_canonical_members() -> None:
+    # Canonical source: 05_evidence_model.md Section 7.5.
+    assert {member.value for member in TimeTrustLevel} == {
+        "HIGH_TIME_TRUST",
+        "MEDIUM_TIME_TRUST",
+        "LOW_TIME_TRUST",
+        "UNTRUSTED_TIME",
+        "UNKNOWN_TIME_TRUST",
+    }
+
+
+def test_clock_sync_status_has_exactly_the_six_canonical_members() -> None:
+    # Canonical source: 05_evidence_model.md Section 7.3.
+    assert {member.value for member in ClockSyncStatus} == {
+        "SYNCED",
+        "PARTIALLY_SYNCED",
+        "UNSYNCED",
+        "DRIFT_DETECTED",
+        "OFFLINE_ESTIMATED",
+        "UNKNOWN",
+    }
 
 
 def test_confidence_dto_rejects_invalid_validation_status() -> None:
@@ -91,7 +116,7 @@ def test_decision_case_rejects_invalid_risk_level() -> None:
 
 
 def test_risk_level_has_exactly_the_six_canonical_members() -> None:
-    # Canonical source: 07_decision_approval_matrix.md Section 8, cross-confirmed by
+    # Canonical source: 07_decision_approval_matrix.md Section 9.1, cross-confirmed by
     # 08_policy_governance_model.md. Registry docs (action_registry.md,
     # decision_registry.md) use a different lowercase set that must not leak in.
     assert {member.value for member in RiskLevel} == {

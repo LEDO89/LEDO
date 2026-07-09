@@ -174,6 +174,8 @@ A new idempotency key must not be used to bypass Runtime Validation or Safety Ga
 
 `idempotency/` must maintain or read an Idempotency Ledger.
 
+Canonical Reference: the ledger-relevant fields below are implemented in code as `IdempotencyResultDTO` (`01_common_schema_dto/1_common_schema_dto.md` Section 17.3A, "Specialized Runtime Result DTOs"), a subclass of `ValidatorResultDTO`. Fields already covered by that base class are not duplicated below.
+
 The ledger records whether a logical request has already been observed, accepted, rejected, completed, blocked, expired, or terminalized.
 
 Recommended ledger fields:

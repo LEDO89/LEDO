@@ -368,7 +368,7 @@ Example: site-wide evacuation, multi-zone incident
 
 A domain expert must review the case before it proceeds, for exceptional or unusual situations not covered by standard approval routes.
 
-Example: `EXCEPTIONAL` risk level per `07_decision_approval_matrix.md` Section 8
+Example: `EXCEPTIONAL` risk level per `07_decision_approval_matrix.md` Section 9.1
 
 ---
 

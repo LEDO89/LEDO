@@ -616,6 +616,8 @@ Audit Shapes validate the structure required to make Runtime Validation and SHAC
 
 ### **17.1 SHACLValidationResultShape**
 
+Canonical Reference: implemented in code as `SHACLValidationResultDTO` (`01_common_schema_dto/1_common_schema_dto.md` Section 17.3A, "Specialized Runtime Result DTOs"), a subclass of `ValidatorResultDTO`. Fields already covered by that base class are not duplicated below.
+
 Validation targets:
 
 shape\_result\_id  

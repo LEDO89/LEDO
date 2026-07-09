@@ -9,6 +9,16 @@ Contract") exactly, including field names (`result_id`, `status`, not `id`, `res
 `RuntimeValidationResultDTO` has no separate canonical field-level contract of its own
 in 08_runtime_validation/ — it keeps its prior shape, only its `result` value type
 (`ValidatorStatus`) is canonical-sourced.
+
+The specialized subclasses below were previously near-empty (one optional reference
+field each). Each has now been expanded to match its own dedicated contract section:
+`TOCTOUResultDTO` (toctou.md Section 24, "TOCTOU Validation Result"),
+`SHACLValidationResultDTO` (shacl_shapes.md Sections 17.1 and 20),
+`NetworkHealthResultDTO` (network_health.md Section 16, "NetworkHealthResult Contract"),
+`IdempotencyResultDTO` (idempotency_control.md Sections 8 and 19). Fields already
+covered by the `ValidatorResultDTO` base (`result_id`, `checked_at`, `status`,
+`trace_id`, `correlation_id`, `audit_ref`, `warning_reasons`, `failure_reasons`,
+`safety_gate_eligible`) were not duplicated even where a source section re-lists them.
 """
 
 from __future__ import annotations
@@ -18,7 +28,16 @@ from datetime import datetime
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
-from ledo_ontology_core.framework.schemas.enums import CriticalityTier, Severity, ValidatorStatus
+from ledo_ontology_core.framework.schemas.enums import (
+    BlockReason,
+    CircuitBreakerStatus,
+    CriticalityTier,
+    IdempotencyLedgerStatus,
+    NetworkHealthStatus,
+    SHACLValidationStatus,
+    Severity,
+    ValidatorStatus,
+)
 
 
 class RuntimeValidationInputDTO(StrictDTO):
@@ -67,18 +86,54 @@ class ValidatorResultDTO(StrictDTO):
 
 class TOCTOUResultDTO(ValidatorResultDTO):
     snapshot_comparison_ref: str | None = None
+    approval_snapshot_ref: str | None = None
+    execution_snapshot_ref: str | None = None
+    changed_fields: list[str] = Field(default_factory=list)
+    stale_fields: list[str] = Field(default_factory=list)
+    conflict_fields: list[str] = Field(default_factory=list)
+    block_reasons: list[BlockReason] = Field(default_factory=list)
+    required_reapproval: bool = False
 
 
 class SHACLValidationResultDTO(ValidatorResultDTO):
     shacl_shape_ref: str | None = None
+    shape_id: str | None = None
+    shape_version: str | None = None
+    target_node: str | None = None
+    target_type: str | None = None
+    validation_status: SHACLValidationStatus | None = None
+    violations: list[str] = Field(default_factory=list)
 
 
 class NetworkHealthResultDTO(ValidatorResultDTO):
     adapter_ref: str | None = None
+    external_system_id: str | None = None
+    adapter_id: str | None = None
+    health_status: NetworkHealthStatus | None = None
+    # heartbeat_status/feedback_channel_status have no dedicated closed value list
+    # in network_health.md (only condition names like "heartbeat_stale").
+    # DOMAIN_DECISION_REQUIRED before they become enums.
+    heartbeat_status: str | None = None
+    latency_ms: float | None = None
+    error_rate: float | None = None
+    circuit_breaker_status: CircuitBreakerStatus | None = None
+    feedback_channel_status: str | None = None
 
 
 class IdempotencyResultDTO(ValidatorResultDTO):
     idempotency_key: str | None = None
+    safety_gate_pass_id: str | None = None
+    execution_request_id: str | None = None
+    external_control_request_id: str | None = None
+    target_external_system: str | None = None
+    first_seen_at: datetime | None = None
+    last_seen_at: datetime | None = None
+    ledger_status: IdempotencyLedgerStatus | None = None
+    previous_result_ref: str | None = None
+    terminal_token_ref: str | None = None
+    # terminal_token_status has no dedicated closed value list in
+    # idempotency_control.md. DOMAIN_DECISION_REQUIRED before it becomes an enum.
+    terminal_token_status: str | None = None
 
 
 class ApprovalValidityResultDTO(ValidatorResultDTO):

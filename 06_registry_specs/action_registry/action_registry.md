@@ -286,7 +286,7 @@ Category is important because validation, approval, risk, audit, and adapter com
 
 Every Action Type must declare a risk class and criticality level.
 
-Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`:
+Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 9.1 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`:
 
 INFO  
 NOTICE  

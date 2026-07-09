@@ -1219,6 +1219,14 @@ change\_reason
 
 An individual evidence record is represented as EvidenceRecordDTO.
 
+Canonical Reference: this object is implemented in code as `EvidenceDTO`
+(`01_common_schema_dto/1_common_schema_dto.md` Section 15.1), not under the name
+`EvidenceRecordDTO`. Section 15.1 is the field-level implementation contract — it
+groups the fields below into nested DTOs (`TimeTrustDTO`, `SpatialValidityDTO`,
+`DeviceHealthDTO`, `AttestationDTO`, `AIExtractionMetadataDTO`, `PrivacyDTO`,
+`ConflictDTO`) rather than a single flat object; the field names and values are
+unchanged.
+
 ## **18.1 EvidenceRecordDTO Fields**
 
 Recommended fields:

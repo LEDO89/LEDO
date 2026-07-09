@@ -42,11 +42,11 @@ def trace() -> TraceContextDTO:
     return TraceContextDTO(trace_id="trace-1", correlation_id="corr-1")
 
 
-def source(source_type: str = "sensor") -> SourceMetadataDTO:
+def source(source_type: str = "sensor", source_trust_level: str = "TRUSTED_SYSTEM") -> SourceMetadataDTO:
     return SourceMetadataDTO(
         source_type=source_type,
         source_id="src-1",
-        source_trust_level="test_fixture",
+        source_trust_level=source_trust_level,
         ingested_at_utc=now(),
     )
 
@@ -131,12 +131,12 @@ def test_initial_required_dtos_from_section_23_are_importable() -> None:
     assert all(dto.__name__.endswith("DTO") for dto in required)
 
 
-def test_evidence_rejects_ai_output_as_evidence() -> None:
-    with pytest.raises(ValidationError, match="AI output"):
+def test_evidence_rejects_unattested_ai_derived_source_trust_level() -> None:
+    with pytest.raises(ValidationError, match="AI_DERIVED"):
         EvidenceDTO(
             evidence_id="evidence-1",
             evidence_type="ai_summary",
-            source_metadata=source("llm"),
+            source_metadata=source("llm", source_trust_level="AI_DERIVED"),
             subject_ref=entity(),
             location_ref=None,
             payload={"summary": "candidate only"},
@@ -147,6 +147,25 @@ def test_evidence_rejects_ai_output_as_evidence() -> None:
             provenance={"source": "model output"},
             validation_status="PASSED",
         )
+
+
+def test_evidence_accepts_attested_ai_derived_source_trust_level() -> None:
+    dto = EvidenceDTO(
+        evidence_id="evidence-1",
+        evidence_type="permit_expiry_extraction",
+        source_metadata=source("llm", source_trust_level="ATTESTED_AI_DERIVED"),
+        subject_ref=entity(),
+        location_ref=None,
+        payload={"permit_expiry": "15:00"},
+        timestamp_utc=now(),
+        confidence=confidence(),
+        freshness=freshness(),
+        trace_context=trace(),
+        provenance={"source": "ocr extraction, human attested"},
+        validation_status="PASSED",
+    )
+
+    assert dto.source_metadata.source_trust_level == "ATTESTED_AI_DERIVED"
 
 
 def test_llm_output_is_limited_to_candidate_roles() -> None:

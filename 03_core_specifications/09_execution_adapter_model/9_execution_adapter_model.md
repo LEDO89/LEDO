@@ -235,19 +235,23 @@ Create execution request for ACTION\_RETURN\_ROBOT\_TO\_SAFE\_ZONE targeting Rob
 
 ExecutionRequest is not yet a physical command.
 
-ExecutionRequest should be designed around references rather than directly carrying all fields.
+Canonical Reference: `ExecutionRequestDTO`'s field-level contract is `01_common_schema_dto/1_common_schema_dto.md` Section 17.3 ("Fields:"), not the reference-only list previously shown here. Section 17.3 carries `execution_constraints`, `expected_feedback`, `timeout_policy`, `retry_policy`, `recovery_policy`, and `execution_lease` directly rather than through a separate `ExecutionContextSnapshot` reference object (see the note in Section 7.3 below). Implement `ExecutionRequestDTO` against Section 17.3, not against a reference-based redesign.
 
+execution\_request\_id  
 approved\_action\_ref  
-safety\_gate\_result\_ref  
-execution\_context\_snapshot\_ref  
 action\_type  
-target\_entity\_refs  
-execution\_mode  
-required\_adapter\_type  
-required\_capability  
+target\_ref  
+external\_system\_type  
+external\_system\_id  
+execution\_constraints  
+expected\_feedback  
+timeout\_policy  
+retry\_policy  
+recovery\_policy  
 idempotency\_key  
-trace\_id  
-decision\_trace\_id
+execution\_lease  
+trace\_context  
+created\_at\_utc
 
 ---
 
@@ -255,9 +259,7 @@ decision\_trace\_id
 
 `ExecutionContextSnapshot` is an object that groups execution-related context at the time an ExecutionRequest is created.
 
-If ExecutionRequestDTO directly carries too many fields, the DTO becomes bloated, and testing and audit become difficult.
-
-Therefore, Safety Gate results, policy decisions, evidence status, state snapshots, and time synchronization conditions should be separated into `ExecutionContextSnapshot` or reference-based objects.
+Not implemented as part of `ExecutionRequestDTO`'s current canonical shape (`01_common_schema_dto/1_common_schema_dto.md` Section 17.3), which carries `execution_constraints`, `expected_feedback`, `timeout_policy`, `retry_policy`, `recovery_policy`, and `execution_lease` directly rather than delegating them to a separate reference object — see the Canonical Reference note in Section 7.2. The grouping pattern below remains a documented option for a future audit/context-separation extension, not a current build target.
 
 ExecutionContextSnapshot may include:
 
@@ -850,36 +852,39 @@ valid\_until must be interpreted under time synchronization assumptions.
 
 ExternalControlRequestDTO is the request object delivered to an external system.
 
-Recommended fields:
+Canonical Reference: `01_common_schema_dto/1_common_schema_dto.md` Section 17.4 is the field-level contract for `ExternalControlRequestDTO`. It keeps `external_request_id`/`adapter_id`/`external_system_type`/`protocol`/`endpoint` (not `external_control_request_id`/`adapter_ref`/`external_system_id`/`external_endpoint_ref`) and carries `payload`/`timeout_policy`/`expected_feedback`/`trace_context` directly rather than through a separate reference-only redesign. The adapter type/mode, dispatch tracking, deadline, and clock sync fields below have been merged into Section 17.4 as additive fields.
 
-external\_control\_request\_id  
+Fields:
+
+external\_request\_id  
 execution\_request\_ref  
+adapter\_id  
+external\_system\_type  
+protocol  
+endpoint  
+payload  
+idempotency\_key  
+timeout\_policy  
+expected\_feedback  
+trace\_context  
+sent\_at\_utc  
 execution\_context\_snapshot\_ref  
-adapter\_ref  
 adapter\_type  
 adapter\_mode  
-external\_system\_id  
-external\_endpoint\_ref  
 external\_request\_type  
 external\_payload\_ref  
 external\_payload\_hash  
-idempotency\_key  
 idempotency\_expires\_at  
 dispatch\_context\_ref  
 dispatch\_attempt  
 dispatch\_status  
-created\_at  
-sent\_at  
 ack\_deadline  
 acceptance\_deadline  
 feedback\_deadline  
-platform\_sent\_at  
 adapter\_local\_received\_at  
 adapter\_local\_accepted\_at  
 clock\_sync\_status  
 clock\_drift\_estimate\_ms  
-trace\_id  
-correlation\_id  
 decision\_trace\_id
 
 The important field is `external_payload_ref`.
@@ -894,13 +899,25 @@ Complex payloads should be separated through references.
 
 FeedbackEventDTO should also avoid directly including excessive execution context.
 
-Recommended fields:
+Canonical Reference: `01_common_schema_dto/1_common_schema_dto.md` Section 18.1 is the field-level contract for `FeedbackEventDTO`. It keeps `execution_request_ref`/`external_request_ref`/`source_system` (not `external_control_request_ref`/`external_system_id`) and carries `payload`/`confidence`/`trace_context` directly rather than through a separate reference-only redesign. The result-detail, execution-timing, and routing-flag fields below have been merged into Section 18.1 as additive fields.
+
+Fields:
 
 feedback\_event\_id  
-external\_control\_request\_ref  
 execution\_request\_ref  
-external\_system\_id  
+external\_request\_ref  
+source\_system  
 feedback\_type  
+status  
+payload  
+timestamp\_utc  
+confidence  
+trace\_context  
+correlation\_id  
+error\_code  
+recovery\_required  
+is\_emergency\_bypass  
+post\_audit\_required  
 feedback\_status  
 result\_status  
 result\_message  
@@ -909,13 +926,9 @@ actual\_started\_at
 actual\_completed\_at  
 observed\_state\_refs  
 feedback\_payload\_ref  
-error\_code  
 error\_detail\_ref  
 requires\_reconciliation  
 requires\_audit  
-created\_at  
-trace\_id  
-correlation\_id  
 decision\_trace\_id
 
 Detailed payloads, external error bodies, and vendor-specific results should be separated through `feedback_payload_ref` or `error_detail_ref`.
@@ -1606,11 +1619,11 @@ version
 
 The target of an ExecutionRequest must be based on a canonical object.
 
-target\_entity\_ref must be canonicalized.  
+target\_ref must be canonicalized.  
 target lifecycle status must be active.  
 target ontology binding must be valid.
 
-`target_entity_refs` used by the Execution Adapter must be canonical objects.
+`target_ref` used by the Execution Adapter must be a canonical object.
 
 Raw object names, duplicate object names, or unresolved mapped objects must not be used as targets for external execution requests.
 

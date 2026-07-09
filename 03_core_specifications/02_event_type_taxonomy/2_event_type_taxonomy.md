@@ -21,7 +21,7 @@ Define the operating principles of the Event Type Registry.
 Define how vendor-specific events can be extended.  
 Define how Event Types connect to lifecycle path, storage route, ontology bus entry, and audit.
 
-The full event type list is managed in a separate document: Appendix A: Event Type Catalog.
+The full event type list is managed in a separate document: Appendix B: Event Type Catalog.
 
 ---
 

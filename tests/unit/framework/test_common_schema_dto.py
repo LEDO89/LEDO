@@ -29,7 +29,7 @@ def source(source_type: str = "sensor") -> SourceMetadataDTO:
         source_name="fixture source",
         source_protocol="fixture",
         source_system="test",
-        source_trust_level="test_fixture",
+        source_trust_level="TRUSTED_SYSTEM",
         ingested_at_utc=now(),
         raw_ref="raw-1",
     )

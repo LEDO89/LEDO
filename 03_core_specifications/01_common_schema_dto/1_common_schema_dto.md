@@ -568,7 +568,7 @@ Three exceptions are sourced from a different document than this one, not from t
 
 - `DispatchStatus` is sourced from `09_execution_adapter_model.md` Section 20 — see Section 18.3 below.
 - `PolicyDecisionResult` is sourced from `08_policy_governance_model.md` Section 7 ("Policy Decision Result"), not from this document's Section 19.7, which lists an illustrative and now-superseded 5-member subset.
-- `RiskLevel` is sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`. `ApprovalAuthority` is sourced from `08_policy_governance_model.md` Section 13 ("Approval Authority Model"), independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`.
+- `RiskLevel` is sourced from `07_decision_approval_matrix.md` Section 9.1 ("Risk Level"), cross-confirmed by usage in `08_policy_governance_model.md`. `ApprovalAuthority` is sourced from `08_policy_governance_model.md` Section 13 ("Approval Authority Model"), independently cross-confirmed by `09_appendices/appendix_f_decision_approval_catalog/decision_approval_catalog.md`.
 
 In all three cases, do not add members from this document's own shorter illustrative lists, or from a registry document's illustrative Pydantic model (e.g. `06_registry_specs/approval_registry/approval_registry.md` Section 8's non-matching 10-member set), without updating the actual canonical source document first.
 
@@ -582,7 +582,7 @@ Not every categorical-looking field is an enum. Two different reasons keep a fie
 
 **Genuinely undecided fields.** `urgency`, `confidence_level`, and `source_type` have no closed value list anywhere in this document or its supporting specs — unlike `validation_status`, `path_type`, etc., there is no "Examples of X" list to draw an enum from. Per Section 4 of `07_implementation_plan/pre_code_generation_build_plan.md` ("모호함 처리 표준"), enum membership is not invented without a source. These fields are marked `# DOMAIN_DECISION_REQUIRED` at their declaration sites in `schemas/`. A future step that pins down the actual value set should convert these to enums and remove the marker at that point — not before.
 
-`risk_level` was previously listed here as genuinely undecided. That was incorrect: a full read of `03_core_specifications/07_decision_approval_matrix.md` and `08_policy_governance_model.md` found a closed 6-member value set (see Section 8.1 above). `risk_level` is now `RiskLevel` at every declaration site in `schemas/` and is no longer `DOMAIN_DECISION_REQUIRED`.
+`risk_level` was previously listed here as genuinely undecided. That was incorrect: a full read of `03_core_specifications/07_decision_approval_matrix.md` and `08_policy_governance_model.md` found a closed 6-member value set (see Section 9.1 above). `risk_level` is now `RiskLevel` at every declaration site in `schemas/` and is no longer `DOMAIN_DECISION_REQUIRED`.
 
 ---
 
@@ -1089,6 +1089,8 @@ requires\_human\_approval
 
 ## **15.1 EvidenceDTO**
 
+Canonical Reference: `05_evidence_model/5_evidence_model.md` Section 18.1 describes this same object (there called `EvidenceRecordDTO`) with a much larger field set covering time trust, spatial validity, device health, attestation, AI extraction metadata, privacy/PII lifecycle, and conflict resolution. Those fields have been merged in below as additive fields, grouped into nested DTOs that mirror the existing `SourceMetadataDTO`/`ConfidenceDTO`/`FreshnessDTO` convention, rather than flattened directly onto `EvidenceDTO`.
+
 Fields:
 
 evidence\_id  
@@ -1102,7 +1104,47 @@ confidence
 freshness  
 trace\_context  
 provenance  
-validation\_status
+validation\_status  
+evidence\_category  
+target\_entity\_refs  
+related\_event\_refs  
+related\_state\_refs  
+related\_action\_refs  
+payload\_hash  
+validity\_status  
+freshness\_status  
+ontology\_binding\_ref  
+prov\_entity\_ref  
+activity\_refs  
+was\_generated\_by  
+was\_derived\_from  
+was\_attributed\_to  
+hash  
+signature  
+created\_by  
+supersedes\_evidence\_id  
+is\_append\_only  
+time\_trust  
+spatial\_validity  
+device\_health  
+attestation  
+ai\_extraction  
+privacy  
+conflict
+
+`source_metadata.source_trust_level` uses the `SourceTrustLevel` enum (`schemas/enums.py`: TRUSTED_SYSTEM, VERIFIED_DEVICE, VERIFIED_HUMAN, VERIFIED_DOCUMENT, THIRD_PARTY_VERIFIED, AI_DERIVED, ATTESTED_AI_DERIVED, UNVERIFIED_SOURCE, UNKNOWN_SOURCE), sourced from `05_evidence_model.md` Section 6.1. `evidence_category` uses `EvidenceCategory` (18 members, Section 5.1) — distinct from `evidence_type`, which remains registry-managed vocabulary per Section 8.2 above. `validity_status` uses `EvidenceValidityStatus` (15 members, Section 9.2) — a separate, larger enum from `ValidationStatus` (which governs `validation_status`, sourced from Section 5.2 above).
+
+`time_trust` is a `TimeTrustDTO` (Section 7.1: `captured_at`, `received_at`, `validated_at`, `source_clock_id`, `time_source_type` — `TimeSourceType`, Section 7.2 — `time_authority_ref`, `clock_sync_status` — `ClockSyncStatus` — `clock_drift_estimate_ms`, `clock_drift_calculation_method` — `ClockDriftCalculationMethod`, Section 7.4 — `capture_receive_delta_ms`, `max_allowed_time_delta_ms`, `time_trust_level` — `TimeTrustLevel` — `time_validation_status`, `offline_clock_trust_policy_ref`).
+
+`spatial_validity` is a `SpatialValidityDTO` (Section 8.1: `geo_location`, `geo_crs`, `spatial_context_ref`, `spatial_bounds_ref`). `device_health` is a `DeviceHealthDTO` (Section 8.4: `device_health_snapshot`, `device_health_snapshot_version`, `calibration_status`, `historical_reliability_score`).
+
+`attestation` is an `AttestationDTO` (Section 10.5: `attestation_type` — `AttestationType`, Section 10.2 — `attestation_evidence_refs`, `attestation_signature`, `attestation_workflow_id`, `attestation_hash`, `attested_by`, `attested_at`, plus `trust_upgrade_status` — `TrustUpgradeStatus`, Section 10.3 — and `parser_validation_status`/`human_attestation_status`/`cross_check_status` from the Section 18.1 consolidated list). `ai_extraction` is an `AIExtractionMetadataDTO` (Section 10.4: `is_extracted_evidence`, `extraction_method`, `extracted_from_evidence_id`, `source_document_ref`, `source_location_ref`, `model_name`, `model_version`, `prompt_hash`, `retrieval_corpus_ref`, `retrieval_snapshot_id`, `temperature`, `extraction_confidence`).
+
+`privacy` is a `PrivacyDTO` (Section 15.3: `contains_pii`, `pii_categories`, `privacy_lifecycle_status` — `PrivacyLifecycleStatus`, Section 15.2 — `retention_policy_ref`, `retention_expires_at`, `encryption_key_ref`, `key_management_policy_ref`, `key_destroyed_at`, `legal_hold_status`, `redaction_policy_ref`, `anonymization_method`, `access_policy_ref`; `legal_hold_status` is modeled as `bool` per Section 15.4's explicit boolean usage, and blocks `key_destroyed_at` from being set while true). `conflict` is a `ConflictDTO` (Section 14.3: `conflict_status` — `ConflictStatus`, Section 14.1 — `conflict_weight`, `applied_conflict_weights`, `resolution_timestamp`, `resolved_by`, `conflict_resolution_strategy` — `ConflictResolutionStrategy`, Section 14.2 — `conflict_resolution_ref`).
+
+`time_validation_status`, `calibration_status`, `parser_validation_status`, `human_attestation_status`, `cross_check_status`, `extraction_method`, and `freshness_status` remain plain `str`: no closed value list was found for any of them anywhere in `05_evidence_model.md`.
+
+`EvidenceDTO`'s `reject_unattested_ai_as_evidence` validator rejects only `source_trust_level=AI_DERIVED` (raw, unattested AI output, per Section 4.5's "Prohibited LLM roles: Create Primary Evidence"). `ATTESTED_AI_DERIVED` — reached via the Section 10 attestation/trust-upgrade process — is explicitly allowed, per Section 6.1's trust model and Section 10.6's worked example.
 
 ---
 
@@ -1192,7 +1234,7 @@ trace\_context
 
 ## **16.2 ActionCandidateDTO**
 
-`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 9.1 ("Risk Level").
 
 Fields:
 
@@ -1215,7 +1257,7 @@ trace\_context
 
 ## **16.3 DecisionCaseDTO**
 
-`decision_tier` uses the `DecisionTier` enum (`schemas/enums.py`: ROUTINE, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `0_canonical_object_lifecycle.md` Section 4.8 "Decision Tiers". `risk_level` is a separate field using the `RiskLevel` enum (INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 — the two enums share 5 of 6 members but are not the same field. `urgency` remains `str` (`DOMAIN_DECISION_REQUIRED`, no closed value list found).
+`decision_tier` uses the `DecisionTier` enum (`schemas/enums.py`: ROUTINE, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `0_canonical_object_lifecycle.md` Section 4.8 "Decision Tiers". `risk_level` is a separate field using the `RiskLevel` enum (INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 9.1 — the two enums share 5 of 6 members but are not the same field. `urgency` remains `str` (`DOMAIN_DECISION_REQUIRED`, no closed value list found).
 
 Fields:
 
@@ -1279,7 +1321,7 @@ It is not created by the Safety Gate.
 
 It is not a SafetyGatePass and cannot create an ExecutionRequest without Runtime Validation and a valid SafetyGatePass.
 
-`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 9.1 ("Risk Level").
 
 Fields:
 
@@ -1341,6 +1383,8 @@ Also used by `AuditRecordDTO.post_audit_status`.
 ExecutionRequestDTO may be created only after a valid SafetyGatePass or emergency SafetyGatePass is issued.
 
 No SafetyGatePass, no ExecutionRequestDTO.
+
+Canonical Reference: this is the canonical field-level contract for `ExecutionRequestDTO`. `09_execution_adapter_model/9_execution_adapter_model.md` Section 7.2 previously showed a competing reference-only field list (`safety_gate_result_ref`, `execution_context_snapshot_ref`, `target_entity_refs`, `execution_mode`, `required_adapter_type`, `required_capability`, `decision_trace_id`); that list has been rewritten to match this section. Do not implement `ExecutionRequestDTO` against any earlier version of Section 7.2.
 
 Fields:
 
@@ -1429,7 +1473,7 @@ audit_ref
 
 ### **Specialized Runtime Result DTOs**
 
-The following DTOs follow the ValidatorResultDTO pattern and may add only architecture-level references required by their validator category:
+The following DTOs follow the ValidatorResultDTO pattern and add the fields required by their own dedicated contract section:
 
 TOCTOUResultDTO  
 SHACLValidationResultDTO  
@@ -1438,6 +1482,16 @@ IdempotencyResultDTO
 ApprovalValidityResultDTO  
 PolicyRevalidationResultDTO  
 EvidenceValidityResultDTO
+
+`TOCTOUResultDTO` matches `toctou.md` Section 24 ("TOCTOU Validation Result"): adds `approval_snapshot_ref`, `execution_snapshot_ref`, `changed_fields`, `stale_fields`, `conflict_fields`, `block_reasons` (`BlockReason`), `required_reapproval`.
+
+`SHACLValidationResultDTO` matches `shacl_shapes.md` Sections 17.1 and 20: adds `shape_id`, `shape_version`, `target_node`, `target_type`, `validation_status` (`SHACLValidationStatus`: VALID, INVALID, WARNING, SKIPPED, NOT_APPLICABLE), `violations`.
+
+`NetworkHealthResultDTO` matches `network_health.md` Section 16 ("NetworkHealthResult Contract"): adds `external_system_id`, `adapter_id`, `health_status` (`NetworkHealthStatus`: HEALTHY, DEGRADED, UNREACHABLE, TIMEOUT, CIRCUIT_OPEN, UNKNOWN, sourced from Section 7), `heartbeat_status` (`str`, no closed value list found), `latency_ms`, `error_rate`, `circuit_breaker_status` (`CircuitBreakerStatus`: CLOSED, OPEN, HALF_OPEN, sourced from Section 13), `feedback_channel_status` (`str`, no closed value list found).
+
+`IdempotencyResultDTO` matches `idempotency_control.md` Sections 8 and 19: adds `safety_gate_pass_id`, `execution_request_id`, `external_control_request_id`, `target_external_system`, `first_seen_at`, `last_seen_at`, `ledger_status` (`IdempotencyLedgerStatus`: NEW, IN_PROGRESS, COMPLETED, BLOCKED, REJECTED, EXPIRED, TERMINAL, UNKNOWN), `previous_result_ref`, `terminal_token_ref`, `terminal_token_status` (`str`, no closed value list found).
+
+`ApprovalValidityResultDTO`, `PolicyRevalidationResultDTO`, and `EvidenceValidityResultDTO` were not found to have a dedicated contract section of their own in `08_runtime_validation/` beyond the `ValidatorResultDTO` base pattern; they keep their prior single-reference-field shape.
 
 ### **SafetySnapshotDTO**
 
@@ -1561,6 +1615,8 @@ audit_ref
 
 ## **17.4 ExternalControlRequestDTO**
 
+Canonical Reference: this is the canonical field-level contract for `ExternalControlRequestDTO`. `09_execution_adapter_model/9_execution_adapter_model.md` Section 16 describes the same object under the same name with a differently-shaped field list; that section's real, non-redundant fields (adapter type/mode, dispatch tracking, ACK/ACCEPT/feedback deadlines, adapter-local timing, clock sync) have been merged in below. `sent_at`/`platform_sent_at` and `trace_id`/`correlation_id` from that section are the same concepts as `sent_at_utc` and `trace_context` below, not separate fields.
+
 Fields:
 
 external\_request\_id  
@@ -1574,7 +1630,27 @@ idempotency\_key
 timeout\_policy  
 expected\_feedback  
 trace\_context  
-sent\_at\_utc
+sent\_at\_utc  
+execution\_context\_snapshot\_ref  
+adapter\_type  
+adapter\_mode  
+external\_request\_type  
+external\_payload\_ref  
+external\_payload\_hash  
+idempotency\_expires\_at  
+dispatch\_context\_ref  
+dispatch\_attempt  
+dispatch\_status  
+ack\_deadline  
+acceptance\_deadline  
+feedback\_deadline  
+adapter\_local\_received\_at  
+adapter\_local\_accepted\_at  
+clock\_sync\_status  
+clock\_drift\_estimate\_ms  
+decision\_trace\_id
+
+`dispatch_status` uses the `DispatchStatus` enum (Section 20 below). `clock_sync_status` uses `ClockSyncStatus` (`05_evidence_model.md` Section 7.3).
 
 ---
 
@@ -1639,6 +1715,8 @@ ExternalControlRequestDTO
 
 ## **18.1 FeedbackEventDTO**
 
+Canonical Reference: this is the canonical field-level contract for `FeedbackEventDTO`. `09_execution_adapter_model/9_execution_adapter_model.md` Section 17 describes the same object under the same name with a differently-shaped field list; that section's real, non-redundant fields (result detail, actual execution timing, reconciliation/audit routing flags, decision trace correlation) have been merged in below. `external_control_request_ref` and `external_system_id` from that section are the same concepts as `external_request_ref` and `source_system` below, not separate fields.
+
 Fields:
 
 feedback\_event\_id  
@@ -1655,7 +1733,21 @@ correlation\_id
 error\_code  
 recovery\_required  
 is\_emergency\_bypass  
-post\_audit\_required
+post\_audit\_required  
+feedback\_status  
+result\_status  
+result\_message  
+external\_reference\_id  
+actual\_started\_at  
+actual\_completed\_at  
+observed\_state\_refs  
+feedback\_payload\_ref  
+error\_detail\_ref  
+requires\_reconciliation  
+requires\_audit  
+decision\_trace\_id
+
+`feedback_status` and `result_status` remain plain `str`: no closed value list was found for either in any document.
 
 ---
 
@@ -1723,6 +1815,8 @@ Also used by `MappingReviewDTO.review_status` (Section 19.8).
 
 ## **18.5 AuditRecordDTO**
 
+Canonical Reference: this is the canonical field-level contract for `AuditRecordDTO`. `10_audit_observability_model/10_audit_observability_model.md` Section 9.1 previously showed a competing reference-only redesign (delegating stage context to a separate `AuditContextSnapshotDTO`); that redesign was not adopted, for the same reason documented for `ExecutionRequestDTO` in Section 17.3. However, Section 9.1 also named real capability this section's original field list lacked entirely — a tamper-evident hash chain and multi-causality trace correlation — which has been merged in below as additive, optional fields.
+
 Fields:
 
 audit\_record\_id  
@@ -1743,7 +1837,26 @@ final\_status
 created\_at\_utc  
 is\_emergency\_bypass  
 post\_audit\_status  
-post\_hoc\_audit\_ref
+post\_hoc\_audit\_ref  
+audit\_event\_type  
+severity  
+audit\_reason  
+occurred\_at  
+time\_trust\_level  
+clock\_sync\_status  
+source\_system\_ref  
+correlation\_id  
+decision\_trace\_id  
+primary\_causality\_id  
+causality\_ids  
+integrity\_policy\_ref  
+content\_hash  
+previous\_record\_hash  
+integrity\_status
+
+`severity` uses the `Severity` enum (`schemas/enums.py`: INFO, WARNING, ERROR, CRITICAL). `time_trust_level` uses `TimeTrustLevel` (HIGH_TIME_TRUST, MEDIUM_TIME_TRUST, LOW_TIME_TRUST, UNTRUSTED_TIME, UNKNOWN_TIME_TRUST), sourced from `05_evidence_model.md` Section 7.5. `clock_sync_status` uses `ClockSyncStatus` (SYNCED, PARTIALLY_SYNCED, UNSYNCED, DRIFT_DETECTED, OFFLINE_ESTIMATED, UNKNOWN), sourced from `05_evidence_model.md` Section 7.3. `audit_event_type` and `integrity_status` remain plain `str`: no complete closed value list was found for either (`10_audit_observability_model.md` Section 16.1 gives only a partial dispatch-stage mapping for `audit_event_type`).
+
+Fields from Section 9.1 that duplicate existing capability were not added: `actor_ref`/`actor_role` (redundant with the existing plural `actor_refs`), `result_status` (redundant with the existing `final_status`), `action_type`/`target_entity_refs` (already reachable via the existing stage refs), and `audit_context_snapshot_ref`/`decision_trace_ref` (assume the rejected reference-delegation design; `decision_trace_id` — a plain correlation string, not a reference to the not-yet-built `DecisionTraceDTO` object — was kept).
 
 ---
 
@@ -1751,7 +1864,7 @@ post\_hoc\_audit\_ref
 
 ## **19.1 ActionTypeSpecDTO**
 
-`default_risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+`default_risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 9.1 ("Risk Level").
 
 Fields:
 
@@ -1826,7 +1939,7 @@ requires\_idempotent\_update
 
 ## **19.5 CapabilitySpecDTO**
 
-`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 8 ("Risk Level").
+`risk_level` uses the `RiskLevel` enum (`schemas/enums.py`: INFO, NOTICE, WARNING, HIGH_RISK, CRITICAL_EMERGENCY, EXCEPTIONAL), sourced from `07_decision_approval_matrix.md` Section 9.1 ("Risk Level").
 
 Fields:
 
@@ -1858,6 +1971,8 @@ health\_status
 
 ## **19.7 PolicyDecisionDTO**
 
+Canonical Reference: this is the canonical field-level contract for `PolicyDecisionDTO`. `08_policy_governance_model.md` Section 23 describes the same object under a different name (`PolicyDecisionResponseDTO`) with a larger field list; that section's real, non-redundant fields have been merged in below. Section 23's `decision_reason` and `created_at` are the same concepts as `reason` and `evaluated_at_utc` below, not separate fields.
+
 Fields:
 
 policy\_decision\_id  
@@ -1867,7 +1982,32 @@ decision\_result
 reason  
 obligations  
 denial\_reasons  
-evaluated\_at\_utc
+evaluated\_at\_utc  
+policy\_engine  
+policy\_engine\_version  
+policy\_bundle\_version  
+input\_context\_hash  
+policy\_context\_ref  
+resolution\_context\_ref  
+audit\_context\_ref  
+required\_approval\_level  
+matched\_policy\_refs  
+denied\_policy\_refs  
+resolved\_policy\_refs  
+suppressed\_policy\_refs  
+policy\_resolution\_ref  
+required\_evidence\_types  
+required\_roles  
+required\_clearance  
+requires\_safety\_gate  
+requires\_post\_hoc\_audit  
+requires\_revalidation  
+requires\_fail\_safe  
+trace\_id  
+correlation\_id  
+decision\_trace\_id
+
+`required_approval_level` uses the `ApprovalAuthority` enum (`schemas/enums.py`; canonical source: `08_policy_governance_model.md` Section 13) — its first DTO field application.
 
 Enum (`PolicyDecisionResult`, `schemas/enums.py`; canonical source: `08_policy_governance_model.md` Section 7):
 
@@ -2158,7 +2298,7 @@ RawInputDTO
 → WorldStateUpdateDTO  
 → ActionCandidateDTO  
 → DecisionCaseDTO  
-→ PolicyEvaluationDTO  
+→ PolicyDecisionDTO  
 → ApprovalRequestDTO  
 → ApprovalDecisionDTO  
 → ApprovedActionDTO  

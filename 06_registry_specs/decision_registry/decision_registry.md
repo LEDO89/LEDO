@@ -1195,7 +1195,7 @@ historical incident pattern
 
 runtime uncertainty
 
-Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 8 ("Risk Level"):
+Risk classes are the canonical `RiskLevel` set defined in `03_core_specifications/07_decision_approval_matrix/07_decision_approval_matrix.md` Section 9.1 ("Risk Level"):
 
 INFO
 

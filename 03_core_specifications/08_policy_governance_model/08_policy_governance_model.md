@@ -1685,7 +1685,9 @@ PolicyDecisionResponseDTO must not directly carry excessive context.
 
 Detailed context is connected through references.
 
-Recommended fields:
+Canonical Reference: this object is implemented in code as `PolicyDecisionDTO` (`01_common_schema_dto/1_common_schema_dto.md` Section 19.7), not under the name `PolicyDecisionResponseDTO`. Section 19.7 is the field-level implementation contract — `decision_reason` and `created_at` below are the same concepts as its `reason` and `evaluated_at_utc` fields, not separate fields.
+
+Fields:
 
 policy\_decision\_id  
 policy\_engine  

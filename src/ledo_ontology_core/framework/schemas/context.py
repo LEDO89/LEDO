@@ -7,7 +7,7 @@ from datetime import datetime
 from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
-from ledo_ontology_core.framework.schemas.enums import ValidationStatus
+from ledo_ontology_core.framework.schemas.enums import SourceTrustLevel, ValidationStatus
 
 
 class TraceContextDTO(StrictDTO):
@@ -36,7 +36,7 @@ class SourceMetadataDTO(StrictDTO):
     source_name: str | None = None
     source_protocol: str | None = None
     source_system: str | None = None
-    source_trust_level: str
+    source_trust_level: SourceTrustLevel
     ingested_at_utc: datetime
     raw_ref: str | None = None
 

@@ -30,7 +30,7 @@ def source() -> SourceMetadataDTO:
     return SourceMetadataDTO(
         source_type="sensor",
         source_id="src-1",
-        source_trust_level="test_fixture",
+        source_trust_level="TRUSTED_SYSTEM",
         ingested_at_utc=now(),
     )
 

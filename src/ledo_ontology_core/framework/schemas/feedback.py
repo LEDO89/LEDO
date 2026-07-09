@@ -1,4 +1,15 @@
-"""Feedback DTO contracts from 01_common_schema_dto Section 18."""
+"""Feedback DTO contracts from 01_common_schema_dto Section 18.
+
+`FeedbackEventDTO`'s original 15-field shape matched Section 18.1 exactly.
+`09_execution_adapter_model/9_execution_adapter_model.md` Section 17 describes the
+same object with a 21-field list under the same name. Per the established precedent
+(Section 17.3's `ExecutionRequestDTO` resolution), Section 18.1's field-holding design
+stays the baseline; the real, non-redundant fields Section 17 named that Section 18.1
+lacked (result detail, actual execution timing, reconciliation/audit routing flags,
+decision trace correlation) were merged in as additive fields. `external_control_request_ref`
+and `external_system_id` from Section 17 were treated as the same concepts as the
+existing `external_request_ref` and `source_system` fields (not duplicated).
+"""
 
 from __future__ import annotations
 
@@ -28,6 +39,20 @@ class FeedbackEventDTO(StrictDTO):
     recovery_required: bool
     is_emergency_bypass: bool = False
     post_audit_required: bool = False
+    # feedback_status/result_status have no closed value list in either source
+    # document. DOMAIN_DECISION_REQUIRED before they become enums.
+    feedback_status: str | None = None
+    result_status: str | None = None
+    result_message: str | None = None
+    external_reference_id: str | None = None
+    actual_started_at: datetime | None = None
+    actual_completed_at: datetime | None = None
+    observed_state_refs: list[str] = Field(default_factory=list)
+    feedback_payload_ref: str | None = None
+    error_detail_ref: str | None = None
+    requires_reconciliation: bool = False
+    requires_audit: bool = False
+    decision_trace_id: str | None = None
 
 
 class WorldStateReconciliationDTO(StrictDTO):

@@ -537,26 +537,36 @@ AuditRecordDTO should remain lightweight, and detailed context should be connect
 
 ## **9.1 AuditRecordDTO**
 
-Recommended fields:
+Canonical Reference: `01_common_schema_dto/1_common_schema_dto.md` Section 18.5 is the field-level contract for `AuditRecordDTO`. `AuditRecordDTO` keeps the stage-reference design (`candidate_ref`, `decision_case_ref`, `approved_action_ref`, `execution_request_ref`, `external_request_ref`, `feedback_event_ref`, etc.), for the same reason documented for `ExecutionRequest` in `09_execution_adapter_model.md` Section 7.2 — do not implement it against a reference-only redesign built around a separate `AuditContextSnapshotDTO`.
+
+Fields:
 
 audit\_record\_id  
+trace\_id  
+lifecycle\_path  
+event\_refs  
+evidence\_refs  
+candidate\_ref  
+decision\_case\_ref  
+approval\_request\_ref  
+approved\_action\_ref  
+execution\_request\_ref  
+external\_request\_ref  
+feedback\_event\_ref  
+policy\_refs  
+actor\_refs  
+final\_status  
+created\_at\_utc  
+is\_emergency\_bypass  
+post\_audit\_status  
+post\_hoc\_audit\_ref  
 audit\_event\_type  
-actor\_ref  
-actor\_role  
-action\_type  
-target\_entity\_refs  
-result\_status  
-risk\_level  
 severity  
 audit\_reason  
-audit\_context\_snapshot\_ref  
-decision\_trace\_ref  
-created\_at  
 occurred\_at  
 time\_trust\_level  
 clock\_sync\_status  
 source\_system\_ref  
-trace\_id  
 correlation\_id  
 decision\_trace\_id  
 primary\_causality\_id  
@@ -565,6 +575,8 @@ integrity\_policy\_ref
 content\_hash  
 previous\_record\_hash  
 integrity\_status
+
+The tamper-evident hash chain (`integrity_policy_ref`, `content_hash`, `previous_record_hash`, `integrity_status`) and multi-causality trace correlation (`correlation_id`, `decision_trace_id`, `primary_causality_id`, `causality_ids`, see Sections 8.3-8.5) were the real, non-redundant capability this section originally named that Section 18.5 lacked; they have been merged into Section 18.5 directly. `severity` uses the `Severity` enum. `time_trust_level` uses `TimeTrustLevel` (Section 7.5 of `05_evidence_model.md`). `clock_sync_status` uses `ClockSyncStatus` (Section 7.3 of `05_evidence_model.md`). `audit_event_type` and `integrity_status` remain plain `str`: Section 16.1's dispatch-stage mapping is only a partial value list for `audit_event_type`, and no closed list was found anywhere for `integrity_status`.
 
 `audit_record_id` and every field with the `_ref` suffix must follow a stable ID standard.
 
@@ -583,6 +595,8 @@ Detailed payloads are connected by references.
 ## **9.2 AuditContextSnapshotDTO**
 
 `AuditContextSnapshotDTO` groups the detailed decision context at the audit point.
+
+Not implemented as part of `AuditRecordDTO`'s current canonical shape (`01_common_schema_dto/1_common_schema_dto.md` Section 18.5), which keeps its stage-reference fields directly rather than delegating them to a separate snapshot object — see the Canonical Reference note in Section 9.1. The grouping pattern below remains a documented option for a possible future extension (`AuditContextSnapshotDTO` is a Rollout Stage 1 item per Section 29.1, not a current Step 1 target), not a current build target.
 
 The reasons for separating this object are:
 

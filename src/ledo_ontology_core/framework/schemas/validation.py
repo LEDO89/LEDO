@@ -9,12 +9,13 @@ from pydantic import Field
 
 from ledo_ontology_core.framework.schemas.base import StrictDTO
 from ledo_ontology_core.framework.schemas.context import TraceContextDTO
+from ledo_ontology_core.framework.schemas.enums import ValidationStatus
 
 
 class ValidationResultDTO(StrictDTO):
     validation_id: str
     input_ref: str
-    validation_status: str
+    validation_status: ValidationStatus
     validation_errors: list[str] = Field(default_factory=list)
     sanitized: bool
     sanitization_notes: list[str] = Field(default_factory=list)

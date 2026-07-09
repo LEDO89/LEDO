@@ -1210,6 +1210,8 @@ If that context changes, the ApprovedAction must be revalidated, suspended, reap
 
 TOCTOU Validation produces the following result:
 
+Canonical Reference: implemented in code as `TOCTOUResultDTO` (`01_common_schema_dto/1_common_schema_dto.md` Section 17.3A, "Specialized Runtime Result DTOs"), a subclass of `ValidatorResultDTO`. Fields already covered by that base class (`result_id`, `approved_action_id`, `checked_at`, `status`, `safety_gate_eligible`, `trace_id`, `audit_ref`) are not duplicated below.
+
 TOCTOUValidationResult
 
     result\_id

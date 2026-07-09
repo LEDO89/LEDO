@@ -287,6 +287,7 @@ Approval
 Feedback  
 AuditRecord  
 ProvenanceRecord  
+DigitalSystem  
 Candidate  
 Proposal  
 Interpretation  
@@ -758,6 +759,8 @@ EvidenceBundle
 EvidenceSource  
 SourceTrustLevel  
 TimeTrust  
+ClockSync  
+ClockDriftCalculation  
 SpatialValidity  
 DeviceHealthContext  
 EvidenceConflict  

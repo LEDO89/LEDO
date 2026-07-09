@@ -495,6 +495,8 @@ Degraded mode is determined by policy and action context.
 
 `network_health/` must produce a standardized result.
 
+Canonical Reference: implemented in code as `NetworkHealthResultDTO` (`01_common_schema_dto/1_common_schema_dto.md` Section 17.3A, "Specialized Runtime Result DTOs"), a subclass of `ValidatorResultDTO`. Fields already covered by that base class are not duplicated below.
+
 NetworkHealthResult  
     result\_id  
     external\_system\_id  
