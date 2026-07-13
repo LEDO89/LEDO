@@ -1109,13 +1109,19 @@ Prohibited.
 
 All module dependencies must have a DAG structure.
 
+General rules (these are the actual criteria; the edge lists below are examples of them, not the full allowed set):
+
+Every Domain Module — construction, industrial, robot, policy, ai, evidence, event, state, and action — may reference both Core Upper and Core Crosscutting. This is Section 17.1's general rule ("A Domain Module may reference a Core Module") applied without exception to all nine Domain Modules, confirmed by each module's own Connection to Core section: 9.3 (Construction), 10.3 (Industrial), 11.3 (Robot), 12.3 (Policy), 13.3 (AI), 14.4 (Evidence). A Domain Module must not reference another Domain Module directly; it may only do so through a Mapping layer relationship or a Mediation Concept (Section 19).
+
+Mapping may reference any Domain Module and any Core Module. The Mapping Module exists specifically to connect external standards to internal domain concepts (Section 16.1, "Targets of connection"), so its allowed connections are not limited to a fixed subset of domains — the construction/robot/industrial examples below are illustrative, not a restriction to those three modules only.
+
 Prohibited:
 
 Construction → Robot → Construction  
 Robot → Industrial → Robot  
 Policy → AI → Policy
 
-Allowed:
+Example edges (not exhaustive — see the general rules above):
 
 CoreCrosscutting → CoreUpper  
 Construction → CoreUpper  

@@ -79,7 +79,7 @@ Therefore, this architecture explicitly defines three paths:
 
 1. Standard Semantic Lifecycle  
    The standard path for semantic interpretation, evidence validation, policy decisioning, approval, execution, feedback, and audit.  
-2. Emergency Fast-Path / Brake-Glass Lifecycle  
+2. Emergency Fast-Path  
    A deterministic, pre-approved safety path for critical emergency situations, allowing immediate safety actions after minimal validation.  
 3. Lightweight / Monitoring-Only Lifecycle  
    A lightweight path for high-frequency, low-risk sensor data, status monitoring, and simple telemetry updates.
@@ -231,7 +231,7 @@ LLM-based action proposal
 Work-stop candidate generation  
 Robot rerouting candidate generation
 
-## **3.2 Emergency Fast-Path / Brake-Glass Lifecycle**
+## **3.2 Emergency Fast-Path**
 
 The Emergency Fast-Path is an ultra-low-latency safety path for Critical Emergency situations.
 
@@ -387,7 +387,6 @@ Example:
 CR-001  
 Crane01  
 TowerCrane-A  
-?�비10045  
 crane\_main\_01
 
 → construction:Crane\_01
